@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <link rel="dns-prefetch" href="//maps.googleapis.com">
+    <link rel="dns-prefetch" href="//maps.gstatic.com">
+    <link rel="dns-prefetch" href="//mts0.googleapis.com">
+    <link rel="dns-prefetch" href="//mts1.googleapis.com">
+    <!-- The first thing in any HTML file should be the charset -->
+    <meta charset="utf-8">
+    <!-- Make the page mobile compatible -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <!-- Allow installing the app to the homescreen -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Atelier de cuisine entre particuliers à Brest | Cuistot du Coin</title>
+    <meta name="description" content="Cuistot du coin organise et met en relation des particuliers autour d'ateliers de cuisine. Vous aussi, devenez Cuistot du Coin !" />
+    <meta name="keywords" content="atelier de cuisine,cours de cuisine,entre particuliers">
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqa7ujtDc-_pWl-xDCmPA35t9I39JFhks&libraries=places"></script>
+  </head>
+  <body>
+    <!-- Display a message if JS has been disabled on the browser. -->
+    <noscript>If you're seeing this message, that means <strong>JavaScript has been disabled on your browser</strong>, please <strong>enable JS</strong> to make this app work.</noscript>
+
+    <!-- The app hooks into this div -->
+    <div id="app"></div>
+    <!-- A lot of magic happens in this file. HtmlWebpackPlugin automatically includes all assets (e.g. bundle.js, main.css) with the correct HTML tags, which is why they are missing in this HTML file. Don't add any assets here! (Check out webpackconfig.js if you want to know more) -->
+  </body>
+</html>
