@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import { gql, graphql } from 'react-apollo';
 import A from 'components/A';
 
 import WorkShopCardWrapper from './WorkShopCardWrapper';

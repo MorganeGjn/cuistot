@@ -13,8 +13,7 @@ const resolve = require('path').resolve;
 const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
-// app.use('/api', myApi);
-
+// postgraphql
 const config = {
   user: 'postgres', // env var: PGUSER
   database: 'Cuistot', // env var: PGDATABASE
@@ -23,8 +22,9 @@ const config = {
   port: 32768, //env var: PGPORT
 };
 
-const optionGraphQL = { enableCors: true, graphiql: true };
-http.createServer(postgraphql(config, 'public', optionGraphQL)).listen(3001);
+const optionGraphQL = { graphiql: true };
+// http.createServer(postgraphql(config, 'public', optionGraphQL)).listen(3001);
+app.use(postgraphql(config, optionGraphQL));
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {

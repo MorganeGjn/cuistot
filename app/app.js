@@ -11,7 +11,6 @@ import 'babel-polyfill';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
@@ -35,6 +34,9 @@ import 'file-loader?name=[name].[ext]!./.htaccess';
 
 import configureStore from './store';
 
+import { ApolloProvider } from 'react-apollo';
+import apolloClient from './graphql';
+
 // Import i18n messages
 import { translationMessages } from './i18n';
 
@@ -49,7 +51,7 @@ import createRoutes from './routes';
 // Optionally, this could be changed to leverage a created history
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
 const initialState = {};
-const store = configureStore(initialState, browserHistory);
+const store = configureStore(initialState, apolloClient, browserHistory);
 
 // Sync history and store, as the react-router-redux reducer
 // is under the non-default key ("routing"), selectLocationState
@@ -66,20 +68,18 @@ const rootRoute = {
 
 const render = (messages) => {
   ReactDOM.render(
-    <Provider store={store}>
+    <ApolloProvider immutable store={store} client={apolloClient}>
       <LanguageProvider messages={messages}>
         <Router
           history={history}
           routes={rootRoute}
-          render={
-            // Scroll to top when going to a new page, imitating default browser
-            // behaviour
-            applyRouterMiddleware(useScroll())
-          }
+          render={// Scroll to top when going to a new page, imitating default browser
+          // behaviour
+          applyRouterMiddleware(useScroll())}
         />
       </LanguageProvider>
-    </Provider>,
-    document.getElementById('app')
+    </ApolloProvider>,
+    document.getElementById('app'),
   );
 };
 
@@ -94,12 +94,10 @@ if (module.hot) {
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
-  (new Promise((resolve) => {
+  new Promise((resolve) => {
     resolve(import('intl'));
-  }))
-    .then(() => Promise.all([
-      import('intl/locale-data/jsonp/en.js'),
-    ]))
+  })
+    .then(() => Promise.all([import('intl/locale-data/jsonp/en.js')]))
     .then(() => render(translationMessages))
     .catch((err) => {
       throw err;

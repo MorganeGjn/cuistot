@@ -48,6 +48,13 @@ export default function createRoutes(store) {
       },
     },
     {
+      path: '/apollo',
+      name: 'apolloTest',
+      getComponent(location, cb) {
+        import('containers/ApolloTest').then(loadModule(cb)).catch(errorLoading);
+      },
+    },
+    {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
