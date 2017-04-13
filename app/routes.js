@@ -8,9 +8,10 @@ const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
 };
 
-const loadModule = (cb) => (componentModule) => {
-  cb(null, componentModule.default);
-};
+const loadModule = (cb) =>
+  (componentModule) => {
+    cb(null, componentModule.default);
+  };
 
 export default function createRoutes(store) {
   // Create reusable async injectors using getAsyncInjectors factory
@@ -37,6 +38,13 @@ export default function createRoutes(store) {
       name: 'search',
       getComponent(location, cb) {
         import('containers/Search').then(loadModule(cb)).catch(errorLoading);
+      },
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      getComponent(location, cb) {
+        import('containers/Admin').then(loadModule(cb)).catch(errorLoading);
       },
     },
     {

@@ -23,7 +23,8 @@ const config = {
   port: 32768, //env var: PGPORT
 };
 
-http.createServer(postgraphql(config, 'public', { graphiql: true })).listen(3001);
+const optionGraphQL = { enableCors: true, graphiql: true };
+http.createServer(postgraphql(config, 'public', optionGraphQL)).listen(3001);
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
