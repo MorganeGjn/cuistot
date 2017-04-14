@@ -16,10 +16,20 @@ import { Dashboard } from './dashboard';
 import CustomRoutes from './routes';
 import translations from './i18n';
 
-import { VisitorList, VisitorEdit, VisitorDelete, VisitorIcon } from './visitors';
+import {
+  VisitorList,
+  VisitorEdit,
+  VisitorDelete,
+  VisitorIcon,
+} from './visitors';
 import { GourmetList, GourmetEdit, GourmetCreate } from './gourmets';
 import { CommandList, CommandEdit, CommandIcon } from './commands';
-import { ProductList, ProductCreate, ProductEdit, ProductIcon } from './products';
+import {
+  ProductList,
+  ProductCreate,
+  ProductEdit,
+  ProductIcon,
+} from './products';
 import { CategoryList, CategoryEdit, CategoryIcon } from './categories';
 import { ReviewList, ReviewEdit, ReviewIcon } from './reviews';
 
@@ -54,7 +64,12 @@ class App extends Component {
         menu={Menu}
         messages={translations}
       >
-        <Resource name="gourmets" list={GourmetList} edit={GourmetEdit} create={GourmetCreate} />
+        <Resource
+          name="gourmets"
+          list={GourmetList}
+          edit={GourmetEdit}
+          create={GourmetCreate}
+        />
         <Resource
           name="customers"
           list={VisitorList}
@@ -85,7 +100,12 @@ class App extends Component {
           remove={Delete}
           icon={CategoryIcon}
         />
-        <Resource name="reviews" list={ReviewList} edit={ReviewEdit} icon={ReviewIcon} />
+        <Resource
+          name="reviews"
+          list={ReviewList}
+          edit={ReviewEdit}
+          icon={ReviewIcon}
+        />
       </Admin>
     );
   }
