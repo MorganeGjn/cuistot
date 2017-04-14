@@ -1,11 +1,11 @@
 {
-  "name": "cuistot-fo",
+  "name": "cuistot",
   "version": "0.0.1",
   "private": true,
-  "description": "Cuistot du Coin : Front office",
+  "description": "Cuistot du Coin",
   "repository": {
     "type": "git",
-    "url": "git://github.com/romainquellec/cuistot-fo.git"
+    "url": "git://github.com/romainquellec/cuistot.git"
   },
   "engines": {
     "npm": ">=3",

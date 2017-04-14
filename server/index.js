@@ -8,7 +8,9 @@ const logger = require('./logger');
 const argv = require('minimist')(process.argv.slice(2));
 const setup = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
-const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
+const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel
+  ? require('ngrok')
+  : false;
 const resolve = require('path').resolve;
 const app = express();
 
@@ -19,11 +21,10 @@ const config = {
   database: 'Cuistot', // env var: PGDATABASE
   password: 'password', // env var: PGPASSWORD
   host: 'localhost', // Server hosting the postgres database
-  port: 32768, //env var: PGPORT
+  port: 32769, //env var: PGPORT
 };
 
 const optionGraphQL = { graphiql: true };
-// http.createServer(postgraphql(config, 'public', optionGraphQL)).listen(3001);
 app.use(postgraphql(config, optionGraphQL));
 
 // In production we need to pass these values in instead of relying on webpack
