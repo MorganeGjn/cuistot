@@ -1,6 +1,5 @@
 /* eslint consistent-return:0 */
 
-const http = require('http');
 const postgraphql = require('postgraphql').postgraphql;
 const express = require('express');
 const logger = require('./logger');
@@ -17,11 +16,11 @@ const app = express();
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // postgraphql
 const config = {
-  user: 'postgres', // env var: PGUSER
-  database: 'Cuistot', // env var: PGDATABASE
-  password: 'password', // env var: PGPASSWORD
-  host: 'localhost', // Server hosting the postgres database
-  port: 32769, //env var: PGPORT
+  user: 'postgres',
+  database: 'cuistot',
+  password: 'password',
+  host: 'localhost',
+  port: 5432,
 };
 
 const optionGraphQL = { graphiql: true };
