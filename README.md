@@ -1,17 +1,7 @@
 This project is based on [**React Boilerplate 3.4**](https://github.com/react-boilerplate/react-boilerplate) !
 
 React Boilerplate 3.4 technologies:
-* React
-* React Router (3)
-* Redux
-* Redux Saga
-* Reselect
-* ImmutableJS
-* Styled Components
-* CLI
-* Jest + Enzyme
-* ESLint (Prettier Atom is a must)
-
+* React, React Router (3), Redux, Redux Saga, Reselect, ImmutableJS, Styled Components, CLI, Jest + Enzyme, ESLint (Prettier Atom is a must)
 
   <!-- Gitter -->
   <a href="https://gitter.im/mxstbr/react-boilerplate">
@@ -19,14 +9,12 @@ React Boilerplate 3.4 technologies:
   </a>
   
 Plus :
-* Apollo Client (GraphQL)
-* PostGraphQL
+* [Apollo Client](https://github.com/apollographql/apollo-client) 
+* [PostGraphQL](https://github.com/postgraphql/postgraphql)
   
 ## PostGraphQL
 
 You'll need a Postgres DB running before npm start. You need to configure server/index.js to add your db info. (Postgres on Docker is a must)
-
-<br />
 
 ## Documentation
 
