@@ -10,25 +10,81 @@
  */
 
 import React from 'react';
-import Helmet from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+
+import { graphql, gql } from 'react-apollo';
+
 import Hero from 'components/Hero';
 import ThreeSteps from 'components/ThreeSteps';
 import SocialBanner from 'components/SocialBanner';
-import DiscoverWorkShop from 'containers/DiscoverWorkShop';
+import WorkshopsList from 'components/WorkshopsList';
 import Footer from 'components/Footer';
 
-export default class HomePage extends React.PureComponent {
+export class HomePage extends React.Component {
   render() {
+    const { loading, error } = this.props;
+    let workshops;
+
+    if (!loading) {
+      workshops = this.props.workshops.nodes;
+    }
+
+    const workshopsListProps = {
+      loading,
+      error,
+      workshops,
+    };
+
     return (
       <div>
         <Hero />
         <ThreeSteps />
         <SocialBanner />
-        <DiscoverWorkShop />
+        <WorkshopsList {...workshopsListProps} />
         <Footer />
       </div>
     );
   }
 }
+
+HomePage.propTypes = {
+  loading: React.PropTypes.bool,
+  error: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.bool,
+  ]),
+  workshops: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.bool,
+  ]),
+};
+
+const DISCOVER_WORKSHOP_QUERY = gql`
+  query DisocverWorkshopQuery {
+    allWorkshops(last: 3) {
+      nodes {
+        nodeId
+        workshopId
+        name
+        price
+        duration
+        minGourmet
+        maxGourmet
+        description
+        pictures
+        kitchenId
+        cookId
+        workshopDate
+        reservationsByWorkshopId{totalCount}
+      }
+    }
+  }
+`;
+
+const withData = graphql(DISCOVER_WORKSHOP_QUERY, {
+  props: ({ data: { loading, allWorkshops } }) => ({
+    loading,
+    workshops: allWorkshops,
+  }),
+});
+
+export default withData(HomePage);

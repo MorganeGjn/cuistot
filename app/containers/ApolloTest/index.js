@@ -3,10 +3,9 @@ import React, { PropTypes } from 'react';
 import { graphql, gql } from 'react-apollo';
 
 export class ApolloTest extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     loading: PropTypes.bool,
-    posts: PropTypes.array,
+    gourmets: PropTypes.array,
   };
 
   render() {
@@ -14,11 +13,13 @@ export class ApolloTest extends React.Component {
       return <span style={{ fontSize: '3rem' }}>Loading...</span>;
     }
 
-    const posts = this.props.posts.map((post) => (
-      <div style={{ fontSize: '3rem' }}>{post.lastName} - {post.description}</div>
+    const gourmets = this.props.gourmets.nodes.map((gourmet) => (
+      <div style={{ fontSize: '3rem' }}>
+        {gourmet.lastName} - {gourmet.firstName}
+      </div>
     ));
 
-    return <div>{posts}</div>;
+    return <div>{gourmets}</div>;
   }
 }
 
@@ -26,17 +27,17 @@ const TEST_QUERY = gql`
   query TestQuery {
   allGourmets {
     nodes {
+      firstName
       lastName
-      description
     }
   }
 }
 `;
 
 const withData = graphql(TEST_QUERY, {
-  props: ({ data: { loading, allPosts } }) => ({
+  props: ({ data: { loading, allGourmets } }) => ({
     loading,
-    posts: allPosts,
+    gourmets: allGourmets,
   }),
 });
 

@@ -1,6 +1,7 @@
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
 const client = new ApolloClient({
+  ssrMode: true,
   networkInterface: createNetworkInterface({
     uri: 'http://localhost:3000/graphql',
     opts: {
