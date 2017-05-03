@@ -18,7 +18,9 @@ import Where from './Where';
 import When from './When';
 import BtnBook from './BtnBook';
 
-function WorkShopCard(workshop) {
+function WorkShopCard(props) {
+  const workshop = props.workshop;
+
   return (
     <A href="www.instagram.com/cuistotducoin">
       <WorkShopCardWrapper>

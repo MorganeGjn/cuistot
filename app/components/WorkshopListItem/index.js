@@ -12,12 +12,15 @@ import WorkShopCard from 'components/WorkShopCard';
 export class WorkshopListItem extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   render() {
-    const item = this.props.item;
-    const content = <WorkShopCard workshop={item} />;
+    const workshop = this.props.item;
+    const content = <WorkShopCard workshop={workshop} />;
 
     // Render the content into a list item
     return (
-      <ListItem key={`workshop-list-item-${item.full_name}`} item={content} />
+      <ListItem
+        key={`workshop-list-item-${workshop.workshopId}`}
+        item={content}
+      />
     );
   }
 }
