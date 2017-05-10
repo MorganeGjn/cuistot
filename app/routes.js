@@ -8,10 +8,9 @@ const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
 };
 
-const loadModule = (cb) =>
-  (componentModule) => {
-    cb(null, componentModule.default);
-  };
+const loadModule = (cb) => (componentModule) => {
+  cb(null, componentModule.default);
+};
 
 export default function createRoutes(store) {
   // Create reusable async injectors using getAsyncInjectors factory
@@ -34,10 +33,18 @@ export default function createRoutes(store) {
       },
     },
     {
-      path: '/s',
+      path: '/search',
       name: 'search',
-      getComponent(location, cb) {
-        import('containers/Search').then(loadModule(cb)).catch(errorLoading);
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([import('containers/Search')]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([component]) => {
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
       },
     },
     {
@@ -48,17 +55,12 @@ export default function createRoutes(store) {
       },
     },
     {
-      path: '/apollo',
-      name: 'apolloTest',
-      getComponent(location, cb) {
-        import('containers/ApolloTest').then(loadModule(cb)).catch(errorLoading);
-      },
-    },
-    {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
-        import('containers/NotFoundPage').then(loadModule(cb)).catch(errorLoading);
+        import('containers/NotFoundPage')
+          .then(loadModule(cb))
+          .catch(errorLoading);
       },
     },
   ];

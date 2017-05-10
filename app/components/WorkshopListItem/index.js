@@ -29,4 +29,8 @@ WorkshopListItem.propTypes = {
   item: React.PropTypes.object,
 };
 
+WorkshopListItem.defaultProps = {
+  item: {},
+};
+
 export default WorkshopListItem;

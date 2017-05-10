@@ -25,4 +25,9 @@ WorkshopsList.propTypes = {
   workshops: PropTypes.any,
 };
 
+WorkshopsList.defaultProps = {
+  loading: true,
+  workshops: [],
+};
+
 export default WorkshopsList;
