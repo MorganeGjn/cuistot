@@ -2,20 +2,23 @@ import React from 'react';
 
 import styled, { css } from 'styled-components';
 import { Link as RouterLink } from 'react-router';
+import theme from '../../utils/theme';
 
 const styles = css`
-  color: #2ABA66;
-  font-family: Helvetica, Arial, sans-serif;
+  color: ${theme.colors.gourmet};
+  font-family: ${theme.fontFamily};
   text-decoration: none;
   margin: 0 0.5em;
 
   &:hover {
     text-decoration: underline;
-    color: #2ECC71;
+    color: ${theme.colors.gourmetLighter};
   }
 `;
 
-const StyledLink = styled(({ ...props }) => <RouterLink {...props} />)`${styles}`;
+const StyledLink = styled(({ ...props }) => (
+  <RouterLink {...props} />
+))`${styles}`;
 const Anchor = styled.a`${styles}`;
 
 const Link = ({ ...props }) => {

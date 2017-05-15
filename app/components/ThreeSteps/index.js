@@ -5,22 +5,27 @@
 */
 
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import ThreeStepsWrapper from './ThreeStepsWrapper';
 import Col from './Col';
 import Row from './Row';
 import Title from './Title';
 import Content from './Content';
 import Icon from './Icon';
-import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import { ICONS } from './icons';
+import theme from '../../utils/theme';
 
 function ThreeSteps() {
   return (
     <ThreeStepsWrapper>
       <Row>
         <Col>
-          <Icon icon={ICONS.SEARCH.SVG} viewBox={ICONS.SEARCH.VIEWBOX} color="#2ABA66" />
+          <Icon
+            icon={ICONS.SEARCH.SVG}
+            viewBox={ICONS.SEARCH.VIEWBOX}
+            color={theme.colors.gourmet}
+          />
         </Col>
         <Col>
           <Title><FormattedMessage {...messages.onetitle} /></Title>
@@ -29,7 +34,11 @@ function ThreeSteps() {
       </Row>
       <Row>
         <Col>
-          <Icon icon={ICONS.CREDITCARD.SVG} viewBox={ICONS.CREDITCARD.VIEWBOX} color="#2ABA66" />
+          <Icon
+            icon={ICONS.CREDITCARD.SVG}
+            viewBox={ICONS.CREDITCARD.VIEWBOX}
+            color={theme.colors.gourmet}
+          />
         </Col>
         <Col>
           <Title><FormattedMessage {...messages.twotitle} /></Title>
@@ -38,7 +47,11 @@ function ThreeSteps() {
       </Row>
       <Row>
         <Col>
-          <Icon icon={ICONS.USERS.SVG} viewBox={ICONS.USERS.VIEWBOX} color="#2ABA66" />
+          <Icon
+            icon={ICONS.USERS.SVG}
+            viewBox={ICONS.USERS.VIEWBOX}
+            color={theme.colors.gourmet}
+          />
         </Col>
         <Col>
           <Title><FormattedMessage {...messages.threetitle} /></Title>

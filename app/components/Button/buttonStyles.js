@@ -1,4 +1,5 @@
 import { css } from 'styled-components';
+import theme from '../../utils/theme';
 
 const buttonStyles = css`
   display: inline-block;
@@ -13,12 +14,12 @@ const buttonStyles = css`
   outline: 0;
   font-weight: bold;
   font-size: 16px;
-  border: 2px solid #2ABA66;
-  color: #2ABA66;
+  border: 2px solid ${theme.colors.gourmet};
+  color: ${theme.colors.gourmet};
 
   &:active {
-    background: #fff;
-    color: #2ECC71;
+    background: ${theme.colors.white};
+    color: ${theme.colors.gourmetLighter};
   }
 `;
 

@@ -3,12 +3,13 @@
  */
 
 import styled from 'styled-components';
+import theme from '../../utils/theme';
 
 const A = styled.a`
-  color: #2ABA66;
+  color: ${theme.colors.gourmet};
   text-decoration: none;
   &:hover {
-    color: #2ECC71;
+    color: ${theme.colors.gourmet};
   }
 `;
 

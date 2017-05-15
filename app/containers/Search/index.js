@@ -10,6 +10,7 @@ import { graphql, gql } from 'react-apollo';
 import Map from 'components/Map';
 import Marker from 'components/Marker';
 import WorkshopsList from 'components/WorkshopsList';
+import SearchWorkShopForm from 'components/SearchWorkShopForm';
 import LoadingIndicator from 'components/LoadingIndicator';
 
 import Sidebar from './Sidebar';
@@ -64,11 +65,7 @@ export class Search extends React.Component {
     return (
       <div>
         <Sidebar>
-          <form>
-            <label htmlFor="username">
-              <input id="username" type="text" placeholder="mxstbr" />
-            </label>
-          </form>
+          <SearchWorkShopForm onSubmit={this.login} />
           <WorkshopsList {...workshopsListProps} />
         </Sidebar>
         <MapCanvas>
