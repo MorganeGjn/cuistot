@@ -21,7 +21,7 @@ export default function createRoutes(store) {
       path: '/',
       name: 'home',
       getComponent(nextState, cb) {
-        const importModules = Promise.all([import('containers/HomePage')]);
+        const importModules = Promise.all([import('containers/pages/Home')]);
 
         const renderRoute = loadModule(cb);
 
@@ -36,7 +36,7 @@ export default function createRoutes(store) {
       path: '/search',
       name: 'search',
       getComponent(nextState, cb) {
-        const importModules = Promise.all([import('containers/Search')]);
+        const importModules = Promise.all([import('containers/pages/Search')]);
 
         const renderRoute = loadModule(cb);
 
@@ -51,21 +51,25 @@ export default function createRoutes(store) {
       path: '/admin',
       name: 'admin',
       getComponent(location, cb) {
-        import('containers/Admin').then(loadModule(cb)).catch(errorLoading);
+        import('containers/pages/Admin')
+          .then(loadModule(cb))
+          .catch(errorLoading);
       },
     },
     {
       path: '/workshop',
       name: 'workshop',
       getComponent(location, cb) {
-        import('containers/Workshop').then(loadModule(cb)).catch(errorLoading);
+        import('containers/pages/Workshop')
+          .then(loadModule(cb))
+          .catch(errorLoading);
       },
     },
     {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
-        import('containers/NotFoundPage')
+        import('containers/pages/NotFound')
           .then(loadModule(cb))
           .catch(errorLoading);
       },

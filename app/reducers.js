@@ -7,7 +7,8 @@ import { combineReducers } from 'redux-immutable';
 import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-import languageProviderReducer from 'containers/LanguageProvider/reducer';
+import languageProviderReducer
+  from 'containers/genericContainers/LanguageProvider/reducer';
 import { reducer as reduxFormReducer } from 'redux-form/immutable';
 import { apolloReducer } from './graphql';
 
