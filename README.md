@@ -11,7 +11,12 @@ React Boilerplate 3.4 technologies:
 Plus :
 * [Apollo Client](https://github.com/apollographql/apollo-client) 
 * [PostGraphQL](https://github.com/postgraphql/postgraphql)
-  
+
+## Components inspiration
+* [GFAS](https://github.com/jjordy/gfas-react-components) 
+* [ARC](https://github.com/diegohaz/arc-fullstack)
+* [Rebass](https://github.com/jxnblk/rebass)
+
 ## PostGraphQL
 
 You'll need a Postgres DB running before npm start. You need to configure server/index.js to add your db info. (Postgres on Docker is a must)
