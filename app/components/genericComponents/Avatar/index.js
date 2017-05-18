@@ -1,11 +1,11 @@
 import styled from 'styled-components';
+import Image from 'components/genericComponents/Image';
 
-const Avatar = styled.Img`
-  border-radius: 99999px;
+const Avatar = styled(Image)`
+  border-radius: 50%;
   max-width: none;
-  width: 48px;
-  height: 48px;
-  background-color: #ddd;
+  width: 80px;
+  height: 80px;
 `;
 
 export default Avatar;
