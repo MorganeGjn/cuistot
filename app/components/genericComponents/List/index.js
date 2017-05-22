@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import Ul from './Ul';
 
 function List(props) {
@@ -24,8 +24,8 @@ function List(props) {
 }
 
 List.propTypes = {
-  component: React.PropTypes.func.isRequired,
-  items: React.PropTypes.array,
+  component: PropTypes.func.isRequired,
+  items: PropTypes.array,
 };
 
 List.defaultProps = {

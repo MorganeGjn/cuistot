@@ -8,9 +8,8 @@ import React, { PropTypes } from 'react';
 import GoogleMap from 'google-map-react';
 import { List } from 'immutable';
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class Map extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
-
   static propTypes = {
     center: PropTypes.any,
     zoom: PropTypes.number,

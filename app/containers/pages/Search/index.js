@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { graphql, gql } from 'react-apollo';
 
 import Map from 'components/genericComponents/Map';
@@ -79,15 +80,9 @@ export class Search extends React.Component {
 }
 
 Search.propTypes = {
-  loading: React.PropTypes.bool,
-  error: React.PropTypes.oneOfType([
-    React.PropTypes.object,
-    React.PropTypes.bool,
-  ]),
-  workshops: React.PropTypes.oneOfType([
-    React.PropTypes.object,
-    React.PropTypes.bool,
-  ]),
+  loading: PropTypes.bool,
+  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  workshops: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
 };
 
 const DISCOVER_WORKSHOP_QUERY = gql`
@@ -111,14 +106,18 @@ const DISCOVER_WORKSHOP_QUERY = gql`
           nodeId
           cookId
           isPro
-          location
           description
+          gourmetByCookId {
+            location
+            city
+          }
         }
         kitchenByKitchenId {
           nodeId
           kitchenId
           name
-          location
+          location,
+          city
         }
       }
     }

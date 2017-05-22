@@ -47,6 +47,23 @@ const DISCOVER_WORKSHOP_QUERY = gql`
         cookId
         workshopDate
         reservationsByWorkshopId{totalCount}
+        cookByCookId {
+          nodeId
+          cookId
+          isPro
+          description
+          gourmetByCookId {
+            location
+            city
+          }
+        }
+        kitchenByKitchenId {
+          nodeId
+          kitchenId
+          name
+          location,
+          city
+        }
       }
     }
   }

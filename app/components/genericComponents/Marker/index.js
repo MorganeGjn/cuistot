@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Wrapper from './Wrapper';
 
 function Marker(props) {
@@ -6,7 +7,7 @@ function Marker(props) {
 }
 
 Marker.propTypes = {
-  item: React.PropTypes.any,
+  item: PropTypes.any,
 };
 
 export default Marker;

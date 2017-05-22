@@ -10,23 +10,27 @@ insert into user_account (email, password_hash) values
   ('jpalmer8@washingtonpost.com', '$2a$06$q3H4ngUMZ9ADz3utyzGRX.6pWrzmPurqEjKtm7qzbYJrmSEYrsYvu'), -- Password: 'yYh7KDQ2'
   ('rfisher9@nytimes.com', '$2a$06$lvLbqB8u.BVnqa8Zmy5E0.1LgSyKJkBnRYztVu3gO.hE6kCIsx2YK'); -- Password: 'tAVD3Yvi2'
 
-  insert into gourmet (gourmet_id, first_name, last_name) values
-    ((SELECT id FROM user_account WHERE user_account.email = 'spowell0@noaa.gov'), 'Sara', 'Powell'),
-    ((SELECT id FROM user_account WHERE user_account.email = 'afox1@npr.org'), 'Andrea', 'Fox'),
-    ((SELECT id FROM user_account WHERE user_account.email = 'sbanks2@blog.com'), 'Stephen', 'Banks'),
-    ((SELECT id FROM user_account WHERE user_account.email = 'kaustin3@nyu.edu'), 'Kathy', null),
-    ((SELECT id FROM user_account WHERE user_account.email = 'kwilliams4@paypal.com'), 'Kenneth', 'Williams'),
-    ((SELECT id FROM user_account WHERE user_account.email = 'apeterson5@webnode.com'), 'Ann', 'Peterson'),
-    ((SELECT id FROM user_account WHERE user_account.email = 'glee6@arizona.edu'), 'Gloria', 'Lee'),
-    ((SELECT id FROM user_account WHERE user_account.email = 'drodriguez7@mashable.com'), 'Douglas', null),
-    ((SELECT id FROM user_account WHERE user_account.email = 'jpalmer8@washingtonpost.com'), 'Jeffrey', 'Palmer'),
-    ((SELECT id FROM user_account WHERE user_account.email = 'rfisher9@nytimes.com'), 'Robert', 'Fisher');
+insert into gourmet (gourmet_id, first_name, last_name, city, location) values
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'spowell0@noaa.gov'), 'Sara', 'Powell', 'Brest', point( 48.4, -4.4833)),
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'afox1@npr.org'), 'Andrea', 'Fox', 'Quimper', point( 48, -4.1)),
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'sbanks2@blog.com'), 'Stephen', 'Banks', 'Rennes', point( 48.0833, -1.6833)),
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'kaustin3@nyu.edu'), 'Kathy', null, null, null),
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'kwilliams4@paypal.com'), 'Kenneth', 'Williams', null, null),
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'apeterson5@webnode.com'), 'Ann', 'Peterson', null, null),
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'glee6@arizona.edu'), 'Gloria', 'Lee', null, null),
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'drodriguez7@mashable.com'), 'Douglas', null, null, null),
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'jpalmer8@washingtonpost.com'), 'Jeffrey', 'Palmer', null, null),
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'rfisher9@nytimes.com'), 'Robert', 'Fisher', null, null);
 
-insert into cook (cook_id, location, description) values
-  ((SELECT id FROM user_account WHERE user_account.email = 'spowell0@noaa.gov'), point( 48.4, -4.4833), 'Le cook le plus sympa de Brest !');
+insert into cook (cook_id, description) values
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'spowell0@noaa.gov'), 'Le cook le plus sympa de Brest !'),
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'afox1@npr.org'), 'Ca groove ?!'),
+  ((SELECT user_id FROM user_account WHERE user_account.email = 'sbanks2@blog.com'), 'Hey man');
 
-insert into kitchen (name, location) values
-  ('Arthur Bonnet', point(48.4, -4.4833));
+insert into kitchen (name, location, city) values
+  ('Arthur Bonnet', point(48.4, -4.4833), 'Brest');
 
 insert into workshop (name, price, duration, min_gourmet, max_gourmet, description, kitchen_id, cook_id, workshop_date) values
-  ('Atelier sushi', 35, 90, 3, 5, 'Atelier sushi description', null, (SELECT id FROM user_account WHERE user_account.email = 'spowell0@noaa.gov'), '2016-07-01 15:00:00');
+  ('Atelier sushi', 35, 90, 3, 5, 'Atelier sushi description', (SELECT kitchen_id FROM kitchen WHERE name = 'Arthur Bonnet'), (SELECT user_id FROM user_account WHERE user_account.email = 'spowell0@noaa.gov'), '2016-07-01 15:00:00'),
+  ('Atelier fraisier', 40, 90, 3, 5, 'Atelier fraisier description', null, (SELECT user_id FROM user_account WHERE user_account.email = 'afox1@npr.org'), '2016-07-01 15:00:00'),
+  ('Atelier sushi', 35, 90, 3, 5, 'Atelier sushi description', null, (SELECT user_id FROM user_account WHERE user_account.email = 'sbanks2@blog.com'), '2016-07-01 15:00:00');

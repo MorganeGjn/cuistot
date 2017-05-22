@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import theme from '../../../utils/theme';
 
@@ -22,8 +23,8 @@ const Heading = styled(({ level, big, children, ...props }) => // eslint-disable
 )`${styles}`;
 
 Heading.propTypes = {
-  level: React.PropTypes.number,
-  big: React.PropTypes.bool,
+  level: PropTypes.number,
+  big: PropTypes.bool,
 };
 
 Heading.defaultProps = {

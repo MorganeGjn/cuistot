@@ -14,6 +14,7 @@ import ReactDOM from 'react-dom';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
+import { ApolloProvider } from 'react-apollo';
 import 'sanitize.css/sanitize.css';
 
 // Import root app
@@ -36,7 +37,6 @@ import 'file-loader?name=[name].[ext]!./.htaccess';
 
 import configureStore from './store';
 
-import { ApolloProvider } from 'react-apollo';
 import apolloClient from './graphql';
 
 // Import i18n messages

@@ -12,12 +12,12 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
+// eslint-disable-next-line react/prefer-stateless-function
 export default class App extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
-
   static propTypes = {
-    children: React.PropTypes.node,
+    children: PropTypes.node,
   };
 
   render() {

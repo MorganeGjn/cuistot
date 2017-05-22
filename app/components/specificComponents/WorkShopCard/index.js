@@ -6,18 +6,30 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
+
 import Button from 'components/genericComponents/Button';
 import Image from 'components/genericComponents/Image';
-// import Avatar from 'components/genericComponents/Avatar';
+
+import getFormatDate from '../../../utils/date';
 
 import WorkShopCardWrapper from './WorkShopCardWrapper';
-
 import Price from './Price';
 import ProfilePic from './ProfilePic';
 import Informations from './Informations';
+import messages from './messages';
 
 function WorkShopCard(props) {
   const workshop = props.workshop;
+  const href = `workshop/${props.workshop.workshopId}`;
+  const workshopDate = ''; // getFormatDate(workshop.workshopDate);
+
+  let place;
+  if (workshop.kitchenId) {
+    place = workshop.kitchenByKitchenId.city;
+  } else {
+    place = workshop.cookByCookId.gourmetByCookId.city;
+  }
 
   return (
     <WorkShopCardWrapper>
@@ -35,11 +47,11 @@ function WorkShopCard(props) {
       />
       <Informations>
         <div>{workshop.name}</div>
-        <div>Chez Arthur Bonnet, à Brest</div>
-        <div>samedi 25 mars, à 15h30</div>
+        <div>{place}</div>
+        <div>{workshopDate}</div>
       </Informations>
-      <Button href="/{workshop.workshopId}">
-        Réserve ta place
+      <Button href={href}>
+        <FormattedMessage {...messages.book} />
       </Button>
     </WorkShopCardWrapper>
   );

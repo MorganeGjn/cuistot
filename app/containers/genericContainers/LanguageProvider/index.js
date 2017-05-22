@@ -7,14 +7,15 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { IntlProvider } from 'react-intl';
 
 import { makeSelectLocale } from './selectors';
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class LanguageProvider extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <IntlProvider
@@ -29,9 +30,9 @@ export class LanguageProvider extends React.PureComponent {
 }
 
 LanguageProvider.propTypes = {
-  locale: React.PropTypes.string,
-  messages: React.PropTypes.object,
-  children: React.PropTypes.element.isRequired,
+  locale: PropTypes.string,
+  messages: PropTypes.object,
+  children: PropTypes.element.isRequired,
 };
 
 const mapStateToProps = createSelector(makeSelectLocale(), (locale) => ({

@@ -57,7 +57,7 @@ export default function createRoutes(store) {
       },
     },
     {
-      path: '/workshop',
+      path: '/workshop/*',
       name: 'workshop',
       getComponent(location, cb) {
         import('containers/pages/Workshop')

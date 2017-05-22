@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Wrapper from './Wrapper';
 
 function Input(props) {
@@ -13,8 +14,8 @@ function Input(props) {
 }
 
 Input.propTypes = {
-  meta: React.PropTypes.object,
-  input: React.PropTypes.object,
+  meta: PropTypes.object,
+  input: PropTypes.object,
 };
 
 export default Input;

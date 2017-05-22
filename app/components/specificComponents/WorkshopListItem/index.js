@@ -5,12 +5,13 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ListItem from 'components/genericComponents/ListItem';
 import WorkShopCard from 'components/specificComponents/WorkShopCard';
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class WorkshopListItem extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
   render() {
     const workshop = this.props.item;
     const content = <WorkShopCard workshop={workshop} />;
@@ -26,7 +27,7 @@ export class WorkshopListItem extends React.PureComponent {
 }
 
 WorkshopListItem.propTypes = {
-  item: React.PropTypes.object,
+  item: PropTypes.object,
 };
 
 WorkshopListItem.defaultProps = {

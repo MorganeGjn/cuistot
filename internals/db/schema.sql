@@ -2,7 +2,7 @@
 
 -- base on membership.db
 CREATE TABLE user_account (
-  id                     uuid NOT NULL DEFAULT uuid_generate_v1mc(),
+  user_id                uuid NOT NULL DEFAULT uuid_generate_v1mc(),
   email                  character varying(256),
   email_confirmed        boolean NOT NULL DEFAULT false,
   password_hash          character varying(100),
@@ -15,7 +15,7 @@ CREATE TABLE user_account (
   lockout_enabled        boolean NOT NULL DEFAULT false,
   access_failed_count    smallint NOT NULL DEFAULT 0,
   -- Keys
-  CONSTRAINT user_account_pkey PRIMARY KEY (id),
+  CONSTRAINT user_account_pkey PRIMARY KEY (user_id),
   CONSTRAINT user_account_email_key UNIQUE (email)
 );
 
@@ -26,7 +26,7 @@ CREATE TABLE user_login (
   -- Keys
   CONSTRAINT user_login_pkey PRIMARY KEY (name, key),
   CONSTRAINT user_login_user_account_fkey FOREIGN KEY (user_id)
-      REFERENCES user_account (id)
+      REFERENCES user_account (user_id)
       ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -38,20 +38,20 @@ CREATE TABLE gourmet (
   gender       character varying(50),
   city         character varying(100),
   cp           character varying(10),
+  location     point,
   description  text,
   created_at   timestamp without time zone DEFAULT timezone('utc'::text, now()),
   updated_at   timestamp without time zone DEFAULT timezone('utc'::text, now()),
   -- Keys
   CONSTRAINT gourmet_pkey PRIMARY KEY (gourmet_id),
   CONSTRAINT gourmet_user_account_fkey FOREIGN KEY (gourmet_id)
-      REFERENCES user_account (id)
+      REFERENCES user_account (user_id)
       ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE cook (
   cook_id   uuid NOT NULL,
   is_pro       boolean NOT NULL DEFAULT false,
-  location     point NOT NULL,
   description  text,
   -- Keys
   CONSTRAINT cook_pkey PRIMARY KEY (cook_id),
@@ -63,6 +63,8 @@ CREATE TABLE cook (
 CREATE TABLE kitchen (
   kitchen_id  uuid NOT NULL DEFAULT uuid_generate_v1mc(),
   name        character varying(100),
+  city         character varying(100),
+  cp           character varying(10),
   location    point NOT NULL,
   CONSTRAINT kitchen_pkey PRIMARY KEY (kitchen_id)
 );

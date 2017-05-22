@@ -1,7 +1,7 @@
 /*
- * NotFoundPage Messages
+ * WorkShopCard Messages
  *
- * This contains all the text for the NotFoundPage component.
+ * This contains all the text for the WorkShopCard component.
  */
 import { defineMessages } from 'react-intl';
 

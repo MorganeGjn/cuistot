@@ -7,8 +7,8 @@
 import React from 'react';
 import WorkshopCarousel from '../../specificComponents/WorkshopCarousel';
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class Workshop extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <div>
