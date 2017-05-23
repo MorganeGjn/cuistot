@@ -5,15 +5,26 @@
  */
 
 import React from 'react';
+
+import Container from '../../genericComponents/Container';
+import Header from '../../genericComponents/Header';
 import WorkshopCarousel from '../../specificComponents/WorkshopCarousel';
+
+import Main from './Main';
+import Sider from './Sider';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class Workshop extends React.PureComponent {
   render() {
     return (
-      <div>
+      <Container>
+        <Header />
         <WorkshopCarousel />
-      </div>
+        <Main>
+          test
+        </Main>
+        <Sider>test</Sider>
+      </Container>
     );
   }
 }

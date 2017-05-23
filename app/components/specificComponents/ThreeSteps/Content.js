@@ -1,8 +1,8 @@
 import styled from 'styled-components';
+import theme from '../../../utils/theme';
 
 const Content = styled.div`
-  color: #7a7a7a;
-  margin-bottom: 0;
+  color: ${theme.colors.gray};
   font-size: 13px;
 `;
 

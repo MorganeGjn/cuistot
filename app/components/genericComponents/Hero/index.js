@@ -7,13 +7,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import Geosuggest from 'react-geosuggest';
 
 import Header from 'components/genericComponents/Header';
 import BackgroundVideo from 'components/genericComponents/BackgroundVideo';
-import Heading from 'components/genericComponents/Heading';
+
+import GeoSuggest from 'components/specificComponents/GeoSuggest';
 
 import messages from './messages';
+import Heading from './Heading';
 import HeroWrapper from './HeroWrapper';
 import ContainerHero from './ContainerHero';
 import AbsoluteHero from './AbsoluteHero';
@@ -29,7 +30,7 @@ function Hero(props) {
           <Heading level={2} big>
             <FormattedMessage {...messages.subtitle} />
           </Heading>
-          <Geosuggest />
+          <GeoSuggest />
         </ContainerHero>
       </AbsoluteHero>
     </HeroWrapper>

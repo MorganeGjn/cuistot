@@ -13,6 +13,7 @@ import Image from 'components/genericComponents/Image';
 
 import getFormatDate from '../../../utils/date';
 
+import ShadowWrapper from './ShadowWrapper';
 import WorkShopCardWrapper from './WorkShopCardWrapper';
 import Price from './Price';
 import ProfilePic from './ProfilePic';
@@ -32,28 +33,30 @@ function WorkShopCard(props) {
   }
 
   return (
-    <WorkShopCardWrapper>
-      <div>
-        {workshop.maxGourmet} places disponibles
-      </div>
-      <Image
-        src="http://www.cuistotducoin.com/img/atelier/japon-takako.jpg"
-        alt="test"
-      />
-      <Price>{workshop.price}€ / pers.</Price>
-      <ProfilePic
-        src="http://www.cuistotducoin.com/img/profil/takako.jpg"
-        alt="test"
-      />
-      <Informations>
-        <div>{workshop.name}</div>
-        <div>{place}</div>
-        <div>{workshopDate}</div>
-      </Informations>
-      <Button href={href}>
-        <FormattedMessage {...messages.book} />
-      </Button>
-    </WorkShopCardWrapper>
+    <ShadowWrapper>
+      <WorkShopCardWrapper>
+        <div>
+          {workshop.maxGourmet} places disponibles
+        </div>
+        <Image
+          src="http://www.cuistotducoin.com/img/atelier/japon-takako.jpg"
+          alt="test"
+        />
+        <Price>{workshop.price}€ / pers.</Price>
+        <ProfilePic
+          src="http://www.cuistotducoin.com/img/profil/takako.jpg"
+          alt="test"
+        />
+        <Informations>
+          <div>{workshop.name}</div>
+          <div>{place}</div>
+          <div>{workshopDate}</div>
+        </Informations>
+        <Button href={href}>
+          <FormattedMessage {...messages.book} />
+        </Button>
+      </WorkShopCardWrapper>
+    </ShadowWrapper>
   );
 }
 

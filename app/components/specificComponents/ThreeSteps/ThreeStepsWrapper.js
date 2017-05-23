@@ -1,12 +1,8 @@
 import styled from 'styled-components';
+import theme from '../../../utils/theme';
 
-const ThreeStepsWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  padding: 1em;
-  max-width: 1200px;
-  margin: auto;
+const ThreeStepsWrapper = styled.footer`
+  background-color: ${theme.colors.gourmet};
 `;
 
 export default ThreeStepsWrapper;

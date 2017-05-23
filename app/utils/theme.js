@@ -7,6 +7,7 @@ const theme = {
     white: '#FFF',
     black: '#222',
     transparent: 'transparent',
+    grayDarker: '#CAD0D2',
     gray: '#e7e7e7',
     grayLighter: '#f8f8f8',
     cook: '#BF263C',
@@ -38,58 +39,34 @@ const fadeIn = keyframes`
   }
 `;
 
-const rotate = keyframes`
+const pulseGourmet = keyframes`
   0% {
-    transform: rotate(0deg);
-  }
-  100%{
-    transform: rotate(90deg);
-  }
-`;
-
-const colorChange = keyframes`
-  from { background-color: blue; }
-  to { background-color: red; }
-}
-`;
-
-const shake = keyframes`
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
-  30%, 50%, 70% {
-    transform: translate3d(-3px, 0, 0);
-  }
-  40%, 60% {
-    transform: translate3d(3px, 0, 0);
-  }
-`;
-
-const pulse = keyframes`
-  0% {
-    -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
-    box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+    box-shadow: 0 0 0 0 rgba(42, 186, 102, 1);
   }
   70% {
-      -moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
       box-shadow: 0 0 0 10px rgba(204,169,44, 0);
   }
   100% {
-      -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+      box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+`;
+
+const pulseCook = keyframes`
+  0% {
+    box-shadow: 0 0 0 0 rgba(191, 38, 60, 1);
+  }
+  70% {
+      box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
       box-shadow: 0 0 0 0 rgba(204,169,44, 0);
   }
 `;
 
 export const animations = {
   fadeIn,
-  shake,
-  rotate,
-  pulse,
-  colorChange,
+  pulseGourmet,
+  pulseCook,
 };
 
 export default theme;

@@ -4,7 +4,7 @@ const AbsoluteHero = styled.div`
   background-color: transparent;
   z-index: 1;
   position: absolute;
-  top: 220px;
+  top: 120px;
   right: 0;
   left: 0;
 `;

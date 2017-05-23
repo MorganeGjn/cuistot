@@ -16,17 +16,12 @@ const buttonStyles = css`
   font-size: 16px;
   border: 2px solid ${theme.colors.gourmet};
   color: ${theme.colors.gourmet};
-  box-shadow: 0 0 0 rgba(204,169,44, 0.7);
   &:active {
     background: ${theme.colors.white};
-    color: ${theme.colors.gourmetLighter};
+    color: ${theme.colors.gourmet};
   }
   &:hover {
-    animation: 1s ${animations.pulse} ease-in;
-  }
-  &:focus{
-    outline: 0;
-    animation: 1s ${animations.pulse} ease-in;
+    animation: 1s ${animations.pulseGourmet} ease-in;
   }
 `;
 

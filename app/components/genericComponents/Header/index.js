@@ -25,6 +25,7 @@ class Header extends React.Component {
               <Icon
                 icon={ICONS.BLACK_SEE_THROUGH.SVG}
                 viewBox={ICONS.BLACK_SEE_THROUGH.VIEWBOX}
+                color={'#fff'}
               />
             </HeaderLink>
           </div>

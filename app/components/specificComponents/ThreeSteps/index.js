@@ -6,12 +6,16 @@
 
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+
+import Icon from 'components/genericComponents/Icon';
+import Container from 'components/genericComponents/Container';
+import Column3 from 'components/genericComponents/Container/Column3';
+import Column from 'components/genericComponents/Container/Column';
+import FlexWrapper from 'components/genericComponents/Container/FlexWrapper';
+
 import ThreeStepsWrapper from './ThreeStepsWrapper';
-import Col from './Col';
-import Row from './Row';
 import Title from './Title';
 import Content from './Content';
-import Icon from './Icon';
 import messages from './messages';
 import { ICONS } from './icons';
 import theme from '../../../utils/theme';
@@ -19,45 +23,55 @@ import theme from '../../../utils/theme';
 function ThreeSteps() {
   return (
     <ThreeStepsWrapper>
-      <Row>
-        <Col>
-          <Icon
-            icon={ICONS.SEARCH.SVG}
-            viewBox={ICONS.SEARCH.VIEWBOX}
-            color={theme.colors.gourmet}
-          />
-        </Col>
-        <Col>
-          <Title><FormattedMessage {...messages.onetitle} /></Title>
-          <Content><FormattedMessage {...messages.onecontent} /></Content>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Icon
-            icon={ICONS.CREDITCARD.SVG}
-            viewBox={ICONS.CREDITCARD.VIEWBOX}
-            color={theme.colors.gourmet}
-          />
-        </Col>
-        <Col>
-          <Title><FormattedMessage {...messages.twotitle} /></Title>
-          <Content><FormattedMessage {...messages.twocontent} /></Content>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Icon
-            icon={ICONS.USERS.SVG}
-            viewBox={ICONS.USERS.VIEWBOX}
-            color={theme.colors.gourmet}
-          />
-        </Col>
-        <Col>
-          <Title><FormattedMessage {...messages.threetitle} /></Title>
-          <Content><FormattedMessage {...messages.threecontent} /></Content>
-        </Col>
-      </Row>
+      <Container>
+        <FlexWrapper>
+          <Column3>
+            <Column>
+              <Icon
+                icon={ICONS.SEARCH.SVG}
+                viewBox={ICONS.SEARCH.VIEWBOX}
+                color={theme.colors.white}
+                width={36}
+                height={36}
+              />
+            </Column>
+            <Column>
+              <Title><FormattedMessage {...messages.onetitle} /></Title>
+              <Content><FormattedMessage {...messages.onecontent} /></Content>
+            </Column>
+          </Column3>
+          <Column3>
+            <Column>
+              <Icon
+                icon={ICONS.CREDITCARD.SVG}
+                viewBox={ICONS.CREDITCARD.VIEWBOX}
+                color={theme.colors.white}
+                width={36}
+                height={36}
+              />
+            </Column>
+            <Column>
+              <Title><FormattedMessage {...messages.twotitle} /></Title>
+              <Content><FormattedMessage {...messages.twocontent} /></Content>
+            </Column>
+          </Column3>
+          <Column3>
+            <Column>
+              <Icon
+                icon={ICONS.USERS.SVG}
+                viewBox={ICONS.USERS.VIEWBOX}
+                color={theme.colors.white}
+                width={36}
+                height={36}
+              />
+            </Column>
+            <Column>
+              <Title><FormattedMessage {...messages.threetitle} /></Title>
+              <Content><FormattedMessage {...messages.threecontent} /></Content>
+            </Column>
+          </Column3>
+        </FlexWrapper>
+      </Container>
     </ThreeStepsWrapper>
   );
 }

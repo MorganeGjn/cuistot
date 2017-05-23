@@ -4,15 +4,14 @@
 *
 */
 
-import React from 'react';
-import Wrapper from './Wrapper'
+import styled from 'styled-components';
 
-function Container() {
-  return (
-    <Wrapper>{...props}
-    </Wrapper>
-  );
-}
-
+const Container = styled('div')`
+  display: block;
+  padding: 0.75em;
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+`;
 
 export default Container;
