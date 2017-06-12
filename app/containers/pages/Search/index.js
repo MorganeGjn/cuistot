@@ -13,8 +13,7 @@ import Marker from 'components/genericComponents/Marker';
 import LoadingIndicator from 'components/genericComponents/LoadingIndicator';
 
 import WorkshopsList from 'components/specificComponents/WorkshopsList';
-import SearchWorkShopForm
-  from 'components/specificComponents/SearchWorkShopForm';
+import SearchWorkShopForm from 'components/specificComponents/SearchWorkShopForm';
 
 import Sidebar from './Sidebar';
 import MapCanvas from './MapCanvas';
@@ -40,20 +39,24 @@ export class Search extends React.Component {
     if (workshops) {
       workshops.forEach((workshop) => {
         if (workshop.kitchenByKitchenId) {
+          // TODO: Patch when we get rid of postgraphql
+          let latLng = workshop.kitchenByKitchenId.location;
+          latLng = latLng.substring(0, latLng.length - 1).slice(1).split(',');
+          const lat = latLng[0];
+          const lng = latLng[1];
+          // endTodo
           markers.push(
-            <Marker
-              key={`item-${workshop.nodeId}`}
-              lat={workshop.kitchenByKitchenId.location.lat}
-              lng={workshop.kitchenByKitchenId.location.lng}
-            />
+            <Marker key={`item-${workshop.nodeId}`} lat={lat} lng={lng} />
           );
         } else {
+          // TODO: Patch when we get rid of postgraphql
+          let latLng = workshop.cookByCookId.gourmetByCookId.location;
+          latLng = latLng.substring(0, latLng.length - 1).slice(1).split(',');
+          const lat = latLng[0];
+          const lng = latLng[1];
+          // endTodo
           markers.push(
-            <Marker
-              key={`item-${workshop.nodeId}`}
-              lat={workshop.cookByCookId.location.lat}
-              lng={workshop.cookByCookId.location.lng}
-            />
+            <Marker key={`item-${workshop.nodeId}`} lat={lat} lng={lng} />
           );
         }
       });
@@ -81,7 +84,6 @@ export class Search extends React.Component {
 
 Search.propTypes = {
   loading: PropTypes.bool,
-  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   workshops: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
 };
 

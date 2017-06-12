@@ -8,7 +8,7 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   onetitle: {
     id: 'app.components.ThreeSteps.one.title',
-    defaultMessage: 'Trouvez votre atelier',
+    defaultMessage: 'Trouve votre atelier',
   },
   onecontent: {
     id: 'app.components.ThreeSteps.one.content',
@@ -16,11 +16,11 @@ export default defineMessages({
   },
   twotitle: {
     id: 'app.components.ThreeSteps.two.title',
-    defaultMessage: 'Réservez simplement',
+    defaultMessage: 'Réserve simplement',
   },
   twocontent: {
     id: 'app.components.ThreeSteps.two.content',
-    defaultMessage: 'Réglez en ligne en toute sécurité',
+    defaultMessage: 'Régle en ligne en toute sécurité',
   },
   threetitle: {
     id: 'app.components.ThreeSteps.three.title',
