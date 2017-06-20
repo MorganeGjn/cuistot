@@ -3,6 +3,7 @@
 const postgraphql = require('postgraphql').postgraphql;
 const express = require('express');
 const logger = require('./logger');
+const bodyParser = require('body-parser');
 
 const argv = require('minimist')(process.argv.slice(2));
 const setup = require('./middlewares/frontendMiddleware');
