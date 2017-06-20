@@ -20,7 +20,7 @@ const {
   UserLogin,
   Workshop,
 } = require('./models');
-//! Importing dependency OK
+// --------------------- //
 
 const typeDefs = [`
 scalar Date
@@ -174,7 +174,7 @@ const resolvers = {
   Date: GraphQLToolsTypes.Date({ name: 'MyDate' }),
   JSON: GraphQLToolsTypes.JSON({ name: 'MyJSON' }),
   Point: GraphQLToolsTypes.JSON({ name: 'Point', struct: '{ x: number, y: number }' }),
-  //! Resolvers custom type OK
+  // --------------------------------------------------------------------------------- //
 
 
   // ---------------------------------------------------------- //
@@ -182,7 +182,7 @@ const resolvers = {
   // ---------------------------------------------------------- //
   Query: {
     userAccount(_, args) {
-      return UserAccount.findAndCountAll(/* {attributes: [ 'email' ]},*/{ where: args }
+      return UserAccount.findAndCountAll({ where: args }
     ).then((result) => {
       if (!result) {
         return 'User not find !';

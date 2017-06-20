@@ -31,8 +31,7 @@ const KitchenModel = db.define('kitchen', {
   timestamps: false,
   freezeTableName: true,
   tableName: 'kitchen',
-}
-);
+});
 // --------------------- //
 
 
@@ -86,8 +85,7 @@ const UserAccountModel = db.define('user_account', {
   timestamps: false,
   freezeTableName: true,
   tableName: 'user_account',
-}
-);
+});
 // -------------------------- //
 
 
@@ -113,9 +111,11 @@ const GourmetModel = db.define('gourmet', {
 }, {
   freezeTableName: true,
   tableName: 'gourmet',
-}
-);
+});
+// -------------------------- //
 
+
+// Cook Model
 const CookModel = db.define('cook', {
   cook_id: {
     type: Sequelize.UUID,
@@ -136,8 +136,7 @@ const CookModel = db.define('cook', {
   timestamps: false,
   freezeTableName: true,
   tableName: 'cook',
-}
-);
+});
 // --------------------- //
 
 
@@ -170,8 +169,7 @@ const ReservationModel = db.define('reservation', {
   timestamps: false,
   freezeTableName: true,
   tableName: 'reservation',
-}
-);
+});
 // --------------------- //
 
 
@@ -199,8 +197,7 @@ const UserLoginModel = db.define('user_login', {
   timestamps: false,
   freezeTableName: true,
   tableName: 'user_login',
-}
-);
+});
 // --------------------- //
 
 
@@ -255,8 +252,7 @@ const WorkshopModel = db.define('workshop', {
   timestamps: false,
   freezeTableName: true,
   tableName: 'workshop',
-}
-);
+});
 // --------------------------------------------------------- //
 // --------------------------------------------------------- //
 // --------------------------------------------------------- //
