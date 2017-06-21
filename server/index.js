@@ -1,9 +1,14 @@
 /* eslint consistent-return:0 */
 
-const postgraphql = require('postgraphql').postgraphql;
+// const postgraphql = require('postgraphql').postgraphql;
 const express = require('express');
 const logger = require('./logger');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+// const { createServer } = require('http');
+const { graphqlExpress, graphiqlExpress } = require('graphql-server-express');
+
+const schema = require('./schema');
 
 const argv = require('minimist')(process.argv.slice(2));
 const setup = require('./middlewares/frontendMiddleware');
@@ -16,16 +21,29 @@ const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // postgraphql
-const config = {
-  user: 'postgres',
-  database: 'cuistot',
-  password: 'password',
-  host: 'localhost',
-  port: 5432,
-};
+// const config = {
+//   user: 'jeremy',
+//   database: 'cuistot',
+//   password: 'dev',
+//   host: 'localhost',
+//   port: 5432,
+// };
+//
+// const optionGraphQL = { graphiql: true };
+// app.use(postgraphql(config, optionGraphQL));
 
-const optionGraphQL = { graphiql: true };
-app.use(postgraphql(config, optionGraphQL));
+app.use(cors());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use('/graphql', graphqlExpress({ schema }));
+
+app.use('/graphiql', graphiqlExpress({
+  endpointURL: '/graphql',
+}));
+
+// const server = createServer(app)
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
