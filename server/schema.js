@@ -1,16 +1,17 @@
 /*
  * \file schema.js
  * \brief  { Tables statement with Apollo Server
- *           Query and mutation statement as well
+ *           Queries, mutations and subscriptions statement as well as
  *           schema definition }
  * \date 16 juin 2017
  * \author Cuistot du coin
  */
 
 // Import of dependency
-const { makeExecutableSchema } = require('graphql-tools');
-
 const GraphQLToolsTypes = require('graphql-tools-types');
+const { makeExecutableSchema } = require('graphql-tools');
+const { PubSub } = require('graphql-subscriptions');
+const { withFilter } = require('graphql-subscriptions');
 const {
   Kitchen,
   UserAccount,
@@ -22,7 +23,11 @@ const {
 } = require('./models');
 // --------------------- //
 
-const typeDefs = [`
+// Used for subscription
+const pubsub = new PubSub();
+
+const typeDefs = [
+  `
 scalar Date
 scalar JSON
 scalar Point
@@ -163,33 +168,41 @@ type Mutation {
   deleteKitchenAndWorkshopAssociated( kitchen_id: ID!, name: String ): Kitchen
 }
 
+type Subscription {
+  workshopAdded(kitchen_id: ID): Workshop
+  workshopsAdded: Workshop
+}
+
 schema {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }
-`];
+`,
+];
 
 const resolvers = {
   // Resolvers function for custom types
   Date: GraphQLToolsTypes.Date({ name: 'MyDate' }),
   JSON: GraphQLToolsTypes.JSON({ name: 'MyJSON' }),
-  Point: GraphQLToolsTypes.JSON({ name: 'Point', struct: '{ x: number, y: number }' }),
+  Point: GraphQLToolsTypes.JSON({
+    name: 'Point',
+    struct: '{ x: number, y: number }',
+  }),
   // --------------------------------------------------------------------------------- //
-
 
   // ---------------------------------------------------------- //
   // Query resolvers function definition
   // ---------------------------------------------------------- //
   Query: {
     userAccount(_, args) {
-      return UserAccount.findAndCountAll({ where: args }
-    ).then((result) => {
-      if (!result) {
-        return 'User not find !';
-      }
-      // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
-      return result.rows;
-    });
+      return UserAccount.findAndCountAll({ where: args }).then((result) => {
+        if (!result) {
+          return 'User not find !';
+        }
+        // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
+        return result.rows;
+      });
     },
     kitchen(_, args) {
       return Kitchen.findAndCountAll({ where: args }).then((result) => {
@@ -250,7 +263,6 @@ const resolvers = {
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
-
 
   // ---------------------------------------------------------- //
   // For Imbricated queries
@@ -315,24 +327,51 @@ const resolvers = {
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
 
-
   // ---------------------------------------------------------- //
   // Mutation resolvers function definition
   // ---------------------------------------------------------- //
   Mutation: {
     addGourmet(_, args) {
-      args.location = { type: 'Point', coordinates: [args.location.x, args.location.y] };
+      // eslint-disable-next-line
+      args.location = {
+        type: 'Point',
+        coordinates: [args.location.x, args.location.y],
+      };
       return Gourmet.create(args);
     },
-    addUserAccount(_, args) { return UserAccount.create(args); },
-    addUserLogin(_, args) { return UserLogin.create(args); },
-    addCook(_, args) { return Cook.create(args); },
+    addUserAccount(_, args) {
+      return UserAccount.create(args);
+    },
+    addUserLogin(_, args) {
+      return UserLogin.create(args);
+    },
+    addCook(_, args) {
+      return Cook.create(args);
+    },
     addKitchen(_, args) {
-      args.location = { type: 'Point', coordinates: [args.location.x, args.location.y] };
+      // eslint-disable-next-line
+      args.location = {
+        type: 'Point',
+        coordinates: [args.location.x, args.location.y],
+      };
       return Kitchen.create(args);
     },
-    addWorkshop(_, args) { return Workshop.create(args); },
-    addReservation(_, args) { return Reservation.create(args); },
+    addWorkshop(_, args) {
+      const newWorkshop = Workshop.create(args);
+      newWorkshop.then((valeur) => {
+        pubsub.publish('workshopAdded', {
+          workshopAdded: valeur,
+          kitchen_id: valeur.kitchen_id,
+        });
+        pubsub.publish('workshopsAdded', {
+          workshopsAdded: valeur,
+        });
+      });
+      return newWorkshop;
+    },
+    addReservation(_, args) {
+      return Reservation.create(args);
+    },
 
     updateUserAccount(_, args) {
       UserAccount.update(args, {
@@ -396,19 +435,35 @@ const resolvers = {
     // If the account is a cook associated to a workshop, The user will NOT be deleted
     deleteUser(_, args) {
       Cook.destroy({ where: { cook_id: args.user_id } })
-      .then(() => {
-        Gourmet.destroy({ where: { gourmet_id: args.user_id } });
-        Reservation.destroy({ where: { gourmet_id: args.user_id } });
-        UserLogin.destroy({ where: args });
-        UserAccount.destroy({ where: args });
-      }).catch((error) => {
-        console.log(`The user is associate to a workshop : ${error}`);
-        return error;
-      });
+        .then(() => {
+          Gourmet.destroy({ where: { gourmet_id: args.user_id } });
+          Reservation.destroy({ where: { gourmet_id: args.user_id } });
+          UserLogin.destroy({ where: args });
+          UserAccount.destroy({ where: args });
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(`The user is associate to a workshop : ${error}`);
+          return error;
+        });
     },
     deleteKitchenAndWorkshopAssociated(_, args) {
       Workshop.destroy({ where: { kitchen_id: args.kitchen_id } });
       return Kitchen.destroy({ where: args });
+    },
+  },
+  Subscription: {
+    workshopAdded: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator('workshopAdded'),
+        (payload, variables) =>
+          // The `messageAdded` channel includes events for all channels, so we filter to only
+          // pass through events for the channel specified in the query
+          payload.kitchen_id === variables.kitchen_id
+      ),
+    },
+    workshopsAdded: {
+      subscribe: () => pubsub.asyncIterator('workshopsAdded'),
     },
   },
   //! --------------------------------------------------------- //

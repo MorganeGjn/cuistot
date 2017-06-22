@@ -1,3 +1,10 @@
+/*
+ * \file index.js
+ * \brief Start the server Apollo
+ * \date 16 juin 2017
+ * \author Cuistot du coin
+ */
+
 /* eslint consistent-return:0 */
 
 // const postgraphql = require('postgraphql').postgraphql;
@@ -5,8 +12,10 @@ const express = require('express');
 const logger = require('./logger');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-// const { createServer } = require('http');
+const { createServer } = require('http');
 const { graphqlExpress, graphiqlExpress } = require('graphql-server-express');
+const { execute, subscribe } = require('graphql');
+const { SubscriptionServer } = require('subscriptions-transport-ws');
 
 const schema = require('./schema');
 
@@ -39,11 +48,15 @@ app.use(bodyParser.json());
 
 app.use('/graphql', graphqlExpress({ schema }));
 
-app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql',
-}));
+app.use(
+  '/graphiql',
+  graphiqlExpress({
+    endpointURL: '/graphql',
+    subscriptionsEndpoint: 'ws://localhost:3000/subscriptions',
+  })
+);
 
-// const server = createServer(app)
+const server = createServer(app);
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
@@ -59,11 +72,23 @@ const prettyHost = customHost || 'localhost';
 const port = argv.port || process.env.PORT || 3000;
 
 // Start your app.
-app.listen(port, host, (err) => {
+server.listen(port, host, (err) => {
   if (err) {
     return logger.error(err.message);
   }
 
+  // eslint-disable-next-line
+  new SubscriptionServer(
+    {
+      execute,
+      subscribe,
+      schema,
+    },
+    {
+      server,
+      path: '/subscriptions',
+    }
+  );
   // Connect to ngrok in dev mode
   if (ngrok) {
     ngrok.connect(port, (innerErr, url) => {
