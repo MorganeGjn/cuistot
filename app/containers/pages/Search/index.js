@@ -89,36 +89,35 @@ Search.propTypes = {
 
 const DISCOVER_WORKSHOP_QUERY = gql`
   query DisocverWorkshopQuery {
-    allWorkshops(last: 2) {
-      nodes {
-        nodeId
-        workshopId
+    query DiscoverWorkshopQuery {
+      workshop {
+        workshop_id
         name
         price
         duration
-        minGourmet
-        maxGourmet
+        min_gourmet
+        max_gourmet
         description
         pictures
-        kitchenId
-        cookId
-        workshopDate
-        reservationsByWorkshopId{totalCount}
-        cookByCookId {
-          nodeId
-          cookId
-          isPro
+        kitchen_id
+        cook_id
+        workshop_date
+        reservation {
+          amount
+        }
+        cook {
+          cook_id
+          is_pro
           description
-          gourmetByCookId {
+          gourmet {
             location
             city
           }
         }
-        kitchenByKitchenId {
-          nodeId
-          kitchenId
+        kitchen {
+          kitchen_id
           name
-          location,
+          location
           city
         }
       }
@@ -127,9 +126,9 @@ const DISCOVER_WORKSHOP_QUERY = gql`
 `;
 
 const withData = graphql(DISCOVER_WORKSHOP_QUERY, {
-  props: ({ data: { loading, allWorkshops } }) => ({
+  props: ({ data: { loading, workshop } }) => ({
     loading,
-    workshops: allWorkshops,
+    workshops: workshop,
   }),
 });
 

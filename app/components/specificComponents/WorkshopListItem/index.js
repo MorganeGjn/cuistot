@@ -19,7 +19,7 @@ export class WorkshopListItem extends React.PureComponent {
     // Render the content into a list item
     return (
       <ListItem
-        key={`workshop-list-item-${workshop.workshopId}`}
+        key={`workshop-list-item-${workshop.workshop_id}`}
         item={content}
       />
     );
