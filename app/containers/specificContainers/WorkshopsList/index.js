@@ -14,7 +14,7 @@ import LoadingIndicator from 'components/genericComponents/LoadingIndicator';
 
 function WorkshopsList(props) {
   if (!props.loading && props.workshops !== false) {
-    return <WorkshopListComp workshops={props.workshops.nodes} />;
+    return <WorkshopListComp workshops={props.workshops} />;
   }
 
   return <List component={LoadingIndicator} />;
@@ -31,48 +31,45 @@ WorkshopsList.defaultProps = {
 };
 
 const DISCOVER_WORKSHOP_QUERY = gql`
-  query DisocverWorkshopQuery {
-    allWorkshops(last: 3) {
-      nodes {
-        nodeId
-        workshopId
-        name
-        price
-        duration
-        minGourmet
-        maxGourmet
+  query DiscoverWorkshopQuery {
+    workshop {
+      workshop_id
+      name
+      price
+      duration
+      min_gourmet
+      max_gourmet
+      description
+      pictures
+      kitchen_id
+      cook_id
+      workshop_date
+      reservation {
+        amount
+      }
+      cook {
+        cook_id
+        is_pro
         description
-        pictures
-        kitchenId
-        cookId
-        workshopDate
-        reservationsByWorkshopId{totalCount}
-        cookByCookId {
-          nodeId
-          cookId
-          isPro
-          description
-          gourmetByCookId {
-            location
-            city
-          }
-        }
-        kitchenByKitchenId {
-          nodeId
-          kitchenId
-          name
-          location,
+        gourmet {
+          location
           city
         }
+      }
+      kitchen {
+        kitchen_id
+        name
+        location
+        city
       }
     }
   }
 `;
 
 const withData = graphql(DISCOVER_WORKSHOP_QUERY, {
-  props: ({ data: { loading, allWorkshops } }) => ({
+  props: ({ data: { loading, workshop } }) => ({
     loading,
-    workshops: allWorkshops,
+    workshops: workshop,
   }),
 });
 
