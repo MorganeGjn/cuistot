@@ -66,6 +66,15 @@ export default function createRoutes(store) {
       },
     },
     {
+      path: '/organize',
+      name: 'organize',
+      getComponent(location, cb) {
+        import('containers/pages/Organize')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    },
+    {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
