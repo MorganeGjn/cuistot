@@ -12,6 +12,8 @@ const GraphQLToolsTypes = require('graphql-tools-types');
 const { makeExecutableSchema } = require('graphql-tools');
 const { PubSub } = require('graphql-subscriptions');
 const { withFilter } = require('graphql-subscriptions');
+// Use only for debugging
+// const stringify = require('json-stringify-safe');
 const {
   Kitchen,
   UserAccount,
@@ -136,7 +138,7 @@ type Mutation {
   addWorkshop(
     workshop_id: ID, name: String!, price: Int!, duration: Int!, min_gourmet: Int!,
     max_gourmet: Int!, description: String!, pictures: JSON, kitchen_id: ID,
-    cook_id: ID, workshop_date: Date!
+    cook_id: ID!, workshop_date: Date!
   ): Workshop
   addReservation( gourmet_id: ID!, workshop_id: ID!, amount: Int! ): Reservation
 
@@ -157,15 +159,15 @@ type Mutation {
   updateWorkshop(
     workshop_id: ID!, name: String, price: Int, duration: Int, min_gourmet: Int,
     max_gourmet: Int, description: String, pictures: JSON, kitchen_id: ID,
-    cook_id: ID, workshop_date: Date
+    cook_id: ID!, workshop_date: Date
   ): Workshop
   updateReservation( gourmet_id: ID!, workshop_id: ID!, amount: Int ): Reservation
 
   deleteCook( cook_id: ID! ): Cook
-  deleteWorkshop( workshop_id: ID! ): Workshop
+  deleteWorkshop( workshop_id: ID! , cook_id: ID! ): Workshop
   deleteReservation( gourmet_id: ID!, workshop_id: ID! ): Reservation
   deleteUser( user_id: ID! ): UserAccount
-  deleteKitchenAndWorkshopAssociated( kitchen_id: ID!, name: String ): Kitchen
+  deleteKitchenAndWorkshopAssociated( kitchen_id: ID!, cook_id: ID! name: String ): Kitchen
 }
 
 type Subscription {
@@ -195,14 +197,25 @@ const resolvers = {
   // Query resolvers function definition
   // ---------------------------------------------------------- //
   Query: {
-    userAccount(_, args) {
-      return UserAccount.findAndCountAll({ where: args }).then((result) => {
-        if (!result) {
-          return 'User not find !';
-        }
-        // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
-        return result.rows;
-      });
+    userAccount(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.user_id === ctx.user;
+      // console.log(`CONTEXT AUTH + ${stringify(ctx.auth, null, 2)}`);
+      // console.log(`CONTEXT USER + ${stringify(ctx.user, null, 2)}`);
+      // console.log(`ARGS USER + ${stringify(args.user_id, null, 2)}`);
+      // console.log(`ADMIN + ${stringify(admin, null, 2)}`);
+      // console.log(`ID + ${stringify(id, null, 2)}`);
+
+      if (id || admin) {
+        return UserAccount.findAndCountAll({ where: args }).then((result) => {
+          if (!result) {
+            return 'Users not find !';
+          }
+          // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
+          return result.rows;
+        });
+        // eslint-disable-next-line
+      } else return null;
     },
     kitchen(_, args) {
       return Kitchen.findAndCountAll({ where: args }).then((result) => {
@@ -213,24 +226,36 @@ const resolvers = {
         return result.rows;
       });
     },
-    gourmet(_, args) {
-      return Gourmet.findAndCountAll({ where: args }).then((result) => {
-        if (!result) {
-          return 'Gourmet not find !';
-        }
-        // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
-        // console.log("Coordonnée en x : " + JSON.stringify(result.rows[0].location.coordinates[0]));
-        return result.rows;
-      });
+    gourmet(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.gourmet_id === ctx.user;
+
+      if (id || admin) {
+        return Gourmet.findAndCountAll({ where: args }).then((result) => {
+          if (!result) {
+            return 'Gourmet not find !';
+          }
+          // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
+          // console.log("Coordonnée en x : " + JSON.stringify(result.rows[0].location.coordinates[0]));
+          return result.rows;
+        });
+        // eslint-disable-next-line
+      } else return null;
     },
-    cook(_, args) {
-      return Cook.findAndCountAll({ where: args }).then((result) => {
-        if (!result) {
-          return 'Cook not find !';
-        }
-        // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
-        return result.rows;
-      });
+    cook(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.gourmet_id === ctx.user;
+
+      if (id || admin) {
+        return Cook.findAndCountAll({ where: args }).then((result) => {
+          if (!result) {
+            return 'Cook not find !';
+          }
+          // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
+          return result.rows;
+        });
+        // eslint-disable-next-line
+      } else return null;
     },
     reservation(_, args) {
       return Reservation.findAndCountAll({ where: args }).then((result) => {
@@ -241,14 +266,20 @@ const resolvers = {
         return result.rows;
       });
     },
-    userLogin(_, args) {
-      return UserLogin.findAndCountAll({ where: args }).then((result) => {
-        if (!result) {
-          return 'UserLogin not find !';
-        }
-        // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
-        return result.rows;
-      });
+    userLogin(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.user_id === ctx.user;
+
+      if (id || admin) {
+        return UserLogin.findAndCountAll({ where: args }).then((result) => {
+          if (!result) {
+            return 'UserLogin not find !';
+          }
+          // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
+          return result.rows;
+        });
+        // eslint-disable-next-line
+      } else return null;
     },
     workshop(_, args) {
       return Workshop.findAndCountAll({ where: args }).then((result) => {
@@ -331,22 +362,40 @@ const resolvers = {
   // Mutation resolvers function definition
   // ---------------------------------------------------------- //
   Mutation: {
-    addGourmet(_, args) {
-      // eslint-disable-next-line
-      args.location = {
-        type: 'Point',
-        coordinates: [args.location.x, args.location.y],
-      };
-      return Gourmet.create(args);
+    addGourmet(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.gourmet_id === ctx.user;
+
+      if (id || admin) {
+        // eslint-disable-next-line
+        args.location = {
+          type: 'Point',
+          coordinates: [args.location.x, args.location.y],
+        };
+        return Gourmet.create(args);
+        // eslint-disable-next-line
+      } else return null;
     },
     addUserAccount(_, args) {
       return UserAccount.create(args);
     },
-    addUserLogin(_, args) {
-      return UserLogin.create(args);
+    addUserLogin(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.user_id === ctx.user;
+
+      if (id || admin) {
+        return UserLogin.create(args);
+        // eslint-disable-next-line
+      } else return null;
     },
-    addCook(_, args) {
-      return Cook.create(args);
+    addCook(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.cook_id === ctx.user;
+
+      if (id || admin) {
+        return Cook.create(args);
+        // eslint-disable-next-line
+      } else return null;
     },
     addKitchen(_, args) {
       // eslint-disable-next-line
@@ -356,46 +405,83 @@ const resolvers = {
       };
       return Kitchen.create(args);
     },
-    addWorkshop(_, args) {
-      const newWorkshop = Workshop.create(args);
-      newWorkshop.then((valeur) => {
-        pubsub.publish('workshopAdded', {
-          workshopAdded: valeur,
-          kitchen_id: valeur.kitchen_id,
+    addWorkshop(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.cook_id === ctx.user;
+
+      if (id || admin) {
+        const newWorkshop = Workshop.create(args);
+        // After creating the new workshop we push it in subscription
+        newWorkshop.then((valeur) => {
+          pubsub.publish('workshopAdded', {
+            workshopAdded: valeur,
+            kitchen_id: valeur.kitchen_id,
+          });
+          pubsub.publish('workshopsAdded', {
+            workshopsAdded: valeur,
+          });
         });
-        pubsub.publish('workshopsAdded', {
-          workshopsAdded: valeur,
-        });
-      });
-      return newWorkshop;
+        return newWorkshop;
+        // eslint-disable-next-line
+      } else return null;
     },
-    addReservation(_, args) {
-      return Reservation.create(args);
+    addReservation(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.gourmet_id === ctx.user;
+
+      if (id || admin) {
+        return Reservation.create(args);
+        // eslint-disable-next-line
+      } else return null;
     },
 
-    updateUserAccount(_, args) {
-      UserAccount.update(args, {
-        where: { user_id: args.user_id },
-      });
-      return UserAccount.findById(args.user_id);
+    updateUserAccount(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.user_id === ctx.user;
+
+      if (id || admin) {
+        UserAccount.update(args, {
+          where: { user_id: args.user_id },
+        });
+        return UserAccount.findById(args.user_id);
+        // eslint-disable-next-line
+      } else return null;
     },
-    updateUserLogin(_, args) {
-      UserLogin.update(args, {
-        where: { user_id: args.user_id },
-      });
-      return UserLogin.findById(args.user_id);
+    updateUserLogin(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.user_id === ctx.user;
+
+      if (id || admin) {
+        UserLogin.update(args, {
+          where: { user_id: args.user_id },
+        });
+        return UserLogin.findById(args.user_id);
+        // eslint-disable-next-line
+      } else return null;
     },
-    updateGourmet(_, args) {
-      Gourmet.update(args, {
-        where: { gourmet_id: args.gourmet_id },
-      });
-      return Gourmet.findById(args.gourmet_id);
+    updateGourmet(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.gourmet_id === ctx.user;
+
+      if (id || admin) {
+        Gourmet.update(args, {
+          where: { gourmet_id: args.gourmet_id },
+        });
+        return Gourmet.findById(args.gourmet_id);
+        // eslint-disable-next-line
+      } else return null;
     },
-    updateCook(_, args) {
-      Cook.update(args, {
-        where: { cook_id: args.cook_id },
-      });
-      return Cook.findById(args.cook_id);
+    updateCook(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.cook_id === ctx.user;
+
+      if (id || admin) {
+        Cook.update(args, {
+          where: { cook_id: args.cook_id },
+        });
+        return Cook.findById(args.cook_id);
+        // eslint-disable-next-line
+      } else return null;
     },
     updateKitchen(_, args) {
       Kitchen.update(args, {
@@ -403,63 +489,109 @@ const resolvers = {
       });
       return Kitchen.findById(args.kitchen_id);
     },
-    updateWorkshop(_, args) {
-      Workshop.update(args, {
-        where: { workshop_id: args.workshop_id },
-      });
-      return Workshop.findById(args.workshop_id);
+    updateWorkshop(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.cook_id === ctx.user;
+
+      if (id || admin) {
+        Workshop.update(args, {
+          where: { workshop_id: args.workshop_id },
+        });
+        return Workshop.findById(args.workshop_id);
+        // eslint-disable-next-line
+      } else return null;
     },
-    updateReservation(_, args) {
-      Reservation.update(args, {
-        where: {
-          gourmet_id: args.gourmet_id,
-          workshop_id: args.workshop_id,
-        },
-      });
-      return Reservation.findById(args.gourmet_id);
+    updateReservation(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.gourmet_id === ctx.user;
+
+      if (id || admin) {
+        Reservation.update(args, {
+          where: {
+            gourmet_id: args.gourmet_id,
+            workshop_id: args.workshop_id,
+          },
+        });
+        return Reservation.findById(args.gourmet_id);
+        // eslint-disable-next-line
+      } else return null;
     },
 
-    deleteWorkshop(_, args) {
-      Reservation.destroy({ where: args });
-      return Workshop.destroy({ where: args });
+    deleteWorkshop(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.cook_id === ctx.user;
+
+      if (id || admin) {
+        Reservation.destroy({ where: args });
+        return Workshop.destroy({ where: args });
+        // eslint-disable-next-line
+      } else return null;
     },
-    deleteReservation(_, args) {
-      return Reservation.destroy({ where: args });
+    deleteReservation(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.gourmet_id === ctx.user;
+
+      if (id || admin) {
+        return Reservation.destroy({ where: args });
+        // eslint-disable-next-line
+      } else return null;
     },
-    deleteCook(_, args) {
-      return Cook.destroy({ where: args });
+    deleteCook(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.cook_id === ctx.user;
+
+      if (id || admin) {
+        return Cook.destroy({ where: args });
+        // eslint-disable-next-line
+      } else return null;
     },
 
     // This function will erase totaly a user
     // (deletion in : UserAccount, UserLogin, Gourmet, Cook, Reservation)
     // If the account is a cook associated to a workshop, The user will NOT be deleted
-    deleteUser(_, args) {
-      Cook.destroy({ where: { cook_id: args.user_id } })
-        .then(() => {
-          Gourmet.destroy({ where: { gourmet_id: args.user_id } });
-          Reservation.destroy({ where: { gourmet_id: args.user_id } });
-          UserLogin.destroy({ where: args });
-          UserAccount.destroy({ where: args });
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.log(`The user is associate to a workshop : ${error}`);
-          return error;
-        });
+    deleteUser(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.user_id === ctx.user;
+
+      if (id || admin) {
+        return Cook.destroy({ where: { cook_id: args.user_id } })
+          .then(() => {
+            Gourmet.destroy({ where: { gourmet_id: args.user_id } });
+            Reservation.destroy({ where: { gourmet_id: args.user_id } });
+            UserLogin.destroy({ where: args });
+            return UserAccount.destroy({ where: args });
+          })
+          .catch((error) => {
+            // eslint-disable-next-line
+            console.log(`The user is associate to a workshop : ${error}`);
+            return error;
+          });
+        // eslint-disable-next-line
+      } else return null;
     },
-    deleteKitchenAndWorkshopAssociated(_, args) {
-      Workshop.destroy({ where: { kitchen_id: args.kitchen_id } });
-      return Kitchen.destroy({ where: args });
+    deleteKitchenAndWorkshopAssociated(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.cook_id === ctx.user;
+
+      if (id || admin) {
+        Workshop.destroy({ where: { kitchen_id: args.kitchen_id } });
+        return Kitchen.destroy({ where: args });
+        // eslint-disable-next-line
+      } else return null;
     },
   },
+  //! --------------------------------------------------------- //
+  //! --------------------------------------------------------- //
+  //! --------------------------------------------------------- //
+
+  // ---------------------------------------------------------- //
+  // Subscription resolvers function definition
+  // ---------------------------------------------------------- //
   Subscription: {
     workshopAdded: {
       subscribe: withFilter(
         () => pubsub.asyncIterator('workshopAdded'),
-        (payload, variables) =>
-          // The `messageAdded` channel includes events for all channels, so we filter to only
-          // pass through events for the channel specified in the query
-          payload.kitchen_id === variables.kitchen_id
+        (payload, variables) => payload.kitchen_id === variables.kitchen_id
       ),
     },
     workshopsAdded: {
