@@ -63,9 +63,7 @@
     ],
     "env": {
       "production": {
-        "only": [
-          "app"
-        ],
+        "only": ["app"],
         "plugins": [
           "transform-react-remove-prop-types",
           "transform-react-constant-elements",
@@ -73,10 +71,7 @@
         ]
       },
       "test": {
-        "plugins": [
-          "transform-es2015-modules-commonjs",
-          "dynamic-import-node"
-        ]
+        "plugins": ["transform-es2015-modules-commonjs", "dynamic-import-node"]
       }
     }
   },
@@ -89,11 +84,7 @@
       "jest": true,
       "es6": true
     },
-    "plugins": [
-      "redux-saga",
-      "react",
-      "jsx-a11y"
-    ],
+    "plugins": ["redux-saga", "react", "jsx-a11y"],
     "parserOptions": {
       "ecmaVersion": 6,
       "sourceType": "module",
@@ -102,18 +93,9 @@
       }
     },
     "rules": {
-      "arrow-parens": [
-        "error",
-        "always"
-      ],
-      "arrow-body-style": [
-        2,
-        "as-needed"
-      ],
-      "comma-dangle": [
-        2,
-        "always-multiline"
-      ],
+      "arrow-parens": ["error", "always"],
+      "arrow-body-style": [2, "as-needed"],
+      "comma-dangle": [2, "always-multiline"],
       "import/imports-first": 0,
       "import/newline-after-import": 0,
       "import/no-dynamic-require": 0,
@@ -143,10 +125,7 @@
       "prefer-template": 2,
       "class-methods-use-this": 0,
       "react/forbid-prop-types": 0,
-      "react/jsx-first-prop-new-line": [
-        2,
-        "multiline"
-      ],
+      "react/jsx-first-prop-new-line": [2, "multiline"],
       "react/jsx-filename-extension": 0,
       "react/jsx-no-target-blank": 0,
       "react/require-extension": 0,
@@ -175,12 +154,7 @@
       "minimist",
       "sanitize.css"
     ],
-    "include": [
-      "core-js",
-      "date-fns",
-      "lodash",
-      "eventsource-polyfill"
-    ]
+    "include": ["core-js", "date-fns", "lodash", "eventsource-polyfill"]
   },
   "jest": {
     "collectCoverageFrom": [
@@ -198,10 +172,7 @@
         "lines": 98
       }
     },
-    "moduleDirectories": [
-      "node_modules",
-      "app"
-    ],
+    "moduleDirectories": ["node_modules", "app"],
     "moduleNameMapper": {
       ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
       ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/image.js"
@@ -216,22 +187,41 @@
     "aor-simple-graphql-client": "^0.0.5",
     "apollo-client": "^1.0.3",
     "babel-polyfill": "6.22.0",
+    "body-parser": "^1.17.2",
     "chalk": "1.1.3",
+    "child-process": "^1.0.2",
     "compression": "1.6.2",
+    "cors": "^2.8.3",
     "cross-env": "3.1.4",
     "date-fns": "^1.28.5",
-    "express": "4.14.1",
+    "dns": "^0.2.2",
+    "express": "^4.15.3",
+    "express-jwt": "^5.3.0",
     "fontfaceobserver": "2.0.8",
     "google-map-react": "^0.24.0",
+    "graphql": "^0.10.1",
+    "graphql-server-core": "^0.8.5",
+    "graphql-server-express": "^0.8.5",
+    "graphql-subscriptions": "^0.4.3",
     "graphql-tag": "^0.1.16",
+    "graphql-tools": "^1.0.0",
+    "graphql-tools-types": "^1.1.6",
     "immutable": "3.8.1",
     "intl": "1.2.5",
     "invariant": "2.2.2",
     "ip": "1.1.4",
+    "json-stringify-safe": "^5.0.1",
     "lodash": "4.17.4",
     "material-ui": "~0.16.4",
     "minimist": "1.2.0",
+    "mysql2": "^1.3.5",
+    "net": "^1.0.2",
+    "node-fs": "^0.1.7",
+    "node-gyp": "^3.6.2",
+    "npm": "^5.0.3",
     "nuka-carousel": "^2.0.4",
+    "pg": "^6.3.0",
+    "pg-hstore": "^2.3.2",
     "postgraphql": "^3.1.0",
     "prop-types": "^15.5.8",
     "react": "15.5.4",
@@ -240,6 +230,7 @@
     "react-geosuggest": "^2.1.0",
     "react-helmet": "3.2.2",
     "react-intl": "2.1.5",
+    "react-modal": "^2.0.6",
     "react-redux": "5.0.2",
     "react-router": "3.0.2",
     "react-router-redux": "4.0.7",
@@ -250,7 +241,11 @@
     "redux-saga": "0.14.3",
     "reselect": "2.5.4",
     "sanitize.css": "4.1.0",
+    "sequelize": "^4.2.0",
     "styled-components": "2.1.0",
+    "subscriptions-transport-ws": "^0.7.3",
+    "tedious": "^2.0.0",
+    "tls": "0.0.1",
     "warning": "3.0.0",
     "whatwg-fetch": "2.0.2"
   },

@@ -22,21 +22,21 @@ import messages from './messages';
 
 function WorkShopCard(props) {
   const workshop = props.workshop;
-  const href = `workshop/${props.workshop.workshopId}`;
-  const workshopDate = ''; // getFormatDate(workshop.workshopDate);
+  const href = `workshop/${props.workshop.workshop_id}`;
+  const workshop_date = ''; // getFormatDate(workshop.workshopDate);
 
   let place;
-  if (workshop.kitchenId) {
-    place = workshop.kitchenByKitchenId.city;
+  if (workshop.kitchen_id) {
+    place = workshop.kitchen.city;
   } else {
-    place = workshop.cookByCookId.gourmetByCookId.city;
+    place = workshop.cook.city;
   }
 
   return (
     <ShadowWrapper>
       <WorkShopCardWrapper>
         <div>
-          {workshop.maxGourmet} places disponibles
+          {workshop.max_gourmet} places disponibles
         </div>
         <Image
           src="http://www.cuistotducoin.com/img/atelier/japon-takako.jpg"
@@ -50,7 +50,7 @@ function WorkShopCard(props) {
         <Informations>
           <div>{workshop.name}</div>
           <div>{place}</div>
-          <div>{workshopDate}</div>
+          <div>{workshop_date}</div>
         </Informations>
         <Button href={href}>
           <FormattedMessage {...messages.book} />
