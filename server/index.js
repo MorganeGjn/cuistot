@@ -91,7 +91,7 @@ app.use('/admin', (req, res, done) => {
 if (isDev) {
   app.use('/graphql', (req, res, done) => {
     /* eslint-disable */
-    req.auth = 'notadmin';
+    req.auth = 'admin';
     req.user = '0aefb1b8-5594-11e7-bb73-1b3d8de4a264';
     /* eslint-enable */
     done();

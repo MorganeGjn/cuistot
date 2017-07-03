@@ -12,7 +12,7 @@ const Sequelize = require('sequelize');
 // Connection to the Database Postgres with Sequelize
 const db = new Sequelize(
   'cuistot',  // Database name
-  'jeremy',   // User
+  'jeres',   // User
   'dev',      // Password
   {
     host: 'localhost',  // Database host
