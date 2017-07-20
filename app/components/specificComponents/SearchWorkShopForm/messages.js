@@ -14,4 +14,8 @@ export default defineMessages({
     id: 'searchworkshopform.components.search',
     defaultMessage: 'Rechercher',
   },
+  inputText: {
+    id: 'app.specifiComponents.GeoSuggest.inputText',
+    defaultMessage: 'Entre ton adresse',
+  },
 });

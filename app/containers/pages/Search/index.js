@@ -20,6 +20,22 @@ import MapCanvas from './MapCanvas';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class Search extends React.Component {
+  constructor(props) {
+    super(props);
+    this.updateHoveredWorkshopIndex = this.updateHoveredWorkshopIndex.bind(
+      this
+    );
+    this.state = {
+      hoveredWorkshopIndex: '',
+    };
+  }
+
+  updateHoveredWorkshopIndex(e) {
+    if (e !== this.state.hoveredWorkshopIndex) {
+      this.setState({ hoveredWorkshopIndex: e });
+    }
+  }
+
   render() {
     const { loading, error } = this.props;
 
@@ -42,21 +58,35 @@ export class Search extends React.Component {
           // TODO: Patch when we get rid of postgraphql
           let latLng = workshop.kitchenByKitchenId.location;
           latLng = latLng.substring(0, latLng.length - 1).slice(1).split(',');
-          const lat = latLng[0];
-          const lng = latLng[1];
+          const lat = Number(latLng[0]);
+          const lng = Number(latLng[1]);
           // endTodo
           markers.push(
-            <Marker key={`item-${workshop.nodeId}`} lat={lat} lng={lng} />
+            <Marker
+              key={`item-${workshop.nodeId}`}
+              index={workshop.nodeId}
+              lat={lat}
+              lng={lng}
+              workshopIndex={this.state.hoveredWorkshopIndex}
+              updateWorkshopIndex={this.updateHoveredWorkshopIndex}
+            />
           );
         } else {
           // TODO: Patch when we get rid of postgraphql
           let latLng = workshop.cookByCookId.gourmetByCookId.location;
           latLng = latLng.substring(0, latLng.length - 1).slice(1).split(',');
-          const lat = latLng[0];
-          const lng = latLng[1];
+          const lat = Number(latLng[0]);
+          const lng = Number(latLng[1]);
           // endTodo
           markers.push(
-            <Marker key={`item-${workshop.nodeId}`} lat={lat} lng={lng} />
+            <Marker
+              key={`item-${workshop.nodeId}`}
+              index={workshop.nodeId}
+              lat={lat}
+              lng={lng}
+              workshopIndex={this.state.hoveredWorkshopIndex}
+              updateWorkshopIndex={this.updateHoveredWorkshopIndex}
+            />
           );
         }
       });
