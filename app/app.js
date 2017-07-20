@@ -11,11 +11,12 @@ import 'babel-polyfill';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
+import { applyRouterMiddleware, Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
 import { ApolloProvider } from 'react-apollo';
 import 'sanitize.css/sanitize.css';
+
 
 // Import root app
 import App from 'containers/genericContainers/App';

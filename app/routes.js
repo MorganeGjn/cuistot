@@ -21,11 +21,15 @@ export default function createRoutes(store) {
       path: '/',
       name: 'home',
       getComponent(nextState, cb) {
-        const importModules = Promise.all([import('containers/pages/Home')]);
+        const importModules = Promise.all([import('Authentification/reducer'),
+                                           import('Authentification/sagas'),
+                                           import('containers/pages/Home')]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([component]) => {
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('home', reducer.default);
+          injectSagas(sagas.default);
           renderRoute(component);
         });
 
@@ -74,6 +78,15 @@ export default function createRoutes(store) {
           .catch(errorLoading);
       },
     },
+    {
+    path: '/profil',
+    name: 'profil',
+    getComponent(location, cb) {
+      import('containers/pages/Profil')
+        .then(loadModule(cb))
+        .catch(errorLoading);
+    },
+  },
     {
       path: '*',
       name: 'notfound',

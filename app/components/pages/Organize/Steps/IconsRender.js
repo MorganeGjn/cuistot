@@ -47,7 +47,7 @@ export class IconsRender extends React.Component {
         icon={ICONS.BLACK_SEE_THROUGH.SVG}
         viewBox={ICONS.BLACK_SEE_THROUGH.VIEWBOX}
         color= {theme.colors.cook}
-      /> <br/> Photo
+      /> <br/> Photos
       </button>
       </StyleIcon>
       <StyleIcon>
