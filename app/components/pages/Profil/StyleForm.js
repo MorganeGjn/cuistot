@@ -7,9 +7,8 @@ const StyleForm = styled.div`
     color: #303030;
     font-weight: bold;
     font-size: 16px;
-    margin-right: 30%;
-    margin-left: 20%;
     padding-bottom: 50px;
+    margin-right: 100px;
 `;
 
 export default StyleForm;

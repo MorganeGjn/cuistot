@@ -18,6 +18,7 @@ const { execute, subscribe } = require('graphql');
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 
 const schema = require('./schema');
+const Account = require('./models').UserAccount;
 
 const argv = require('minimist')(process.argv.slice(2));
 const setup = require('./middlewares/frontendMiddleware');
@@ -27,6 +28,8 @@ const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel
   : false;
 const resolve = require('path').resolve;
 const app = express();
+const passport = require('passport');
+require('./passport');
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // postgraphql
@@ -55,6 +58,18 @@ app.use(
     subscriptionsEndpoint: 'ws://localhost:3000/subscriptions',
   })
 );
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+
+  passport.serializeUser(function(user, done) {
+        done(null, user);
+  });
+
+  passport.deserializeUser(function(user, done) {
+        done(null, user);
+  });
 
 const server = createServer(app);
 
@@ -102,3 +117,9 @@ server.listen(port, host, (err) => {
     logger.appStarted(port, prettyHost);
   }
 });
+
+app.post("/login"
+  ,passport.authenticate('local', { session: false }),
+  function(req, res) {
+    res.send(req.user);
+  });

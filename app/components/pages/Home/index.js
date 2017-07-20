@@ -22,7 +22,8 @@ export class Home extends React.Component {
         <Hero
           videoURL="http://www.cuistotducoin.com/video.mp4"
           imageURL="http://www.cuistotducoin.com/img/noirmout.jpg"
-        />
+          loginRequest={this.props.loginRequest} successful={this.props.successful}
+          logoutRequest={this.props.logoutRequest}/>
         <ThreeSteps />
         <Container>
           <Heading level={2}>Découvez nos ateliers</Heading>

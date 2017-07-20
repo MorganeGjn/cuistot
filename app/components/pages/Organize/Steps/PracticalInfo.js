@@ -11,6 +11,7 @@ import Flex from '../../../genericComponents/Container/Flex';
 import StyleHM from './StyleHoursMinutes';
 import Style from './StyleButton';
 import StyledButton from './StyledButton';
+import StyleBG from './StyleBackground'
 
 
 export class PracticalInfo extends React.Component {
@@ -19,7 +20,9 @@ export class PracticalInfo extends React.Component {
     date: this.props.fieldValues.date,
     Hours: this.props.fieldValues.Hours,
     Minutes: this.props.fieldValues.Minutes,
-    Price: this.props.fieldValues.Price
+    Price: this.props.fieldValues.Price,
+    Location: this.props.fieldValues.Location,
+    Other: this.props.fieldValues.Other
   }
 
   Previous = (e) => {
@@ -34,7 +37,10 @@ export class PracticalInfo extends React.Component {
     this.props.fieldValues.date = this.state.date,
     this.props.fieldValues.Hours = this.state.Hours,
     this.props.fieldValues.Minutes = this.state.Minutes,
-    this.props.fieldValues.Price = this.state.Price}
+    this.props.fieldValues.Price = this.state.Price,
+    this.props.fieldValues.Location = this.state.Location,
+    this.props.fieldValues.Other = this.state.Other
+  }
   this.props.nextStep()
 }
 
@@ -62,7 +68,25 @@ updatePrice = (p) => {
  this.setState({Price: p.target.value})
 }
 
+updateLocation = (p) => {
+ this.setState({Location: p.target.value})
+}
+
+updateOther = (p) => {
+ this.setState({Other: p.target.value})
+}
+
   render() {
+    let others = null;
+    if (this.state.Location =="Autre"){
+      others = (
+        <InputStyle>
+          <input type ="text" placeholder="Préciser l'endroit: nom et adresse"
+          defaultValue={this.state.Other}
+          onChange={p => this.updateOther(p)}
+           size="50"/>
+        </InputStyle>)
+    }
     return (
         <Flex>
           <Column>
@@ -75,19 +99,19 @@ updatePrice = (p) => {
               />
             </Column4>
           </Column>
+          <StyleBG>
           <Column>
             <Column5>
       <StyleForm>
       <Title>
       <h2>Informations Pratiques</h2>
       </Title>
-      Combien de personne pouvez-vous accueillir sur l&acute;atelier ?
+      <nobr>Combien de personne pouvez-vous accueillir sur l&acute;atelier ?</nobr>
       <br/>
       <InputStyle2>
       <input type="number" placeholder="Nombre de personne" ref="PersonNumber"
       defaultValue={this.state.PersonNumber}
-      onChange={p => this.updatePersonNumber(p)}
-      size="70"/>
+      onChange={p => this.updatePersonNumber(p)}/>
       </InputStyle2>
       <br/>
       Date et heure de l&acute;atelier:
@@ -100,11 +124,13 @@ updatePrice = (p) => {
       <StyleHM>
       <InputStyle2>
       <nobr><input type="number" placeholder="Heures" ref="Hours"
+      data-min="0" data-max="23"
       defaultValue={this.state.Hours}
       onChange={h => this.updateHours(h)}/>h</nobr>
       </InputStyle2>
       <InputStyle2>
       <nobr><input type="number" placeholder="Minutes" ref="Minutes"
+      data-min="0" data-max="59"
       defaultValue={this.state.Minutes}
       onChange={m => this.updateMinutes(m)}/>mn</nobr>
       </InputStyle2>
@@ -113,16 +139,27 @@ updatePrice = (p) => {
       <br/>
       <InputStyle2>
       <input type="number" placeholder="Prix" ref="Price"
+      data-min="0" data-max="10000"
+      size="2" maxlength="2"
       defaultValue={this.state.Price}
       onChange={p => this.updatePrice(p)}/> €
       </InputStyle2>
+      Où se déroulera l&acute;atelier?
+      <InputStyle2>
+      <select value={this.state.Location} onChange={this.updateLocation}>
+        <option value="Chez vous" selected>Chez vous</option>
+        <option value="Arthur Bonnet" >La cuisine Arthur Bonnet</option>
+        <option value="Autre" >Autre (précisez)</option>
+      </select>
+      </InputStyle2>
+        {others}
       <Style>
-      <button onClick={ this.Previous }>
+      <button onClick={this.Previous}>
       <StyledButton>
       Précédent
       </StyledButton>
       </button>
-      <button onClick={ this.continue }>
+      <button onClick={this.continue}>
       <StyledButton>
       Continuer
       </StyledButton>
@@ -131,6 +168,7 @@ updatePrice = (p) => {
       </StyleForm>
       </Column5>
     </Column>
+    </StyleBG>
   </Flex>
     );
   }
