@@ -20,6 +20,22 @@ import MapCanvas from './MapCanvas';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class Search extends React.Component {
+  constructor(props) {
+    super(props);
+    this.updateHoveredWorkshopIndex = this.updateHoveredWorkshopIndex.bind(
+      this
+    );
+    this.state = {
+      hoveredWorkshopIndex: '',
+    };
+  }
+
+  updateHoveredWorkshopIndex(e) {
+    if (e !== this.state.hoveredWorkshopIndex) {
+      this.setState({ hoveredWorkshopIndex: e });
+    }
+  }
+
   render() {
     const { loading, error } = this.props;
 
@@ -42,21 +58,35 @@ export class Search extends React.Component {
           // TODO: Patch when we get rid of postgraphql
           let latLng = workshop.kitchenByKitchenId.location;
           latLng = latLng.substring(0, latLng.length - 1).slice(1).split(',');
-          const lat = latLng[0];
-          const lng = latLng[1];
+          const lat = Number(latLng[0]);
+          const lng = Number(latLng[1]);
           // endTodo
           markers.push(
-            <Marker key={`item-${workshop.nodeId}`} lat={lat} lng={lng} />
+            <Marker
+              key={`item-${workshop.nodeId}`}
+              index={workshop.nodeId}
+              lat={lat}
+              lng={lng}
+              workshopIndex={this.state.hoveredWorkshopIndex}
+              updateWorkshopIndex={this.updateHoveredWorkshopIndex}
+            />
           );
         } else {
           // TODO: Patch when we get rid of postgraphql
           let latLng = workshop.cookByCookId.gourmetByCookId.location;
           latLng = latLng.substring(0, latLng.length - 1).slice(1).split(',');
-          const lat = latLng[0];
-          const lng = latLng[1];
+          const lat = Number(latLng[0]);
+          const lng = Number(latLng[1]);
           // endTodo
           markers.push(
-            <Marker key={`item-${workshop.nodeId}`} lat={lat} lng={lng} />
+            <Marker
+              key={`item-${workshop.nodeId}`}
+              index={workshop.nodeId}
+              lat={lat}
+              lng={lng}
+              workshopIndex={this.state.hoveredWorkshopIndex}
+              updateWorkshopIndex={this.updateHoveredWorkshopIndex}
+            />
           );
         }
       });
@@ -89,36 +119,35 @@ Search.propTypes = {
 
 const DISCOVER_WORKSHOP_QUERY = gql`
   query DisocverWorkshopQuery {
-    allWorkshops(last: 2) {
-      nodes {
-        nodeId
-        workshopId
+    query DiscoverWorkshopQuery {
+      workshop {
+        workshop_id
         name
         price
         duration
-        minGourmet
-        maxGourmet
+        min_gourmet
+        max_gourmet
         description
         pictures
-        kitchenId
-        cookId
-        workshopDate
-        reservationsByWorkshopId{totalCount}
-        cookByCookId {
-          nodeId
-          cookId
-          isPro
+        kitchen_id
+        cook_id
+        workshop_date
+        reservation {
+          amount
+        }
+        cook {
+          cook_id
+          is_pro
           description
-          gourmetByCookId {
+          gourmet {
             location
             city
           }
         }
-        kitchenByKitchenId {
-          nodeId
-          kitchenId
+        kitchen {
+          kitchen_id
           name
-          location,
+          location
           city
         }
       }
@@ -127,9 +156,9 @@ const DISCOVER_WORKSHOP_QUERY = gql`
 `;
 
 const withData = graphql(DISCOVER_WORKSHOP_QUERY, {
-  props: ({ data: { loading, allWorkshops } }) => ({
+  props: ({ data: { loading, workshop } }) => ({
     loading,
-    workshops: allWorkshops,
+    workshops: workshop,
   }),
 });
 
