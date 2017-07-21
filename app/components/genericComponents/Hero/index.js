@@ -20,10 +20,12 @@ import ContainerHero from './ContainerHero';
 import AbsoluteHero from './AbsoluteHero';
 
 function Hero(props) {
+
   return (
     <HeroWrapper>
       <BackgroundVideo videoURL={props.videoURL} imageURL={props.imageURL} />
-      <Header />
+      <Header loginRequest={props.loginRequest} successful={props.successful}
+      logoutRequest={props.logoutRequest}/>
       <AbsoluteHero>
         <ContainerHero>
           <Heading><FormattedMessage {...messages.title} /></Heading>
@@ -40,6 +42,7 @@ function Hero(props) {
 Hero.propTypes = {
   videoURL: PropTypes.string.isRequired,
   imageURL: PropTypes.string,
+  dispatch: PropTypes.func
 };
 
 Hero.defaultProps = {

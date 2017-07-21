@@ -11,16 +11,33 @@
 
 import React from 'react';
 import HomeComp from 'components/pages/Home';
+import { loginRequest } from '../../../Authentification/actions';
+import { logoutRequest } from '../../../Authentification/actions'
+import { connect } from 'react-redux';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class Home extends React.Component {
   render() {
     return (
       <div>
-        <HomeComp />
+        <HomeComp loginRequest={this.props.loginRequest}
+                  successful={this.props.successful}
+                  logoutRequest={this.props.logoutRequest}/>
       </div>
     );
   }
 }
 
-export default Home;
+
+const mapStateToProps = (state) => {
+  return {
+        successful: state._root.entries[4][1].successful
+  };
+}
+
+const mapDispatchToProps = (dispatch) => ({
+      loginRequest: (email,password) => dispatch(loginRequest(email,password)),
+      logoutRequest: () => dispatch(logoutRequest())
+    });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

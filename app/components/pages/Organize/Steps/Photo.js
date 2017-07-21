@@ -9,29 +9,21 @@ import Column4 from '../../../genericComponents/Container/Column4';
 import Column5 from '../../../genericComponents/Container/Column5';
 import Flex from '../../../genericComponents/Container/Flex';
 import Style from './StyleButton';
+import ImageUpload from './ImageUpload';
+import StyleBG from './StyleBackground'
 
 export class Photo extends React.Component {
-  state = {
-    Image: this.props.fieldValues.Image,
-  }
 
   Previous = (e) => {
-    this.save(e)
     this.props.previousStep()
   }
 
-  save = (e) => {
-  e.preventDefault()
-  {this.props.fieldValues.Image = this.state.Image}
-}
-
 continue = (e) => {
-  this.save(e)
   this.props.nextStep()
 }
 
-updateImage = (i) => {
-  this.setState({Image: i.target.value})
+save = (e) => {
+  e.preventDefault()
 }
 
   render() {
@@ -47,18 +39,14 @@ updateImage = (i) => {
               />
             </Column4>
           </Column>
+          <StyleBG>
           <Column>
-            <Column5>
+          <Column5>
       <StyleForm>
       <Title>
-        <h2>Photo</h2>
+        <h2>Photos</h2>
         </Title>
-        <InputStyle>
-        <input type="file"
-        defaultValue = {this.state.image}
-        onChange={c => this.updateComments(c)}
-        />
-        </InputStyle>
+        <ImageUpload fieldValues={this.props.fieldValues}/>
         <Style>
         <button onClick={ this.Previous }>
         <StyledButton>
@@ -74,6 +62,7 @@ updateImage = (i) => {
       </StyleForm>
       </Column5>
     </Column>
+    </StyleBG>
   </Flex>
     );
   }

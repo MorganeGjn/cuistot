@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 const InputStyle2 = styled.div`
   display: inline-block;
-  width: 47,5%;
-  border: solid 1px #898477;
+  width: 49%;
+  border: solid 2px #A9A9A9;
   border-radius: 4px;
   margin-top: 2%;
   input[type="number"]::-webkit-outer-spin-button,
