@@ -31,6 +31,7 @@ const { SubscriptionServer } = require('subscriptions-transport-ws');
 
 // Graphql Schema
 const schema = require('./schema');
+const Account = require('./models').UserAccount;
 
 const argv = require('minimist')(process.argv.slice(2));
 const setup = require('./middlewares/frontendMiddleware');
@@ -45,6 +46,8 @@ const resolve = require('path').resolve;
 
 // Server Apollo with Express
 const app = express();
+const passport = require('passport');
+require('./passport');
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // postgraphql
@@ -114,6 +117,20 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.serializeUser(function(user, done) {
+      done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+      done(null, user);
+});
+
+const server = createServer(app);
+
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
@@ -163,3 +180,9 @@ server.listen(port, host, (err) => {
     logger.appStarted(port, prettyHost);
   }
 });
+
+app.post("/login"
+  ,passport.authenticate('local', { session: false }),
+  function(req, res) {
+    res.send(req.user);
+  });

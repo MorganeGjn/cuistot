@@ -11,6 +11,7 @@ import FlexWrapper from '../../../genericComponents/Container/FlexWrapper';
 import A from 'components/genericComponents/A';
 import Style from './FirstButton';
 import StyledButton from './StyledButton'
+import StyleBG from './StyleBackground'
 
 export class GlobalInfo extends React.Component {
 state = {
@@ -55,6 +56,7 @@ continue = (e) => {
               />
             </Column4>
           </Column>
+          <StyleBG>
           <Column>
             <Column5>
               <StyleForm>
@@ -91,6 +93,7 @@ continue = (e) => {
               </StyleForm>
             </Column5>
           </Column>
+          </StyleBG>
         </FlexWrapper>
     );
   }

@@ -10,7 +10,7 @@ React Boilerplate 3.4 technologies:
   
 Plus :
 * [Apollo Client](https://github.com/apollographql/apollo-client) 
-* [PostGraphQL](https://github.com/postgraphql/postgraphql)
+* [Apollo Server](https://github.com/apollographql/graphql-server) 
 
 ## Components inspiration
 * [GFAS](https://github.com/jjordy/gfas-react-components) 

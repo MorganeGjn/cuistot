@@ -22,4 +22,8 @@ export default defineMessages({
     id: 'app.components.Header.login',
     defaultMessage: 'Se connecter',
   },
+  profil: {
+    id: 'app.components.Header.profil',
+    defaultMessage: 'Profil',
+  },
 });

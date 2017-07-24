@@ -9,6 +9,7 @@ import Column5 from '../../../genericComponents/Container/Column5';
 import Flex from '../../../genericComponents/Container/Flex';
 import Style from './StyleButton';
 import StyledButton from './StyledButton';
+import StyleBG from './StyleBackground'
 
 export class Comments extends React.Component {
   state = {
@@ -28,6 +29,11 @@ updateComments = (c) => {
   this.setState({Comments: c.target.value})
 }
 
+send = (e) => {
+  this.save(e),
+  this.props.submit(e)
+}
+
   render() {
     return (
         <Flex>
@@ -41,6 +47,7 @@ updateComments = (c) => {
               />
             </Column4>
           </Column>
+          <StyleBG>
           <Column>
             <Column5>
       <StyleForm>
@@ -53,12 +60,11 @@ updateComments = (c) => {
         defaultValue={this.state.Comments}
         onChange={c => this.updateComments(c)}/>
         </InputStyle>
-        {this.state.Comments}
         <Style>
         <button onClick={ this.Previous }>
         <StyledButton>Précédent</StyledButton>
         </button>
-        <button>
+        <button onClick={ this.send }>
         <StyledButton>
         Envoyer
         </StyledButton>
@@ -67,6 +73,7 @@ updateComments = (c) => {
       </StyleForm>
       </Column5>
     </Column>
+    </StyleBG>
   </Flex>
     );
   }
