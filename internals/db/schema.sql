@@ -36,6 +36,7 @@ CREATE TABLE gourmet (
   last_name    character varying(100),
   picture      json,
   gender       character varying(50),
+  birthday     date,
   city         character varying(100),
   cp           character varying(10),
   location     point,
@@ -50,9 +51,15 @@ CREATE TABLE gourmet (
 );
 
 CREATE TABLE cook (
-  cook_id   uuid NOT NULL,
-  is_pro       boolean NOT NULL DEFAULT false,
-  description  text,
+  cook_id          uuid NOT NULL,
+  is_pro           boolean NOT NULL DEFAULT false,
+  description      text,
+  business_name    character varying(100),
+  siren            character varying(9),
+  email_pro        character varying(256),
+  first_name_legal character varying(100),
+  last_name_legal  character varying(100),
+  birthday_legal   date,
   -- Keys
   CONSTRAINT cook_pkey PRIMARY KEY (cook_id),
   CONSTRAINT cook_gourmet_fkey FOREIGN KEY (cook_id)
