@@ -5,7 +5,7 @@ export default class Cook extends React.Component {
   render() {
     return (
       <div>
-        <CookComp />
+        <CookComp id={this.props.params.cook} />
       </div>
     );
   }

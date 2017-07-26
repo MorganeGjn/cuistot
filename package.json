@@ -276,6 +276,7 @@
     "react-dom": "15.5.4",
     "react-dropzone": "^3.13.3",
     "react-geosuggest": "^2.3.4",
+    "react-google-maps": "^7.2.0",
     "react-helmet": "3.2.2",
     "react-intl": "2.1.5",
     "react-modal": "^2.2.1",

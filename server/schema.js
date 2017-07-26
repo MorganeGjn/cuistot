@@ -119,7 +119,8 @@ type Query {
   userAccount(user_id: ID, email: String, email_confirmed: Boolean, password_hash: String, security_stamp: String, concurrency_stamp: ID, phone_number: String, phone_number_confirmed: Boolean, two_factor_enabled: Boolean, lockout_end: Date, lockout_enabled: Boolean, access_failed_count: Int): [UserAccount]
   kitchen(kitchen_id: ID, name: String, city: String, cp: String, location: Point): [Kitchen]
   gourmet(gourmet_id: ID, first_name: String, last_name: String, picture: JSON, gender: String, city: String, cp: String, location: Point, description: String): [Gourmet]
-  cook(cook_id: ID, is_pro: Boolean, description: String,   business_name: String, siren: String, email_pro: String, first_name_legal: String, last_name_legal: String, birthday_legal: Date): [Cook]
+  cooks(cook_id: ID, is_pro: Boolean, description: String, business_name: String, siren: String, email_pro: String, first_name_legal: String, last_name_legal: String, birthday_legal: Date): [Cook]
+  cook(cook_id: ID!, is_pro: Boolean, description: String, business_name: String, siren: String, email_pro: String, first_name_legal: String, last_name_legal: String, birthday_legal: Date): Cook
   reservation(gourmet_id: ID, workshop_id: ID, amount: Int): [Reservation]
   userLogin(name: String, key: String, user_id: ID): [UserLogin]
   workshop(workshop_id: ID, name: String, price: Int, duration: Int, min_gourmet: Int, max_gourmet: Int, description: String, pictures: JSON, kitchen_id: ID, cook_id: ID, workshop_date: Date): [Workshop]
@@ -249,7 +250,7 @@ const resolvers = {
         // eslint-disable-next-line
       } else return null;
     },
-    cook(_, args, ctx) {
+    cooks(_, args, ctx) {
       const admin = ctx.auth === 'admin';
       const id = args.gourmet_id === ctx.user;
 
@@ -263,6 +264,14 @@ const resolvers = {
         });
         // eslint-disable-next-line
       } else return null;
+    },
+    cook(_, args, ctx) {
+      const admin = ctx.auth === 'admin';
+      const id = args.gourmet_id === ctx.user;
+
+      if (id || admin) {
+        return Cook.findOne({ where: args });
+      }
     },
     reservation(_, args) {
       return Reservation.findAndCountAll({ where: args }).then(result => {
