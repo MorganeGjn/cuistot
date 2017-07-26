@@ -90,7 +90,7 @@ export default function createRoutes(store) {
       }
     },
     {
-      path: '/cook',
+      path: '/cook/*',
       name: 'cook',
       getComponent(cook, cb) {
         import('containers/pages/Cook')
