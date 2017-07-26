@@ -4,20 +4,13 @@ import Card from './card';
 import Card_description from './card_description';
 import Card_text from './card_text';
 
+import CookWorkshop from '../CookWorkshop';
+
 import SimpleMapExample from './maps';
 
 export default class CookItemWithData extends React.Component {
   createWorkshop(workshop) {
-    return (
-      <Card key={workshop.workshop_id}>
-        <Card_description>
-          <Card_text>
-            Nom : {workshop.name}
-            Price : {workshop.price}
-          </Card_text>
-        </Card_description>
-      </Card>
-    );
+    return <CookWorkshop workshop={workshop} key={workshop.workshop_id} />;
   }
 
   createWorkshopList(workshops) {
