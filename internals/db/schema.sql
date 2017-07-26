@@ -41,8 +41,8 @@ CREATE TABLE gourmet (
   cp           character varying(10),
   location     point,
   description  text,
-  created_at   timestamp without time zone DEFAULT timezone('utc'::text, now()),
-  updated_at   timestamp without time zone DEFAULT timezone('utc'::text, now()),
+  createdAt   timestamp without time zone DEFAULT timezone('utc'::text, now()),
+  updatedAt   timestamp without time zone DEFAULT timezone('utc'::text, now()),
   -- Keys
   CONSTRAINT gourmet_pkey PRIMARY KEY (gourmet_id),
   CONSTRAINT gourmet_user_account_fkey FOREIGN KEY (gourmet_id)

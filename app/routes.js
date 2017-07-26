@@ -4,11 +4,11 @@
 // about the code splitting business
 import { getAsyncInjectors } from 'utils/asyncInjectors';
 
-const errorLoading = (err) => {
+const errorLoading = err => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
 };
 
-const loadModule = (cb) => (componentModule) => {
+const loadModule = cb => componentModule => {
   cb(null, componentModule.default);
 };
 
@@ -21,9 +21,11 @@ export default function createRoutes(store) {
       path: '/',
       name: 'home',
       getComponent(nextState, cb) {
-        const importModules = Promise.all([import('Authentification/reducer'),
-                                           import('Authentification/sagas'),
-                                           import('containers/pages/Home')]);
+        const importModules = Promise.all([
+          import('Authentification/reducer'),
+          import('Authentification/sagas'),
+          import('containers/pages/Home')
+        ]);
 
         const renderRoute = loadModule(cb);
 
@@ -34,7 +36,7 @@ export default function createRoutes(store) {
         });
 
         importModules.catch(errorLoading);
-      },
+      }
     },
     {
       path: '/search',
@@ -49,7 +51,7 @@ export default function createRoutes(store) {
         });
 
         importModules.catch(errorLoading);
-      },
+      }
     },
     {
       path: '/admin',
@@ -58,7 +60,7 @@ export default function createRoutes(store) {
         import('containers/pages/Admin')
           .then(loadModule(cb))
           .catch(errorLoading);
-      },
+      }
     },
     {
       path: '/workshop/*',
@@ -67,7 +69,7 @@ export default function createRoutes(store) {
         import('containers/pages/Workshop')
           .then(loadModule(cb))
           .catch(errorLoading);
-      },
+      }
     },
     {
       path: '/organize',
@@ -76,17 +78,26 @@ export default function createRoutes(store) {
         import('containers/pages/Organize')
           .then(loadModule(cb))
           .catch(errorLoading);
-      },
+      }
     },
     {
-    path: '/profil',
-    name: 'profil',
-    getComponent(location, cb) {
-      import('containers/pages/Profil')
-        .then(loadModule(cb))
-        .catch(errorLoading);
+      path: '/profil',
+      name: 'profil',
+      getComponent(location, cb) {
+        import('containers/pages/Profil')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      }
     },
-  },
+    {
+      path: '/cook',
+      name: 'cook',
+      getComponent(cook, cb) {
+        import('containers/pages/Cook')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      }
+    },
     {
       path: '*',
       name: 'notfound',
@@ -94,7 +105,7 @@ export default function createRoutes(store) {
         import('containers/pages/NotFound')
           .then(loadModule(cb))
           .catch(errorLoading);
-      },
-    },
+      }
+    }
   ];
 }
