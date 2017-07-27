@@ -3,7 +3,8 @@ import theme from '../../../utils/theme';
 
 const Container = styled.div`
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: row;
+  flex-wrap: ${props => props.wrap};
   justify-content: space-around;
   align-items: stretch;
   flex: 1;

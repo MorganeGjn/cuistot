@@ -10,17 +10,12 @@ function CookItem(props) {
   if (!props.loading && props.cook !== false) {
     return (
       <div>
-        <CookCarousel />
         <CookItemWithData cook={props.cook} />
       </div>
     );
   }
 
-  return (
-    <div>
-      <LoadingIndicator />
-    </div>
-  );
+  return <LoadingIndicator />;
 }
 
 CookItem.propTypes = {
