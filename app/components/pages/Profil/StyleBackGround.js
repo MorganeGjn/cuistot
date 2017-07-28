@@ -5,8 +5,9 @@ const StyleBackground = styled.div`
   border: solid 1px #d0d0d0;
   background-color: white;
   width: 850px;
-  margin-right: 30%;
   margin-top: 70px;
+  margin-left: 10px;
+  margin-right: 350px;
   margin-bottom: 20px;
 `;
 

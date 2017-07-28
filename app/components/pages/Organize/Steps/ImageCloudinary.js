@@ -1,8 +1,8 @@
 import React from "react";
 import { Image } from "cloudinary-react";
-
-import AddPhoto from "./AddPhoto";
-import StyleText from "./StyleText";
+import PropTypes from "prop-types";
+import AddPhoto from "./StyleAddPhoto";
+import StyleText from "./Styletext";
 
 /* Need to have a cloudinary account:
 In settings: go to the 'upload' tab and then at the bottom of the page 'upload preset'
@@ -14,11 +14,10 @@ and CLOUDINARY_UPLOAD_PRESET with your upload preset name.
 
 const CLOUDINARY_UPLOAD_PRESET = "Preset";
 const CLOUD_NAME = "morgane";
-var imagePreview = null;
 
-export class UploadPicture extends React.Component {
+class ImageCloudinary extends React.Component {
   state = {
-    publicId: this.props.fieldValues.pictureID
+    publicId: this.props.fieldValues.publicId
   };
 
   ButtonPhoto = () => {
@@ -30,13 +29,13 @@ export class UploadPicture extends React.Component {
           theme: "minimal",
           multiple: "false",
           cropping: "server",
-          cropping_aspect_ratio: "0.75",
+          cropping_aspect_ratio: "1.75",
           theme: "minimal",
           text: {
             "sources.local.title": "Mes fichiers",
             "sources.local.drop_file": "Déposer un fichier ici",
             "sources.local.drop_or": "ou",
-            "sources.local.select_file": "Sélection fichier",
+            "sources.local.select_file": "Sélection",
             "sources.url.title": "URL",
             "sources.url.note": "une URL publique d'un fichier d'image:",
             "sources.url.upload": "Télécharger",
@@ -57,27 +56,22 @@ export class UploadPicture extends React.Component {
           this.setState({
             publicId: result[0].public_id
           });
-          (this.props.fieldValues.pictureID = this.state.publicId), (imagePreviewFirst = (
-            <Image
-              cloudName={CLOUD_NAME}
-              publicId={this.state.publicId}
-              height="245"
-              width="182"
-            />
-          ));
+          this.props.fieldValues.publicId = this.state.publicId;
+          console.log(this.props.fieldValues.publicId);
         }
       );
     }
   };
 
   render() {
+    let imagePreview;
     if (this.state.publicId) {
       imagePreview = (
         <Image
           cloudName={CLOUD_NAME}
           publicId={this.state.publicId}
-          height="245"
-          width="182"
+          height={this.props.heightPhoto}
+          width={this.props.widthPhoto}
         />
       );
     } else {
@@ -89,12 +83,21 @@ export class UploadPicture extends React.Component {
     }
     return (
       <button type="button" onClick={this.ButtonPhoto}>
-        <AddPhoto>
-          {imagePreview}
-        </AddPhoto>
+        <AddPhoto
+          width={this.props.widthContainer}
+          height={this.props.heightContainer}
+          text={imagePreview}
+        />
       </button>
     );
   }
 }
 
-export default UploadPicture;
+ImageCloudinary.propTypes = {
+  heightPhoto: PropTypes.number.isRequired,
+  widthPhoto: PropTypes.number.isRequired,
+  heightContainer: PropTypes.number.isRequired,
+  widthContainer: PropTypes.number.isRequired
+};
+
+export default ImageCloudinary;

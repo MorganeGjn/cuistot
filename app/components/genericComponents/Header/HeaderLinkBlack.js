@@ -1,8 +1,8 @@
-import Link from 'components/genericComponents/Link';
-import styled from 'styled-components';
+import Link from "components/genericComponents/Link";
+import styled from "styled-components";
 
-const HeaderLink = styled(Link)`
-  color: #303030;
+const HeaderLinkBlack = styled(Link)`
+  color: black;
 `;
 
-export default HeaderLink;
+export default HeaderLinkBlack;

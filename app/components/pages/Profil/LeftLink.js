@@ -1,8 +1,5 @@
 import styled from "styled-components";
 
-const StyleModal = styled.div`
-  width: 800px;
-  height: 400px;
-`;
+const StyleModal = styled.div`margin-top: 80px;`;
 
 export default StyleModal;

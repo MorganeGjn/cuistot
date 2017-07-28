@@ -3,51 +3,59 @@ import {
   LOGIN_REQUESTING,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  LOGOUT
-} from './constants'
+  LOGOUT,
+  LOGIN_FACEBOOK
+} from "./constants";
 
 const initialState = {
   requesting: false,
-  successful: localStorage.getItem('token') ? true : false,
+  logined: localStorage.getItem("token") ? true : false,
   messages: [],
-  errors: [],
-}
+  errors: []
+};
 
-function loginReducer (state = initialState, action) {
+function loginReducer(state = initialState, action) {
   switch (action.type) {
     case LOGIN_REQUESTING:
       return {
         requesting: true,
-        successful: false,
-        messages: [{ body: 'Logging in...', time: new Date() }],
-        errors: [],
-      }
+        logined: false,
+        messages: [{ body: "Logging in...", time: new Date() }],
+        errors: []
+      };
+    case LOGIN_FACEBOOK:
+      return {
+        requesting: true,
+        logined: false,
+        messages: [],
+        error: []
+      };
     case LOGIN_SUCCESS:
       return {
         errors: [],
         messages: [],
         requesting: false,
-        successful: true,
-      }
+        logined: true
+      };
     case LOGIN_ERROR:
       return {
-        errors: state.errors.concat([{
+        errors: {
           body: action.error.toString(),
-          time: new Date(),
-        }]),
+          time: new Date()
+        },
         messages: [],
         requesting: false,
-        successful: false,
-      }
+        logined: false
+      };
     case LOGOUT:
       return {
-        error:[],
-        message:[],
+        error: [],
+        message: [],
         requesting: false,
-        successful: false,
-      }
+        logined: false
+      };
     default:
-      return state
+      return state;
   }
 }
 

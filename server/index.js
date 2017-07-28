@@ -16,7 +16,6 @@
 
 // For apollo server based on Graphql
 const express = require('express');
-const jwt = require('express-jwt');
 const logger = require('./logger');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -68,15 +67,21 @@ app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(
   jwt({
     secret: 'shhhhhhared-secret',
     requestProperty: 'auth',
     userProperty: 'user',
-    credentialsRequired: false
+    credentialsRequired: false,
   })
 );
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
 
 app.use('/login', (req, res, done) => {
   // Ici on vérifierait que le login et mot de passe sont corrects
@@ -104,9 +109,9 @@ if (isDev) {
 
 app.use(
   '/graphql',
-  graphqlExpress(request => ({
+  graphqlExpress((request) => ({
     schema,
-    context: request
+    context: request,
   }))
 );
 
@@ -114,28 +119,49 @@ app.use(
   '/graphiql',
   graphiqlExpress({
     endpointURL: '/graphql',
-    subscriptionsEndpoint: 'ws://localhost:3000/subscriptions'
+    subscriptionsEndpoint: 'ws://localhost:3000/subscriptions',
   })
+);
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+app.get(
+  '/login/facebook',
+  passport.authenticate('facebook', { session: false, scope: 'email' })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
+app.get('/facebook/callback', passport.authenticate('facebook'), (req, res) => {
+  res.redirect('http://localhost:3000');
+});
+
+app.use('/graphql', graphqlExpress({ schema }));
+
+app.use(
+  '/graphiql',
+  graphiqlExpress({
+    endpointURL: '/graphql',
+    subscriptionsEndpoint: 'ws://localhost:3000/subscriptions',
+  })
+);
+
+passport.serializeUser((user, done) => {
   done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
-  publicPath: '/'
+  publicPath: '/',
 });
-
-const server = createServer(app);
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;
@@ -145,7 +171,7 @@ const prettyHost = customHost || 'localhost';
 const port = argv.port || process.env.PORT || 3000;
 
 // Start your app.
-server.listen(port, host, err => {
+server.listen(port, host, (err) => {
   if (err) {
     return logger.error(err.message);
   }
@@ -156,11 +182,11 @@ server.listen(port, host, err => {
     {
       execute,
       subscribe,
-      schema
+      schema,
     },
     {
       server,
-      path: '/subscriptions'
+      path: '/subscriptions',
     }
   );
   // ----------------------------- //
@@ -179,9 +205,10 @@ server.listen(port, host, err => {
   }
 });
 
-app.post('/login', passport.authenticate('local', { session: false }), function(
-  req,
-  res
-) {
-  res.send(req.user);
-});
+app.post(
+  '/login',
+  passport.authenticate('local', { session: false }),
+  (req, res) => {
+    res.send(req.user);
+  }
+);

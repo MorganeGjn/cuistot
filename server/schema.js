@@ -21,7 +21,7 @@ const {
   Cook,
   Reservation,
   UserLogin,
-  Workshop
+  Workshop,
 } = require('./models');
 // --------------------- //
 
@@ -33,7 +33,6 @@ const typeDefs = [
 scalar Date
 scalar JSON
 scalar Point
-
 type UserAccount {
   user_id: ID
   email: String
@@ -114,7 +113,6 @@ type Workshop {
   kitchen: Kitchen
   reservation: [Reservation]
 }
-
 type Query {
   userAccount(user_id: ID, email: String, email_confirmed: Boolean, password_hash: String, security_stamp: String, concurrency_stamp: ID, phone_number: String, phone_number_confirmed: Boolean, two_factor_enabled: Boolean, lockout_end: Date, lockout_enabled: Boolean, access_failed_count: Int): [UserAccount]
   kitchen(kitchen_id: ID, name: String, city: String, cp: String, location: Point): [Kitchen]
@@ -125,7 +123,6 @@ type Query {
   userLogin(name: String, key: String, user_id: ID): [UserLogin]
   workshop(workshop_id: ID, name: String, price: Int, duration: Int, min_gourmet: Int, max_gourmet: Int, description: String, pictures: JSON, kitchen_id: ID, cook_id: ID, workshop_date: Date): [Workshop]
 }
-
 type Mutation {
   addUserAccount(
     email: String!, email_confirmed: Boolean, password_hash: String, security_stamp: String,
@@ -148,7 +145,6 @@ type Mutation {
     cook_id: ID!, workshop_date: Date!
   ): Workshop
   addReservation( gourmet_id: ID!, workshop_id: ID!, amount: Int! ): Reservation
-
   updateUserAccount(
     user_id: ID!, email: String, email_confirmed: Boolean, password_hash: String,
     security_stamp: String, concurrency_stamp: ID, phone_number: String,
@@ -170,25 +166,22 @@ type Mutation {
     cook_id: ID!, workshop_date: Date
   ): Workshop
   updateReservation( gourmet_id: ID!, workshop_id: ID!, amount: Int ): Reservation
-
   deleteCook( cook_id: ID! ): Cook
   deleteWorkshop( workshop_id: ID! , cook_id: ID! ): Workshop
   deleteReservation( gourmet_id: ID!, workshop_id: ID! ): Reservation
   deleteUser( user_id: ID! ): UserAccount
   deleteKitchenAndWorkshopAssociated( kitchen_id: ID!, cook_id: ID! name: String ): Kitchen
 }
-
 type Subscription {
   workshopAdded(kitchen_id: ID): Workshop
   workshopsAdded: Workshop
 }
-
 schema {
   query: Query
   mutation: Mutation
   subscription: Subscription
 }
-`
+`,
 ];
 
 const resolvers = {
@@ -197,7 +190,7 @@ const resolvers = {
   JSON: GraphQLToolsTypes.JSON({ name: 'MyJSON' }),
   Point: GraphQLToolsTypes.JSON({
     name: 'Point',
-    struct: '{ x: number, y: number }'
+    struct: '{ x: number, y: number }',
   }),
   // --------------------------------------------------------------------------------- //
 
@@ -215,7 +208,7 @@ const resolvers = {
       // console.log(`ID + ${stringify(id, null, 2)}`);
 
       if (id || admin) {
-        return UserAccount.findAndCountAll({ where: args }).then(result => {
+        return UserAccount.findAndCountAll({ where: args }).then((result) => {
           if (!result) {
             return 'Users not find !';
           }
@@ -226,7 +219,7 @@ const resolvers = {
       } else return null;
     },
     kitchen(_, args) {
-      return Kitchen.findAndCountAll({ where: args }).then(result => {
+      return Kitchen.findAndCountAll({ where: args }).then((result) => {
         if (!result) {
           return 'Kitchen not find !';
         }
@@ -239,7 +232,7 @@ const resolvers = {
       const id = args.gourmet_id === ctx.user;
 
       if (id || admin) {
-        return Gourmet.findAndCountAll({ where: args }).then(result => {
+        return Gourmet.findAndCountAll({ where: args }).then((result) => {
           if (!result) {
             return 'Gourmet not find !';
           }
@@ -255,7 +248,7 @@ const resolvers = {
       const id = args.gourmet_id === ctx.user;
 
       if (id || admin) {
-        return Cook.findAndCountAll({ where: args }).then(result => {
+        return Cook.findAndCountAll({ where: args }).then((result) => {
           if (!result) {
             return 'Cook not find !';
           }
@@ -274,7 +267,7 @@ const resolvers = {
       }
     },
     reservation(_, args) {
-      return Reservation.findAndCountAll({ where: args }).then(result => {
+      return Reservation.findAndCountAll({ where: args }).then((result) => {
         if (!result) {
           return 'Reservation not find !';
         }
@@ -287,7 +280,7 @@ const resolvers = {
       const id = args.user_id === ctx.user;
 
       if (id || admin) {
-        return UserLogin.findAndCountAll({ where: args }).then(result => {
+        return UserLogin.findAndCountAll({ where: args }).then((result) => {
           if (!result) {
             return 'UserLogin not find !';
           }
@@ -298,14 +291,14 @@ const resolvers = {
       } else return null;
     },
     workshop(_, args) {
-      return Workshop.findAndCountAll({ where: args }).then(result => {
+      return Workshop.findAndCountAll({ where: args }).then((result) => {
         if (!result) {
           return 'Workshop not find !';
         }
         // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
         return result.rows;
       });
-    }
+    },
   },
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
@@ -320,12 +313,12 @@ const resolvers = {
     },
     login(account) {
       return account.getUserLogin();
-    }
+    },
   },
   UserLogin: {
     account(login) {
       return login.getUserAccount();
-    }
+    },
   },
   Gourmet: {
     useraccount(gourmet) {
@@ -336,7 +329,7 @@ const resolvers = {
     },
     reservation(gourmet) {
       return gourmet.getReservation();
-    }
+    },
   },
   Cook: {
     gourmet(cook) {
@@ -344,12 +337,12 @@ const resolvers = {
     },
     workshop(cook) {
       return cook.getWorkshop();
-    }
+    },
   },
   Kitchen: {
     workshop(kitchen) {
       return kitchen.getWorkshop();
-    }
+    },
   },
   Workshop: {
     kitchen(workshop) {
@@ -360,7 +353,7 @@ const resolvers = {
     },
     reservation(workshop) {
       return workshop.getReservation();
-    }
+    },
   },
   Reservation: {
     gourmet(reservation) {
@@ -368,7 +361,7 @@ const resolvers = {
     },
     workshop(reservation) {
       return reservation.getWorkshop();
-    }
+    },
   },
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
@@ -386,7 +379,7 @@ const resolvers = {
         // eslint-disable-next-line
         args.location = {
           type: 'Point',
-          coordinates: [args.location.x, args.location.y]
+          coordinates: [args.location.x, args.location.y],
         };
         return Gourmet.create(args);
         // eslint-disable-next-line
@@ -417,7 +410,7 @@ const resolvers = {
       // eslint-disable-next-line
       args.location = {
         type: 'Point',
-        coordinates: [args.location.x, args.location.y]
+        coordinates: [args.location.x, args.location.y],
       };
       return Kitchen.create(args);
     },
@@ -428,13 +421,13 @@ const resolvers = {
       if (id || admin) {
         const newWorkshop = Workshop.create(args);
         // After creating the new workshop we push it in subscription
-        newWorkshop.then(valeur => {
+        newWorkshop.then((valeur) => {
           pubsub.publish('workshopAdded', {
             workshopAdded: valeur,
-            kitchen_id: valeur.kitchen_id
+            kitchen_id: valeur.kitchen_id,
           });
           pubsub.publish('workshopsAdded', {
-            workshopsAdded: valeur
+            workshopsAdded: valeur,
           });
         });
         return newWorkshop;
@@ -457,7 +450,7 @@ const resolvers = {
 
       if (id || admin) {
         UserAccount.update(args, {
-          where: { user_id: args.user_id }
+          where: { user_id: args.user_id },
         });
         return UserAccount.findById(args.user_id);
         // eslint-disable-next-line
@@ -469,7 +462,7 @@ const resolvers = {
 
       if (id || admin) {
         UserLogin.update(args, {
-          where: { user_id: args.user_id }
+          where: { user_id: args.user_id },
         });
         return UserLogin.findById(args.user_id);
         // eslint-disable-next-line
@@ -481,7 +474,7 @@ const resolvers = {
 
       if (id || admin) {
         Gourmet.update(args, {
-          where: { gourmet_id: args.gourmet_id }
+          where: { gourmet_id: args.gourmet_id },
         });
         return Gourmet.findById(args.gourmet_id);
         // eslint-disable-next-line
@@ -493,7 +486,7 @@ const resolvers = {
 
       if (id || admin) {
         Cook.update(args, {
-          where: { cook_id: args.cook_id }
+          where: { cook_id: args.cook_id },
         });
         return Cook.findById(args.cook_id);
         // eslint-disable-next-line
@@ -501,7 +494,7 @@ const resolvers = {
     },
     updateKitchen(_, args) {
       Kitchen.update(args, {
-        where: { kitchen_id: args.kitchen_id }
+        where: { kitchen_id: args.kitchen_id },
       });
       return Kitchen.findById(args.kitchen_id);
     },
@@ -511,7 +504,7 @@ const resolvers = {
 
       if (id || admin) {
         Workshop.update(args, {
-          where: { workshop_id: args.workshop_id }
+          where: { workshop_id: args.workshop_id },
         });
         return Workshop.findById(args.workshop_id);
         // eslint-disable-next-line
@@ -525,8 +518,8 @@ const resolvers = {
         Reservation.update(args, {
           where: {
             gourmet_id: args.gourmet_id,
-            workshop_id: args.workshop_id
-          }
+            workshop_id: args.workshop_id,
+          },
         });
         return Reservation.findById(args.gourmet_id);
         // eslint-disable-next-line
@@ -577,7 +570,7 @@ const resolvers = {
             UserLogin.destroy({ where: args });
             return UserAccount.destroy({ where: args });
           })
-          .catch(error => {
+          .catch((error) => {
             // eslint-disable-next-line
             console.log(`The user is associate to a workshop : ${error}`);
             return error;
@@ -594,7 +587,7 @@ const resolvers = {
         return Kitchen.destroy({ where: args });
         // eslint-disable-next-line
       } else return null;
-    }
+    },
   },
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
@@ -608,12 +601,12 @@ const resolvers = {
       subscribe: withFilter(
         () => pubsub.asyncIterator('workshopAdded'),
         (payload, variables) => payload.kitchen_id === variables.kitchen_id
-      )
+      ),
     },
     workshopsAdded: {
-      subscribe: () => pubsub.asyncIterator('workshopsAdded')
-    }
-  }
+      subscribe: () => pubsub.asyncIterator('workshopsAdded'),
+    },
+  },
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
@@ -622,7 +615,7 @@ const resolvers = {
 // Make executable schema with typeDefs and resolvers
 const jsSchema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 // Schema executable export
