@@ -3,7 +3,6 @@
 * Header
 *
 */
-<<<<<<< HEAD
 import React, { PropTypes } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Modal from '../ModalBox';
@@ -20,31 +19,13 @@ import { Image } from 'cloudinary-react';
 import StyleProfil from './StyleProfil';
 import FlexWrapper from '../Container/FlexWrapper';
 import StyleInProfil from '../Header/StyleInProfil';
-=======
-import React, { PropTypes } from "react";
-import { FormattedMessage } from "react-intl";
-import Modal from "../ModalBox";
-
-import Icon from "components/genericComponents/Icon";
-import HeaderLink from "../Header/HeaderLink";
-import HeaderLinkBlack from "../Header/HeaderLinkBlack";
-import messages from "../Header/messages";
-import HeaderWrapper from "./HeaderWrapper";
-import Container from "../Header/Container";
-import { ICONS } from "../Header/icons";
-import StyledButton from "components/genericComponents/Button/StyledButton";
-import { Image } from "cloudinary-react";
-import StyleProfil from "./StyleProfil";
-import FlexWrapper from "../Container/FlexWrapper";
-import StyleInProfil from "../Header/StyleInProfil";
->>>>>>> 228bcb45374af5c6fc89337202e6cac7aead6831
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Header extends React.Component {
   state = {
     login: false,
     signup: false,
-    profil: false
+    profil: false,
   };
 
   CloseLogin = () => this.setState({ login: false });
@@ -52,12 +33,12 @@ class Header extends React.Component {
   ButtonLogin = () =>
     this.setState({
       login: true,
-      signup: false
+      signup: false,
     });
   ButtonSignup = () =>
     this.setState({
       signup: true,
-      login: false
+      login: false,
     });
   CloseProfil = () => this.setState({ profil: false });
   ButtonProfil = () => {
@@ -74,25 +55,11 @@ class Header extends React.Component {
         <HeaderWrapper>
           <Container>
             <div>
-<<<<<<< HEAD
-              <HeaderLink to="/">
-                <Icon
-                  icon={ICONS.BLACK_SEE_THROUGH.SVG}
-                  viewBox={ICONS.BLACK_SEE_THROUGH.VIEWBOX}
-                  color={'#fff'}
-                />
-              </HeaderLink>
-            </div>
-            <div>
-              <HeaderLink to="/organize">
-                <FormattedMessage {...messages.organize} />
-              </HeaderLink>
-=======
               <HeaderLinkBlack to="/">
                 <Icon
                   icon={ICONS.BLACK_SEE_THROUGH.SVG}
                   viewBox={ICONS.BLACK_SEE_THROUGH.VIEWBOX}
-                  color={"#fff"}
+                  color={'#fff'}
                 />
               </HeaderLinkBlack>
             </div>
@@ -100,18 +67,13 @@ class Header extends React.Component {
               <HeaderLinkBlack to="/organize">
                 <FormattedMessage {...messages.organize} />
               </HeaderLinkBlack>
->>>>>>> 228bcb45374af5c6fc89337202e6cac7aead6831
               <button onClick={this.ButtonProfil}>
                 <Image
                   cloudName="morgane"
                   publicId="Toque_yhsslu"
                   radius="max"
                   width="30"
-<<<<<<< HEAD
                   height="30"
-=======
-                  heigh="30"
->>>>>>> 228bcb45374af5c6fc89337202e6cac7aead6831
                   scale="crop"
                 />
               </button>

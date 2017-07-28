@@ -30,7 +30,6 @@ const { SubscriptionServer } = require('subscriptions-transport-ws');
 
 // Graphql Schema
 const schema = require('./schema');
-const Account = require('./models').UserAccount;
 
 const argv = require('minimist')(process.argv.slice(2));
 const setup = require('./middlewares/frontendMiddleware');
@@ -69,15 +68,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(
-  jwt({
-    secret: 'shhhhhhared-secret',
-    requestProperty: 'auth',
-    userProperty: 'user',
-    credentialsRequired: false,
-  })
-);
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -164,6 +154,7 @@ setup(app, {
 });
 
 // get the intended host and port number, use localhost and port 3000 if not provided
+const server = createServer(app);
 const customHost = argv.host || process.env.HOST;
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
 const prettyHost = customHost || 'localhost';
