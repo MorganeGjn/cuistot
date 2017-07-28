@@ -105,3 +105,10 @@ CREATE TABLE reservation (
   CONSTRAINT reservation_workshop_id_fkey FOREIGN KEY (workshop_id)
       REFERENCES workshop (workshop_id)
 );
+
+CREATE TABLE commentary (
+  comment_id      uuid NOT NULL DEFAULT uuid_generate_v1mc(),
+  note            smallint NOT NULL,
+  comment         text NOT NULL,
+  json            json
+);

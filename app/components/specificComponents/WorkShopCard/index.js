@@ -22,8 +22,8 @@ import messages from './messages';
 
 function WorkShopCard(props) {
   const workshop = props.workshop;
-  const href = `workshop/${props.workshop.workshop_id}`;
-  const hrefCook = `cook/${workshop.cook_id}`;
+  const href = `/workshop/${props.workshop.workshop_id}`;
+  const hrefCook = `/cook/${workshop.cook_id}`;
   const workshop_date = ''; // getFormatDate(workshop.workshopDate);
 
   let place;

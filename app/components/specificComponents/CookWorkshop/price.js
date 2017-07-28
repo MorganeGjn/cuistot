@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import theme from '../../../utils/theme';
 
-const Price = styled.div`
-  position: relative;
-  bottom: 80%;
-  left: 80%;
-  text-align: center;
+const Price = styled.span`
+  float: right;
   background-color: red;
+  text-align: center;
+  border-radius: 4px;
   width: 10%;
 `;
 

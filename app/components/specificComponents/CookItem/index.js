@@ -63,6 +63,21 @@ const COOK = gql`
         kitchen_id
         cook_id
         workshop_date
+        cook {
+          cook_id
+          is_pro
+          description
+          gourmet {
+            location
+            city
+          }
+        }
+        kitchen {
+          kitchen_id
+          name
+          location
+          city
+        }
       }
     }
   }
