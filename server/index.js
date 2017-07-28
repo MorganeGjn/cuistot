@@ -36,9 +36,10 @@ const Account = require('./models').UserAccount;
 const argv = require('minimist')(process.argv.slice(2));
 const setup = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
-const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel
-  ? require('ngrok')
-  : false;
+const ngrok =
+  (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel
+    ? require('ngrok')
+    : false;
 const resolve = require('path').resolve;
 //! --------------------------------------------------------------------------- //
 //! --------------------------------------------------------------------------- //
@@ -73,7 +74,7 @@ app.use(
     secret: 'shhhhhhared-secret',
     requestProperty: 'auth',
     userProperty: 'user',
-    credentialsRequired: false,
+    credentialsRequired: false
   })
 );
 
@@ -94,7 +95,7 @@ app.use('/admin', (req, res, done) => {
 if (isDev) {
   app.use('/graphql', (req, res, done) => {
     /* eslint-disable */
-    req.auth = 'notadmin';
+    req.auth = 'admin';
     req.user = '0aefb1b8-5594-11e7-bb73-1b3d8de4a264';
     /* eslint-enable */
     done();
@@ -103,9 +104,9 @@ if (isDev) {
 
 app.use(
   '/graphql',
-  graphqlExpress((request) => ({
+  graphqlExpress(request => ({
     schema,
-    context: request,
+    context: request
   }))
 );
 
@@ -113,28 +114,25 @@ app.use(
   '/graphiql',
   graphiqlExpress({
     endpointURL: '/graphql',
-    subscriptionsEndpoint: 'ws://localhost:3000/subscriptions',
+    subscriptionsEndpoint: 'ws://localhost:3000/subscriptions'
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 passport.serializeUser(function(user, done) {
-      done(null, user);
+  done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
-      done(null, user);
+  done(null, user);
 });
-
-const server = createServer(app);
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
-  publicPath: '/',
+  publicPath: '/'
 });
 
 const server = createServer(app);
@@ -147,7 +145,7 @@ const prettyHost = customHost || 'localhost';
 const port = argv.port || process.env.PORT || 3000;
 
 // Start your app.
-server.listen(port, host, (err) => {
+server.listen(port, host, err => {
   if (err) {
     return logger.error(err.message);
   }
@@ -158,11 +156,11 @@ server.listen(port, host, (err) => {
     {
       execute,
       subscribe,
-      schema,
+      schema
     },
     {
       server,
-      path: '/subscriptions',
+      path: '/subscriptions'
     }
   );
   // ----------------------------- //
@@ -181,8 +179,9 @@ server.listen(port, host, (err) => {
   }
 });
 
-app.post("/login"
-  ,passport.authenticate('local', { session: false }),
-  function(req, res) {
-    res.send(req.user);
-  });
+app.post('/login', passport.authenticate('local', { session: false }), function(
+  req,
+  res
+) {
+  res.send(req.user);
+});

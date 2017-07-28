@@ -23,6 +23,7 @@ import messages from './messages';
 function WorkShopCard(props) {
   const workshop = props.workshop;
   const href = `workshop/${props.workshop.workshop_id}`;
+  const hrefCook = `cook/${workshop.cook_id}`;
   const workshop_date = ''; // getFormatDate(workshop.workshopDate);
 
   let place;
@@ -42,15 +43,25 @@ function WorkShopCard(props) {
           src="http://www.cuistotducoin.com/img/atelier/japon-takako.jpg"
           alt="test"
         />
-        <Price>{workshop.price}€ / pers.</Price>
-        <ProfilePic
-          src="http://www.cuistotducoin.com/img/profil/takako.jpg"
-          alt="test"
-        />
+        <Price>
+          {workshop.price}€ / pers.
+        </Price>
+        <a href={hrefCook}>
+          <ProfilePic
+            src="http://www.cuistotducoin.com/img/profil/takako.jpg"
+            alt="test"
+          />
+        </a>
         <Informations>
-          <div>{workshop.name}</div>
-          <div>{place}</div>
-          <div>{workshop_date}</div>
+          <div>
+            {workshop.name}
+          </div>
+          <div>
+            {place}
+          </div>
+          <div>
+            {workshop_date}
+          </div>
         </Informations>
         <Button href={href}>
           <FormattedMessage {...messages.book} />
@@ -61,7 +72,7 @@ function WorkShopCard(props) {
 }
 
 WorkShopCard.propTypes = {
-  workshop: PropTypes.object.isRequired,
+  workshop: PropTypes.object.isRequired
 };
 
 export default WorkShopCard;
