@@ -9,35 +9,39 @@
  * the linting exception.
  */
 
-import React from 'react';
-import HomeComp from 'components/pages/Home';
-import { loginRequest } from '../../../Authentification/actions';
-import { logoutRequest } from '../../../Authentification/actions'
-import { connect } from 'react-redux';
+import React from "react";
+import HomeComp from "components/pages/Home";
+import { loginRequest } from "../../../Authentification/actions";
+import { logoutRequest } from "../../../Authentification/actions";
+import { loginFacebook } from "../../../Authentification/actions";
+import { connect } from "react-redux";
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class Home extends React.Component {
   render() {
     return (
       <div>
-        <HomeComp loginRequest={this.props.loginRequest}
-                  successful={this.props.successful}
-                  logoutRequest={this.props.logoutRequest}/>
+        <HomeComp
+          loginRequest={this.props.loginRequest}
+          logined={this.props.logined}
+          logoutRequest={this.props.logoutRequest}
+          loginFacebook={this.props.loginFacebook}
+        />
       </div>
     );
   }
 }
 
-
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-        successful: state._root.entries[4][1].successful
+    logined: state._root.entries[4][1].logined
   };
-}
+};
 
-const mapDispatchToProps = (dispatch) => ({
-      loginRequest: (email,password) => dispatch(loginRequest(email,password)),
-      logoutRequest: () => dispatch(logoutRequest())
-    });
+const mapDispatchToProps = dispatch => ({
+  loginRequest: (email, password) => dispatch(loginRequest(email, password)),
+  logoutRequest: () => dispatch(logoutRequest()),
+  loginFacebook: () => dispatch(loginFacebook())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

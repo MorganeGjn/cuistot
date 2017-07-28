@@ -4,31 +4,36 @@
 *
 */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import React from "react";
+import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
 
-import Header from 'components/genericComponents/Header';
-import BackgroundVideo from 'components/genericComponents/BackgroundVideo';
+import Header from "components/genericComponents/Header";
+import BackgroundVideo from "components/genericComponents/BackgroundVideo";
 
-import GeoSuggest from 'components/specificComponents/GeoSuggest';
+import GeoSuggest from "components/specificComponents/GeoSuggest";
 
-import messages from './messages';
-import Heading from './Heading';
-import HeroWrapper from './HeroWrapper';
-import ContainerHero from './ContainerHero';
-import AbsoluteHero from './AbsoluteHero';
+import messages from "./messages";
+import Heading from "./Heading";
+import HeroWrapper from "./HeroWrapper";
+import ContainerHero from "./ContainerHero";
+import AbsoluteHero from "./AbsoluteHero";
 
 function Hero(props) {
-
   return (
     <HeroWrapper>
       <BackgroundVideo videoURL={props.videoURL} imageURL={props.imageURL} />
-      <Header loginRequest={props.loginRequest} successful={props.successful}
-      logoutRequest={props.logoutRequest}/>
+      <Header
+        loginRequest={props.loginRequest}
+        logined={props.logined}
+        logoutRequest={props.logoutRequest}
+        loginFacebook={props.loginFacebook}
+      />
       <AbsoluteHero>
         <ContainerHero>
-          <Heading><FormattedMessage {...messages.title} /></Heading>
+          <Heading>
+            <FormattedMessage {...messages.title} />
+          </Heading>
           <Heading level={2} big>
             <FormattedMessage {...messages.subtitle} />
           </Heading>
@@ -46,7 +51,7 @@ Hero.propTypes = {
 };
 
 Hero.defaultProps = {
-  imageURL: '',
+  imageURL: ""
 };
 
 export default Hero;

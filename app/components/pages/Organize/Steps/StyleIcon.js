@@ -1,7 +1,5 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-const StyleIcon = styled.div`
-    margin-top: 10%;
-`;
+const StyleIcon = styled.div`margin-top: 3%;`;
 
 export default StyleIcon;

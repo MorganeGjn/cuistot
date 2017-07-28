@@ -6,48 +6,50 @@
  */
 
 // Needed for redux-saga es6 generator support
-import 'babel-polyfill';
+import "babel-polyfill";
 
 // Import all the third party stuff
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { applyRouterMiddleware, Router, Route, browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { useScroll } from 'react-router-scroll';
-import { ApolloProvider } from 'react-apollo';
-import 'sanitize.css/sanitize.css';
-
+import React from "react";
+import ReactDOM from "react-dom";
+import {
+  applyRouterMiddleware,
+  Router,
+  Route,
+  browserHistory
+} from "react-router";
+import { syncHistoryWithStore } from "react-router-redux";
+import { useScroll } from "react-router-scroll";
+import { ApolloProvider } from "react-apollo";
+import "sanitize.css/sanitize.css";
 
 // Import root app
-import App from 'containers/genericContainers/App';
+import App from "containers/genericContainers/App";
 
 // Import selector for `syncHistoryWithStore`
-import {
-  makeSelectLocationState,
-} from 'containers/genericContainers/App/selectors';
+import { makeSelectLocationState } from "containers/genericContainers/App/selectors";
 
 // Import Language Provider
-import LanguageProvider from 'containers/genericContainers/LanguageProvider';
+import LanguageProvider from "containers/genericContainers/LanguageProvider";
 
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
-import '!file-loader?name=[name].[ext]!./favicon.ico';
-import '!file-loader?name=[name].[ext]!./manifest.json';
-import 'file-loader?name=[name].[ext]!./.htaccess';
+import "!file-loader?name=[name].[ext]!./favicon.ico";
+import "!file-loader?name=[name].[ext]!./manifest.json";
+import "file-loader?name=[name].[ext]!./.htaccess";
 /* eslint-enable import/no-unresolved, import/extensions */
 
-import configureStore from './store';
+import configureStore from "./store";
 
-import apolloClient from './graphql';
+import apolloClient from "./graphql";
 
 // Import i18n messages
-import { translationMessages } from './i18n';
+import { translationMessages } from "./i18n";
 
 // Import CSS reset and Global Styles
-import './global-styles';
+import "./global-styles";
 
 // Import root routes
-import createRoutes from './routes';
+import createRoutes from "./routes";
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
@@ -60,16 +62,16 @@ const store = configureStore(initialState, apolloClient, browserHistory);
 // is under the non-default key ("routing"), selectLocationState
 // must be provided for resolving how to retrieve the "route" in the state
 const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: makeSelectLocationState(),
+  selectLocationState: makeSelectLocationState()
 });
 
 // Set up the router, wrapping all Routes in the App component
 const rootRoute = {
   component: App,
-  childRoutes: createRoutes(store),
+  childRoutes: createRoutes(store)
 };
 
-const render = (messages) => {
+const render = messages => {
   ReactDOM.render(
     <ApolloProvider immutable store={store} client={apolloClient}>
       <LanguageProvider messages={messages}>
@@ -82,7 +84,7 @@ const render = (messages) => {
         />
       </LanguageProvider>
     </ApolloProvider>,
-    document.getElementById('app')
+    document.getElementById("app")
   );
 };
 
@@ -90,19 +92,19 @@ const render = (messages) => {
 if (module.hot) {
   // modules.hot.accept does not accept dynamic dependencies,
   // have to be constants at compile-time
-  module.hot.accept('./i18n', () => {
+  module.hot.accept("./i18n", () => {
     render(translationMessages);
   });
 }
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
-  new Promise((resolve) => {
-    resolve(import('intl'));
+  new Promise(resolve => {
+    resolve(import("intl"));
   })
-    .then(() => Promise.all([import('intl/locale-data/jsonp/en.js')]))
+    .then(() => Promise.all([import("intl/locale-data/jsonp/en.js")]))
     .then(() => render(translationMessages))
-    .catch((err) => {
+    .catch(err => {
       throw err;
     });
 } else {
@@ -112,6 +114,6 @@ if (!window.Intl) {
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,
 // we do not want it installed
-if (process.env.NODE_ENV === 'production') {
-  require('offline-plugin/runtime').install(); // eslint-disable-line global-require
+if (process.env.NODE_ENV === "production") {
+  require("offline-plugin/runtime").install(); // eslint-disable-line global-require
 }

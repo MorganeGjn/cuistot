@@ -103,7 +103,7 @@ export default class CookItemWithData extends React.Component {
           radius={3000}
         />
         <Space />
-        <Commentary />
+        {/* <Commentary /> */}
       </div>
     );
   }

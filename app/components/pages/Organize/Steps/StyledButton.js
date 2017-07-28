@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import theme, { animations } from '../../../../utils/theme';
+import styled from "styled-components";
+import theme, { animations } from "../../../../utils/theme";
 
 const buttonStyles = styled.div`
   display: inline-block;

@@ -25,7 +25,7 @@ class Header extends React.Component {
   state = {
     login: false,
     signup: false,
-    profil: false
+    profil: false,
   };
 
   CloseLogin = () => this.setState({ login: false });
@@ -33,12 +33,12 @@ class Header extends React.Component {
   ButtonLogin = () =>
     this.setState({
       login: true,
-      signup: false
+      signup: false,
     });
   ButtonSignup = () =>
     this.setState({
       signup: true,
-      login: false
+      login: false,
     });
   CloseProfil = () => this.setState({ profil: false });
   ButtonProfil = () => {
@@ -55,18 +55,18 @@ class Header extends React.Component {
         <HeaderWrapper>
           <Container>
             <div>
-              <HeaderLink to="/">
+              <HeaderLinkBlack to="/">
                 <Icon
                   icon={ICONS.BLACK_SEE_THROUGH.SVG}
                   viewBox={ICONS.BLACK_SEE_THROUGH.VIEWBOX}
                   color={'#fff'}
                 />
-              </HeaderLink>
+              </HeaderLinkBlack>
             </div>
             <div>
-              <HeaderLink to="/organize">
+              <HeaderLinkBlack to="/organize">
                 <FormattedMessage {...messages.organize} />
-              </HeaderLink>
+              </HeaderLinkBlack>
               <button onClick={this.ButtonProfil}>
                 <Image
                   cloudName="morgane"

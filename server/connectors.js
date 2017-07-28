@@ -11,25 +11,25 @@ const Sequelize = require('sequelize');
 
 // Connection to the Database Postgres with Sequelize
 const db = new Sequelize(
-  'cuistot',  // Database name
-  'jeres',   // User
-  'dev',      // Password
+  'cuistot', // Database name
+  'jeres', // User
+  'dev', // Password
   {
-    host: 'localhost',  // Database host
+    host: 'localhost', // Database host
     dialect: 'postgres', // Database type
   }
 );
 // ------------------------ //
 
 // Check if the connection as succeeded (for Debug only)
-  // db
-  //   .authenticate()
-  //   .then(() => {
-  //     console.log('Connection has been established successfully.');
-  //   })
-  //   .catch((err) => {
-  //     console.error('Unable to connect to the database:', err);
-  //   });
+// db
+//   .authenticate()
+//   .then(() => {
+//     console.log('Connection has been established successfully.');
+//   })
+//   .catch((err) => {
+//     console.error('Unable to connect to the database:', err);
+//   });
 // --------------------------- //
 
 // Export module database

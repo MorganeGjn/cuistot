@@ -1,12 +1,12 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Style = styled.div`
-  z-index: 3;
+  z-index: 999;
   background-color: white;
-  border: solid 1px gray;
+  border-bottom: solid 1px #d0d0d0;
   width: 190px;
-  margin-left: 25%;
-  margin-top: 10px;
+  margin-left: 2%;
+  margin-top: 15px;
   line-height: 50px;
   position: absolute;
   padding-right: 10px;
