@@ -295,12 +295,7 @@
     "redux-thunk": "^2.2.0",
     "reselect": "2.5.4",
     "sanitize.css": "4.1.0",
-<<<<<<< HEAD
-    "seek-style-guide": "^28.3.1",
-    "sequelize": "^4.2.1",
-=======
     "sequelize": "^4.4.2",
->>>>>>> projet_original_master/master
     "styled-components": "2.1.0",
     "subscriptions-transport-ws": "^0.7.3",
     "uuid": "^3.1.0",

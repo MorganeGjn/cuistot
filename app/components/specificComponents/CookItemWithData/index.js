@@ -1,31 +1,26 @@
 import React from 'react';
-import CookCarousel from 'components/specificComponents/CookCarousel';
+
 import Container from './container';
 import Card from './card';
 import Card_description from './card_description';
 import Card_text from './card_text';
 import Card_pro from './card_pro';
 import A from 'components/genericComponents/A/cook';
+import Description from './description';
+import BirthDay from './birthDay';
+import Space from './space';
+import CookCarousel from 'components/specificComponents/CookCarousel';
+import WorkshopsList from 'components/specificComponents/WorkshopsList';
+import CookMaps from '../CookMaps';
+import Commentary from 'components/specificComponents/Commentary';
 
+// Import React Icons
 import Certif from 'react-icons/lib/fa/certificate';
 import Cutlery from 'react-icons/lib/fa/cutlery';
 import Envelope from 'react-icons/lib/fa/envelope';
 import Briefcase from 'react-icons/lib/fa/briefcase';
 import Location from 'react-icons/lib/fa/location-arrow';
 import Cake from 'react-icons/lib/fa/birthday-cake';
-
-import WorkshopsList from 'components/specificComponents/WorkshopsList';
-
-import CookWorkshop from '../CookWorkshop';
-import CookDescription from '../CookDescription';
-import Description from './description';
-import BirthDay from './birthDay';
-import Content from './content';
-import Aside from './aside';
-import Space from './space';
-
-import SimpleMapExample from './maps';
-import Commentary from 'components/genericComponents/commentary';
 
 export default class CookItemWithData extends React.Component {
   pro(cook) {
@@ -65,7 +60,7 @@ export default class CookItemWithData extends React.Component {
     return (
       <div>
         <CookCarousel />
-        <Container wrap="wrap">
+        <Container direction="row" wrap="wrap">
           <Card>
             <Card_description>
               <Card_text>
@@ -92,18 +87,20 @@ export default class CookItemWithData extends React.Component {
             </BirthDay>
           </Card>
         </Container>
-        <Container wrap="wrap">
+        <Container direction="row" wrap="wrap">
           <WorkshopsList workshops={cook.workshop} />
         </Container>
-        <Container wrap="wrap" />
         <div id="maps" />
-        <SimpleMapExample
+        <CookMaps
           lat={cook.gourmet.location.x}
           lon={cook.gourmet.location.y}
           radius={3000}
         />
         <Space />
-        {/* <Commentary /> */}
+        <Container direction="row" wrap="wrap">
+          <Commentary id={cook.cook_id} />
+        </Container>
+        <Space />
       </div>
     );
   }

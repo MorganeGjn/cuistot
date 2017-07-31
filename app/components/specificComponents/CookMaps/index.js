@@ -1,7 +1,7 @@
 import React from 'react';
 import { withGoogleMap, GoogleMap, Circle } from 'react-google-maps';
 
-const SimpleMapExampleGoogleMap = withGoogleMap(props =>
+const Map = withGoogleMap(props =>
   <GoogleMap
     defaultOptions={{
       scrollwheel: false
@@ -24,14 +24,14 @@ const SimpleMapExampleGoogleMap = withGoogleMap(props =>
   </GoogleMap>
 );
 
-export default class SimpleMapExample extends React.Component {
+export default class CookMaps extends React.Component {
   render() {
     const radius = this.props.radius;
     const center = { lat: this.props.lat, lng: this.props.lon };
 
     return (
       // Attention : styles capricieux
-      <SimpleMapExampleGoogleMap
+      <Map
         containerElement={
           <div
             style={{

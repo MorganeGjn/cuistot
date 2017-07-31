@@ -23,17 +23,17 @@ const KitchenModel = db.define(
       type: Sequelize.UUID,
       primaryKey: true,
       allowNull: false,
-      defaultValue: () => uuidV1(),
+      defaultValue: () => uuidV1()
     },
     name: { type: Sequelize.STRING(100) },
     city: { type: Sequelize.STRING(100) },
     cp: { type: Sequelize.STRING(10) },
-    location: { type: Sequelize.GEOMETRY('POINT') },
+    location: { type: Sequelize.GEOMETRY('POINT') }
   },
   {
     timestamps: false,
     freezeTableName: true,
-    tableName: 'kitchen',
+    tableName: 'kitchen'
   }
 );
 // --------------------- //
@@ -46,51 +46,51 @@ const UserAccountModel = db.define(
       type: Sequelize.UUID,
       primaryKey: true,
       allowNull: false,
-      defaultValue: () => uuidV1(),
+      defaultValue: () => uuidV1()
     },
     email: {
       type: Sequelize.STRING,
-      unique: true,
+      unique: true
     },
     email_confirmed: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     password_hash: { type: Sequelize.STRING(100) },
     security_stamp: { type: Sequelize.STRING(100) },
     concurrency_stamp: {
       type: Sequelize.UUID,
       allowNull: false,
-      defaultValue: () => uuidV1(),
+      defaultValue: () => uuidV1()
     },
     phone_number: { type: Sequelize.STRING(50) },
     phone_number_confirmed: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     two_factor_enabled: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     lockout_end: { type: Sequelize.DATEONLY },
     lockout_enabled: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     access_failed_count: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      defaultValue: 0,
-    },
+      defaultValue: 0
+    }
   },
   {
     timestamps: false,
     freezeTableName: true,
-    tableName: 'user_account',
+    tableName: 'user_account'
   }
 );
 // -------------------------- //
@@ -105,8 +105,8 @@ const GourmetModel = db.define(
       allowNull: false,
       references: {
         model: 'user_account',
-        key: 'user_id',
-      },
+        key: 'user_id'
+      }
     },
     first_name: { type: Sequelize.STRING(100) },
     last_name: { type: Sequelize.STRING(100) },
@@ -115,11 +115,11 @@ const GourmetModel = db.define(
     city: { type: Sequelize.STRING(100) },
     cp: { type: Sequelize.STRING(10) },
     description: { type: Sequelize.TEXT },
-    location: { type: Sequelize.GEOMETRY('POINT') },
+    location: { type: Sequelize.GEOMETRY('POINT') }
   },
   {
     freezeTableName: true,
-    tableName: 'gourmet',
+    tableName: 'gourmet'
   }
 );
 // -------------------------- //
@@ -134,13 +134,13 @@ const CookModel = db.define(
       allowNull: false,
       references: {
         model: 'gourmet',
-        key: 'gourmet_id',
-      },
+        key: 'gourmet_id'
+      }
     },
     is_pro: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
     },
     description: { type: Sequelize.TEXT },
     business_name: { type: Sequelize.STRING(100) },
@@ -148,12 +148,12 @@ const CookModel = db.define(
     email_pro: { type: Sequelize.STRING(256) },
     first_name_legal: { type: Sequelize.STRING(100) },
     last_name_legal: { type: Sequelize.STRING(100) },
-    birthday_legal: { type: Sequelize.DATEONLY },
+    birthday_legal: { type: Sequelize.DATEONLY }
   },
   {
     timestamps: false,
     freezeTableName: true,
-    tableName: 'cook',
+    tableName: 'cook'
   }
 );
 // --------------------- //
@@ -168,8 +168,8 @@ const ReservationModel = db.define(
       allowNull: false,
       references: {
         model: 'gourmet',
-        key: 'gourmet_id',
-      },
+        key: 'gourmet_id'
+      }
     },
     workshop_id: {
       type: Sequelize.UUID,
@@ -177,19 +177,19 @@ const ReservationModel = db.define(
       allowNull: false,
       references: {
         model: 'workshop',
-        key: 'workshop_id',
-      },
+        key: 'workshop_id'
+      }
     },
     amount: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      defaultValue: 1,
-    },
+      defaultValue: 1
+    }
   },
   {
     timestamps: false,
     freezeTableName: true,
-    tableName: 'reservation',
+    tableName: 'reservation'
   }
 );
 // --------------------- //
@@ -201,26 +201,26 @@ const UserLoginModel = db.define(
     name: {
       type: Sequelize.STRING,
       primaryKey: true,
-      allowNull: false,
+      allowNull: false
     },
     key: {
       type: Sequelize.STRING,
       primaryKey: true,
-      allowNull: false,
+      allowNull: false
     },
     user_id: {
       type: Sequelize.UUID,
       allowNull: false,
       references: {
         model: 'user_account',
-        key: 'user_id',
-      },
-    },
+        key: 'user_id'
+      }
+    }
   },
   {
     timestamps: false,
     freezeTableName: true,
-    tableName: 'user_login',
+    tableName: 'user_login'
   }
 );
 // --------------------- //
@@ -233,24 +233,24 @@ const WorkshopModel = db.define(
       type: Sequelize.UUID,
       primaryKey: true,
       allowNull: true,
-      defaultValue: () => uuidV1(),
+      defaultValue: () => uuidV1()
     },
     name: { type: Sequelize.STRING(100) },
     price: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     duration: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     min_gourmet: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     max_gourmet: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     description: { type: Sequelize.TEXT },
     pictures: { type: Sequelize.JSON },
@@ -259,26 +259,59 @@ const WorkshopModel = db.define(
       allowNull: true,
       references: {
         model: 'kitchen',
-        key: 'kitchen_id',
-      },
+        key: 'kitchen_id'
+      }
     },
     cook_id: {
       type: Sequelize.UUID,
       allowNull: false,
       references: {
         model: 'cook',
-        key: 'cook_id',
-      },
+        key: 'cook_id'
+      }
     },
     workshop_date: {
       type: Sequelize.DATE,
-      allowNull: false,
-    },
+      allowNull: false
+    }
   },
   {
     timestamps: false,
     freezeTableName: true,
-    tableName: 'workshop',
+    tableName: 'workshop'
+  }
+);
+// --------------------- //
+
+// Commentary Model
+const CommentaryModel = db.define(
+  'commentary',
+  {
+    comment_id: {
+      type: Sequelize.UUID,
+      primaryKey: true,
+      allowNull: true,
+      defaultValue: () => uuidV1()
+    },
+    rating: {
+      type: Sequelize.FLOAT,
+      allowNull: false
+    },
+    commentary: {
+      type: Sequelize.TEXT,
+      allowNull: false
+    },
+    cook_id: {
+      type: Sequelize.UUID
+    },
+    workshop_id: {
+      type: Sequelize.UUID
+    }
+  },
+  {
+    timestamps: false,
+    freezeTableName: true,
+    tableName: 'commentary'
   }
 );
 // --------------------------------------------------------- //
@@ -292,7 +325,7 @@ const WorkshopModel = db.define(
 // One kitchen has multiple workshop AND one workshop belongs to one kitchen
 KitchenModel.hasMany(WorkshopModel, {
   as: 'Workshop',
-  foreignKey: 'kitchen_id',
+  foreignKey: 'kitchen_id'
 });
 WorkshopModel.belongsTo(KitchenModel, { foreignKey: 'kitchen_id' });
 
@@ -303,11 +336,11 @@ WorkshopModel.belongsTo(CookModel, { foreignKey: 'cook_id' });
 // One user account --- one user login
 UserAccountModel.hasOne(UserLoginModel, {
   as: 'UserLogin',
-  foreignKey: 'user_id',
+  foreignKey: 'user_id'
 });
 UserLoginModel.belongsTo(UserAccountModel, {
   as: 'UserAccount',
-  foreignKey: 'user_id',
+  foreignKey: 'user_id'
 });
 
 // One user account --- one gourmet
@@ -322,20 +355,20 @@ GourmetModel.hasOne(CookModel, { foreignKey: 'cook_id' });
 WorkshopModel.belongsToMany(GourmetModel, {
   through: 'reservation',
   as: 'Reservation',
-  foreignKey: 'workshop_id',
+  foreignKey: 'workshop_id'
 });
 GourmetModel.belongsToMany(WorkshopModel, {
   through: 'reservation',
   as: 'Reservation',
-  foreignKey: 'gourmet_id',
+  foreignKey: 'gourmet_id'
 });
 ReservationModel.hasMany(GourmetModel, {
   as: 'Gourmet',
-  foreignKey: 'gourmet_id',
+  foreignKey: 'gourmet_id'
 });
 ReservationModel.hasMany(WorkshopModel, {
   as: 'Workshop',
-  foreignKey: 'workshop_id',
+  foreignKey: 'workshop_id'
 });
 // --------------------------------------------------------- //
 // --------------------------------------------------------- //
@@ -349,6 +382,7 @@ const Cook = db.models.cook;
 const Reservation = db.models.reservation;
 const UserLogin = db.models.user_login;
 const Workshop = db.models.workshop;
+const Commentary = db.models.commentary;
 // --------------------- //
 
 // All models tables export
@@ -360,4 +394,5 @@ module.exports = {
   Reservation,
   UserLogin,
   Workshop,
+  Commentary
 };
