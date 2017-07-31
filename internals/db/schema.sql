@@ -107,8 +107,9 @@ CREATE TABLE reservation (
 );
 
 CREATE TABLE commentary (
-  comment_id      uuid NOT NULL DEFAULT uuid_generate_v1mc(),
-  note            smallint NOT NULL,
-  comment         text NOT NULL,
-  json            json
+  comment_id uuid NOT NULL DEFAULT uuid_generate_v1mc(),
+  rating real NOT NULL,
+  commentary text NOT NULL,
+  cook_id uuid,
+  workshop_id uuid
 );
