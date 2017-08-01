@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/nodejs /usr/share/yarn/bin/yarn.js upgrade
+  /usr/bin/nodejs /usr/share/yarn/bin/yarn.js add formsy-react
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jeres/Documents/Projets/Blog-Cuistot-du-coin//bin
@@ -79,7 +79,9 @@ npm manifest:
       ],
       "env": {
         "production": {
-          "only": ["app"],
+          "only": [
+            "app"
+          ],
           "plugins": [
             "transform-react-remove-prop-types",
             "transform-react-constant-elements",
@@ -87,7 +89,10 @@ npm manifest:
           ]
         },
         "test": {
-          "plugins": ["transform-es2015-modules-commonjs", "dynamic-import-node"]
+          "plugins": [
+            "transform-es2015-modules-commonjs",
+            "dynamic-import-node"
+          ]
         }
       }
     },
@@ -100,7 +105,11 @@ npm manifest:
         "jest": true,
         "es6": true
       },
-      "plugins": ["redux-saga", "react", "jsx-a11y"],
+      "plugins": [
+        "redux-saga",
+        "react",
+        "jsx-a11y"
+      ],
       "parserOptions": {
         "ecmaVersion": 6,
         "sourceType": "module",
@@ -109,9 +118,18 @@ npm manifest:
         }
       },
       "rules": {
-        "arrow-parens": ["error", "always"],
-        "arrow-body-style": [2, "as-needed"],
-        "comma-dangle": [2, "always-multiline"],
+        "arrow-parens": [
+          "error",
+          "always"
+        ],
+        "arrow-body-style": [
+          2,
+          "as-needed"
+        ],
+        "comma-dangle": [
+          2,
+          "always-multiline"
+        ],
         "import/imports-first": 0,
         "import/newline-after-import": 0,
         "import/no-dynamic-require": 0,
@@ -141,7 +159,10 @@ npm manifest:
         "prefer-template": 2,
         "class-methods-use-this": 0,
         "react/forbid-prop-types": 0,
-        "react/jsx-first-prop-new-line": [2, "multiline"],
+        "react/jsx-first-prop-new-line": [
+          2,
+          "multiline"
+        ],
         "react/jsx-filename-extension": 0,
         "react/jsx-no-target-blank": 0,
         "react/require-extension": 0,
@@ -184,7 +205,12 @@ npm manifest:
         "cors",
         "express-jwt"
       ],
-      "include": ["core-js", "date-fns", "lodash", "eventsource-polyfill"]
+      "include": [
+        "core-js",
+        "date-fns",
+        "lodash",
+        "eventsource-polyfill"
+      ]
     },
     "jest": {
       "collectCoverageFrom": [
@@ -202,7 +228,10 @@ npm manifest:
           "lines": 98
         }
       },
-      "moduleDirectories": ["node_modules", "app"],
+      "moduleDirectories": [
+        "node_modules",
+        "app"
+      ],
       "moduleNameMapper": {
         ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
         ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/image.js"
@@ -10924,4 +10953,4 @@ Lockfile:
       fd-slicer "~1.0.1"
 
 Trace: 
-  Error: EACCES: permission denied, open '/home/jeres/Documents/Projets/CuistotDuCoin/Cuistot/package.json'
+  Error: EACCES: permission denied, unlink '/home/jeres/Documents/Projets/CuistotDuCoin/Cuistot/node_modules/.bin/babel'

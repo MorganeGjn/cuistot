@@ -241,6 +241,7 @@
     "date-fns": "^1.28.5",
     "express": "^4.15.3",
     "fontfaceobserver": "2.0.8",
+    "formsy-react": "^0.19.5",
     "google-map-react": "^0.24.0",
     "graphql": "^0.10.5",
     "graphql-server-core": "^0.8.5",

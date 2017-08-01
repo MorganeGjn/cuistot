@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { graphql, gql } from 'react-apollo';
 
 import LoadingIndicator from 'components/genericComponents/LoadingIndicator';
-import CommentaryListWithData from 'components/specificComponents/CommentaryListWithData';
 import CommentaryCard from 'components/specificComponents/CommentaryCard';
 
 function Commentary(props) {
   if (!props.loading && props.commentary !== false) {
-    return <CommentaryCard commentary={props.commentary} />;
+    return <CommentaryCard id={props.id} commentary={props.commentary} />;
   }
   return <LoadingIndicator />;
 }
@@ -46,5 +45,4 @@ const withData = graphql(COOK, {
     commentary: commentary
   })
 });
-
 export default withData(Commentary);

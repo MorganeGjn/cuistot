@@ -153,6 +153,9 @@ type Mutation {
     max_gourmet: Int!, description: String!, pictures: JSON, kitchen_id: ID,
     cook_id: ID!, workshop_date: Date!
   ): Workshop
+  addCommentary(
+    comment_id: ID, rating: Float!, commentary: String!, cook_id: ID, workshop_id: ID
+  ): Commentary
   addReservation( gourmet_id: ID!, workshop_id: ID!, amount: Int! ): Reservation
   updateUserAccount(
     user_id: ID!, email: String, email_confirmed: Boolean, password_hash: String,
@@ -451,6 +454,9 @@ const resolvers = {
         return newWorkshop;
         // eslint-disable-next-line
       } else return null;
+    },
+    addCommentary(_, args, ctx) {
+      return Commentary.create(args);
     },
     addReservation(_, args, ctx) {
       const admin = ctx.auth === 'admin';
