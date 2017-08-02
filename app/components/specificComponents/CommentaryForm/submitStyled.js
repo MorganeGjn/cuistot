@@ -5,6 +5,7 @@ const Submit = styled.button`
   display: block;
   box-sizing: border-box;
   margin-top: 2%;
+  margin-bottom: 2%;
   padding: 0.25em 2em;
   text-decoration: none;
   border-radius: 4px;

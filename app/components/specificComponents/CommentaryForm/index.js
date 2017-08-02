@@ -38,9 +38,6 @@ const AddComment = ({ mutate }) => {
       .catch(error => {
         console.log('there was an error sending the query', error);
       });
-
-    values.rating = 0;
-    values.comment = '';
   };
 
   return (
@@ -51,17 +48,17 @@ const AddComment = ({ mutate }) => {
           name="rating"
           title="Rating"
           options={[
-            { value: 0, title: '0' },
-            { value: 0.5, title: '0.5' },
-            { value: 1, title: '1' },
-            { value: 1.5, title: '1.5' },
-            { value: 2, title: '2' },
-            { value: 2.5, title: '2.5' },
-            { value: 3, title: '3' },
-            { value: 3.5, title: '3.5' },
-            { value: 4, title: '4' },
+            { value: 5, title: '5' },
             { value: 4.5, title: '4.5' },
-            { value: 5, title: '5' }
+            { value: 4, title: '4' },
+            { value: 3.5, title: '3.5' },
+            { value: 3, title: '3' },
+            { value: 2.5, title: '2.5' },
+            { value: 2, title: '2' },
+            { value: 1.5, title: '1.5' },
+            { value: 1, title: '1' },
+            { value: 0.5, title: '0.5' },
+            { value: 0, title: '0' }
           ]}
           required
         />
