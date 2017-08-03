@@ -23,7 +23,6 @@ export class Home extends React.Component {
           loginRequest={this.props.loginRequest}
           logined={this.props.logined}
           logoutRequest={this.props.logoutRequest}
-          loginFacebook={this.props.loginFacebook}
         />
         <ThreeSteps />
         <Container>

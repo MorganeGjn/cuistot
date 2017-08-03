@@ -3,6 +3,7 @@ import styled from "styled-components";
 const StyleForm = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 60px;
   line-height: 40px;
   color: #303030;
   font-weight: bold;

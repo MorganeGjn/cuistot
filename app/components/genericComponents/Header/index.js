@@ -6,6 +6,8 @@
 import React, { PropTypes } from "react";
 import { FormattedMessage } from "react-intl";
 import { gql, graphql } from "react-apollo";
+import socketIOClient from "socket.io-client";
+import uuidV1 from "uuid/v1";
 
 import Modal from "../ModalBox";
 import Icon from "components/genericComponents/Icon";
@@ -26,8 +28,6 @@ import { Image } from "cloudinary-react";
 import StyleProfil from "./StyleProfil";
 import StyleInProfil from "./StyleInProfil";
 
-var token = null;
-
 // eslint-disable-next-line react/prefer-stateless-function
 class Header extends React.Component {
   state = {
@@ -46,13 +46,29 @@ class Header extends React.Component {
     loginPassword: null
   };
 
+  componentDidMount = () => {
+    const socket = socketIOClient("http://127.0.0.1:3000");
+    socket.on("user_id", data => {
+      localStorage.setItem("user", data);
+      location.reload("/");
+    });
+  };
+
   Signup = e => {
     e.preventDefault();
+    const id = uuidV1();
     this.props
       .mutate({
         variables: {
+          user_id: id,
           email: this.state.email,
-          password_hash: this.state.password
+          password_hash: this.state.password,
+          phone_number: this.state.phone,
+          gourmet_id: id,
+          first_name: this.state.firstName,
+          last_name: this.state.lastName,
+          city: this.state.city,
+          cp: this.state.cp
         }
       })
       .then(({ data }) => {
@@ -66,14 +82,14 @@ class Header extends React.Component {
 
   Login = e => {
     e.preventDefault();
-    token = this.props.loginRequest(
-      this.state.loginEmail,
-      this.state.loginPassword
-    );
+    this.props.loginRequest(this.state.loginEmail, this.state.loginPassword);
   };
 
   updateLastName = t => {
     this.setState({ lastName: t.target.value });
+  };
+  updateFirstName = t => {
+    this.setState({ Name: t.target.value });
   };
   updatePhone = t => {
     this.setState({ phone: t.target.value });
@@ -153,9 +169,7 @@ class Header extends React.Component {
               </HeaderLink>}
             <Modal isOpen={this.state.login} onClose={this.CloseLogin}>
               <Modalbox>
-                <a href="http://localhost:3000/login/facebook">
-                  Login with Facebook
-                </a>
+                <a href="/login/facebook">Login with Facebook</a>
                 <form>
                   <h3>Connexion</h3>
                   <InputStyle>
@@ -308,8 +322,23 @@ class Header extends React.Component {
 }
 
 const AddUserAccount = gql`
-  mutation addUserAccount($email: String!, $password_hash: String) {
-    addUserAccount(email: $email, password_hash: $password_hash) {
+  mutation addUserAccountGourmet(
+    $user_id: ID
+    $email: String!
+    $password_hash: String
+    $phone_number: String
+    $gourmet_id: ID!
+    $first_name: String
+    $last_name: String
+    $city: String
+    $cp: String
+  ) {
+    addUserAccount(
+      user_id: $user_id
+      email: $email
+      password_hash: $password_hash
+      phone_number: $phone_number
+    ) {
       user_id
       email
       email_confirmed
@@ -322,6 +351,23 @@ const AddUserAccount = gql`
       lockout_end
       lockout_enabled
       access_failed_count
+    }
+    addGourmet(
+      gourmet_id: $gourmet_id
+      first_name: $first_name
+      last_name: $last_name
+      city: $city
+      cp: $cp
+    ) {
+      gourmet_id
+      first_name
+      last_name
+      picture
+      gender
+      city
+      cp
+      location
+      description
     }
   }
 `;

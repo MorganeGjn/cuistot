@@ -14,12 +14,28 @@ import StyleImage2 from "./StyleImageSecondary";
 import ImageCloudinary from "./ImageCloudinary";
 
 export class Photo extends React.Component {
-  save = () => {
-    (this.props.fieldValues.publicIdOne =
-      One.publicId), (this.props.fieldValues.publicIdTwo =
-      Two.publicId), (this.props.fieldValues.publicIdThree =
-      Three.publicId), (this.props.fieldValues.publicIdFour = Four.publicId);
+  state = {
+    publicIdOne: this.props.fieldValues.publicIdOne,
+    publicIdTwo: this.props.fieldValues.publicIdTwo,
+    publicIdThree: this.props.fieldValues.publicIdThree,
+    publicIdFour: this.props.fieldValues.publicIdFour
   };
+  save = () => {
+    (this.props.fieldValues.publicIdOne = this.state.publicIdOne), (this.props.fieldValues.publicIdTwo = this.state.publicIdTwo), (this.props.fieldValues.publicIdThree = this.state.publicIdThree), (this.props.fieldValues.publicIdFour = this.state.publicIdFour);
+  };
+
+  PassOne(data) {
+    this.setState({ publicIdOne: data });
+  }
+  PassTwo(data) {
+    this.setState({ publicIdTwo: data });
+  }
+  PassThree(data) {
+    this.setState({ publicIdThree: data });
+  }
+  PassFour(data) {
+    this.setState({ publicIdFour: data });
+  }
 
   Previous = () => {
     this.save();
@@ -57,7 +73,8 @@ export class Photo extends React.Component {
                   widthPhoto={496}
                   heightContainer={285}
                   widthContainer={500}
-                  fieldValues={One}
+                  publicId={this.state.publicIdOne}
+                  passData={data => this.PassOne(data)}
                 />
                 <StyleImage2>
                   <ImageCloudinary
@@ -65,21 +82,24 @@ export class Photo extends React.Component {
                     widthPhoto={155}
                     heightContainer={91}
                     widthContainer={159}
-                    fieldValues={Two}
+                    publicId={this.state.publicIdTwo}
+                    passData={data => this.PassTwo(data)}
                   />
                   <ImageCloudinary
                     heightPhoto={87}
                     widthPhoto={155}
                     heightContainer={91}
                     widthContainer={159}
-                    fieldValues={Three}
+                    publicId={this.state.publicIdThree}
+                    passData={data => this.PassThree(data)}
                   />
                   <ImageCloudinary
                     heightPhoto={87}
                     widthPhoto={155}
                     heightContainer={91}
                     widthContainer={159}
-                    fieldValues={Four}
+                    publicId={this.state.publicIdFour}
+                    passData={data => this.PassFour(data)}
                   />
                 </StyleImage2>
                 <Style>

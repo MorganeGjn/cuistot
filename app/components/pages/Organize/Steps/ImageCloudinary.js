@@ -17,7 +17,7 @@ const CLOUD_NAME = "morgane";
 
 class ImageCloudinary extends React.Component {
   state = {
-    publicId: this.props.fieldValues.publicId
+    publicId: this.props.publicId
   };
 
   ButtonPhoto = () => {
@@ -56,8 +56,7 @@ class ImageCloudinary extends React.Component {
           this.setState({
             publicId: result[0].public_id
           });
-          this.props.fieldValues.publicId = this.state.publicId;
-          console.log(this.props.fieldValues.publicId);
+          this.props.passData(this.state.publicId);
         }
       );
     }

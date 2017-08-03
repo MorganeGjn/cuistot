@@ -7,12 +7,10 @@ import {
   LOGIN_REQUESTING,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  LOGOUT,
-  LOGIN_FACEBOOK
+  LOGOUT
 } from "./constants";
 
 const loginUrlLocal = `http://localhost:3000/login`;
-const loginUrlFacebook = `http://localhost:3000/login/facebook`;
 
 function loginApi(email, password) {
   return fetch(loginUrlLocal, {
@@ -26,34 +24,9 @@ function loginApi(email, password) {
     });
 }
 
-function facebook() {
-  return fetch(loginUrlFacebook, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Access-Control-Allow-Origin": "*"
-    }
-  }).catch(error => {
-    throw error;
-  });
-}
-
-function* loginFacebook() {
-  let token;
-  try {
-    token = yield call(facebook);
-    if (token.status == 200) {
-      yield put({ type: LOGIN_SUCCESS });
-      console.log("success");
-    }
-  } catch (error) {
-    yield put({ type: LOGIN_ERROR, error });
-  }
-  return token;
-}
-
 function* logout() {
-  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  localStorage.removeItem("workshop");
   yield put(push("/"));
   location.reload();
 }
@@ -64,7 +37,7 @@ function* loginFlow(email, password) {
     token = yield call(loginApi, email, password);
     if (token.response.status == 200) {
       yield put({ type: LOGIN_SUCCESS });
-      localStorage.setItem("token", token.user.user_id);
+      localStorage.setItem("user", token.user.user_id);
       location.reload();
     }
   } catch (error) {
@@ -84,9 +57,4 @@ function* logoutWatcher() {
   yield fork(logout);
 }
 
-function* loginFacebookWatcher() {
-  yield take(LOGIN_FACEBOOK);
-  yield fork(loginFacebook);
-}
-
-export default [loginWatcher, logoutWatcher, loginFacebookWatcher];
+export default [loginWatcher, logoutWatcher];

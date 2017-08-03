@@ -42,9 +42,9 @@ passport.use(
 passport.use(
   new FacebookStrategy(
     {
-      clientID: "1363955133711501",
-      clientSecret: "1617efa50804e87a3a1272d483077925",
-      callbackURL: "http://localhost:3000/facebook/callback",
+      clientID: config.facebook_api_key,
+      clientSecret: config.facebook_api_secret,
+      callbackURL: config.callback_url,
       passReqToCallback: true,
       profileFields: ["id", "email", "displayName"]
     },

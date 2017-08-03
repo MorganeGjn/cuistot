@@ -6,25 +6,6 @@ import Photo from "./Photo";
 import PracticalInfo from "./PracticalInfo";
 import { gql, graphql } from "react-apollo";
 
-var fieldValues = {
-  Title: null,
-  Recipes: null,
-  Description: null,
-  publicIdOne: "",
-  publicIdTwo: "",
-  publicIdThree: "",
-  publicIdFour: "",
-  PersonNumber: null,
-  date: null,
-  Hours: null,
-  Minutes: null,
-  Price: null,
-  duration: null,
-  Location: "Chez vous",
-  Other: null,
-  Comments: null
-};
-
 export class Steps extends React.Component {
   state = {
     step: 1
@@ -36,27 +17,24 @@ export class Steps extends React.Component {
   stepTwo = () => this.setState({ step: 2 });
   stepThree = () => this.setState({ step: 3 });
   stepFour = () => this.setState({ step: 4 });
-  submit = () => {
-    this.props
-      .mutate({
-        variables: {
-          name: fieldValues.Title,
-          price: fieldValues.Price,
-          duration: 2,
-          max_gourmet: fieldValues.PersonNumber,
-          min_gourmet: 0,
-          description: fieldValues.Description,
-          pictures: fieldValues.publicIdOne,
-          workshop_date: fieldValues.date,
-          cook_id: "8e886622-4f50-11e7-86e0-1f9ee499665b"
-        }
-      })
-      .then(({ data }) => {
-        console.log("got data", data);
-      })
-      .catch(error => {
-        console.log("there was an error sending the query", error);
-      });
+
+  submitKitchen = () => {
+    if (this.props.fieldValues.Location == "Autre") {
+      this.props
+        .mutate({
+          variables: {
+            name: this.props.fieldValues.OtherName,
+            city: this.props.fieldValues.OtherCity,
+            cp: this.props.fieldValues.OtherCp
+          }
+        })
+        .then(({ data }) => {
+          console.log("got data", data);
+        })
+        .catch(error => {
+          console.log("there was an error sending the query", error);
+        });
+    }
   };
 
   render() {
@@ -64,7 +42,7 @@ export class Steps extends React.Component {
       case 1:
         return (
           <GlobalInfo
-            fieldValues={fieldValues}
+            fieldValues={this.props.fieldValues}
             nextStep={() => this.nextStep()}
             stepOne={() => this.stepOne()}
             stepTwo={() => this.stepTwo()}
@@ -75,7 +53,7 @@ export class Steps extends React.Component {
       case 2:
         return (
           <Photo
-            fieldValues={fieldValues}
+            fieldValues={this.props.fieldValues}
             nextStep={() => this.nextStep()}
             previousStep={() => this.previousStep()}
             stepOne={() => this.stepOne()}
@@ -87,7 +65,7 @@ export class Steps extends React.Component {
       case 3:
         return (
           <PracticalInfo
-            fieldValues={fieldValues}
+            fieldValues={this.props.fieldValues}
             nextStep={() => this.nextStep()}
             previousStep={() => this.previousStep()}
             stepOne={() => this.stepOne()}
@@ -99,58 +77,33 @@ export class Steps extends React.Component {
       case 4:
         return (
           <Comments
-            fieldValues={fieldValues}
+            fieldValues={this.props.fieldValues}
             submitRegistration={() => this.submitRegistration()}
             previousStep={() => this.previousStep()}
             stepOne={() => this.stepOne()}
             stepTwo={() => this.stepTwo()}
             stepThree={() => this.stepThree()}
             stepFour={() => this.stepFour()}
-            submit={e => this.submit(e)}
+            submit={() => this.props.submit()}
+            submitKitchen={() => this.submitKitchen()}
           />
         );
     }
   }
 }
 
-const addWorkshop = gql`
-  mutation addWorkshop(
-    $name: String!
-    $price: Int!
-    $duration: Int!
-    $max_gourmet: Int!
-    $min_gourmet: Int!
-    $description: String!
-    $pictures: JSON
-    $workshop_date: Date!
-    $cook_id: ID
-  ) {
-    addWorkshop(
-      name: $name
-      price: $price
-      duration: $duration
-      max_gourmet: $max_gourmet
-      min_gourmet: $min_gourmet
-      description: $description
-      pictures: $pictures
-      workshop_date: $workshop_date
-      cook_id: $cook_id
-    ) {
-      workshop_id
-      name
-      price
-      duration
-      min_gourmet
-      max_gourmet
-      description
-      pictures
+const addKitchen = gql`
+  mutation addKitchen($name: String!, $city: String!, $cp: String) {
+    addWorkshop(name: $name, city: $city, cp: $cp) {
       kitchen_id
-      cook_id
-      workshop_date
+      name
+      city
+      cp
+      location
     }
   }
 `;
 
-const NewEntryWithData = graphql(addWorkshop)(Steps);
+const NewEntryWithData = graphql(addKitchen)(Steps);
 
 export default NewEntryWithData;

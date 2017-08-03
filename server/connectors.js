@@ -6,17 +6,17 @@
  */
 
 // Import of dependency
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 // -------------------- //
 
 // Connection to the Database Postgres with Sequelize
 const db = new Sequelize(
-  'cuistot', // Database name
-  'jeres', // User
-  'dev', // Password
+  "cuistot", // Database name
+  "postgres", // User
+  "gd7lu9qm", // Password
   {
-    host: 'localhost', // Database host
-    dialect: 'postgres', // Database type
+    host: "localhost", // Database host
+    dialect: "postgres" // Database type
   }
 );
 // ------------------------ //
