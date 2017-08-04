@@ -45,7 +45,7 @@ const RESERVATION = gql`
 const withData = graphql(RESERVATION, {
   options: OwnProps => ({
     variables: {
-      gourmet_id: localStorage.getItem("user")
+      gourmet_id: localStorage.getItem('user')
     }
   }),
   props: ({ data: { loading, reservation } }) => ({

@@ -1,9 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Data from "components/pages/Reservation/workshopData";
-import ul from "./UL";
-import StyleCard from "./StyleCard";
+import Data from 'components/pages/Reservation/workshopData';
+import ul from './Ul';
 
 function ReservationList(props) {
   let content = <div />;
