@@ -39,7 +39,6 @@ const COOK = gql`
       email_pro
       first_name_legal
       last_name_legal
-      birthday_legal
       gourmet {
         gourmet_id
         first_name
@@ -63,6 +62,21 @@ const COOK = gql`
         kitchen_id
         cook_id
         workshop_date
+        cook {
+          cook_id
+          is_pro
+          description
+          gourmet {
+            location
+            city
+          }
+        }
+        kitchen {
+          kitchen_id
+          name
+          location
+          city
+        }
       }
     }
   }

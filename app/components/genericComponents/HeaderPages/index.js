@@ -50,6 +50,8 @@ class Header extends React.Component {
   };
 
   render() {
+    const cook_id = localStorage.getItem("token");
+
     return (
       <FlexWrapper>
         <HeaderWrapper>
@@ -86,9 +88,10 @@ class Header extends React.Component {
               Modifier le profil <br />
             </HeaderLinkBlack>
             <StyleInProfil />
-            <HeaderLinkBlack to="/Reservation">
-              Mes réservations
+            <HeaderLinkBlack to={`/cook_profil/${cook_id}`}>
+              Profil cuistot <br />
             </HeaderLinkBlack>
+            <StyleInProfil />
             <StyleInProfil />
             <button onClick={() => this.props.logout()}>
               Deconnexion <br />
