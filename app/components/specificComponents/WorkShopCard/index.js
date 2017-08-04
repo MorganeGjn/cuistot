@@ -22,8 +22,8 @@ import messages from './messages';
 
 function WorkShopCard(props) {
   const workshop = props.workshop;
-  const href = `workshop/${props.workshop.workshop_id}`;
-  const hrefCook = `cook/${workshop.cook_id}`;
+  const href = `/workshop/${props.workshop.workshop_id}`;
+  const hrefCook = `/cook/${workshop.cook_id}`;
   const workshop_date = ''; // getFormatDate(workshop.workshopDate);
 
   let place;
@@ -32,6 +32,10 @@ function WorkShopCard(props) {
   } else {
     place = workshop.cook.city;
   }
+
+  if (props.message) {
+    var message = messages.edit;
+  } else var message = messages.book;
 
   return (
     <ShadowWrapper>
@@ -64,7 +68,7 @@ function WorkShopCard(props) {
           </div>
         </Informations>
         <Button href={href}>
-          <FormattedMessage {...messages.book} />
+          <FormattedMessage {...message} />
         </Button>
       </WorkShopCardWrapper>
     </ShadowWrapper>

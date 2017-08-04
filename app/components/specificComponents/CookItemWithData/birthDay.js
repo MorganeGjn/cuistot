@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import theme from '../../../utils/theme';
 
-const Card_pro = styled.div`
-  flex-basis: 20%;
+const BirthDay = styled.div`
+  float: right;
+  margin: 1%;
   color: ${theme.colors.cookLighter};
 `;
 
-export default Card_pro;
+export default BirthDay;

@@ -25,7 +25,7 @@ class Header extends React.Component {
   state = {
     login: false,
     signup: false,
-    profil: false,
+    profil: false
   };
 
   CloseLogin = () => this.setState({ login: false });
@@ -33,12 +33,12 @@ class Header extends React.Component {
   ButtonLogin = () =>
     this.setState({
       login: true,
-      signup: false,
+      signup: false
     });
   ButtonSignup = () =>
     this.setState({
       signup: true,
-      login: false,
+      login: false
     });
   CloseProfil = () => this.setState({ profil: false });
   ButtonProfil = () => {
@@ -50,6 +50,8 @@ class Header extends React.Component {
   };
 
   render() {
+    const cook_id = localStorage.getItem('token');
+
     return (
       <FlexWrapper>
         <HeaderWrapper>
@@ -84,6 +86,10 @@ class Header extends React.Component {
           <StyleProfil>
             <HeaderLinkBlack to="/profil">
               Modifier le profil <br />
+            </HeaderLinkBlack>
+            <StyleInProfil />
+            <HeaderLinkBlack to={`/cook_profil/${cook_id}`}>
+              Profil cuistot <br />
             </HeaderLinkBlack>
             <StyleInProfil />
             <StyleInProfil />
