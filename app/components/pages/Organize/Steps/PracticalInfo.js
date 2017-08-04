@@ -1,4 +1,5 @@
 import React from "react";
+import { gql, graphql } from "react-apollo";
 import StyleForm from "./StyleForm";
 import Title from "./StyleTitle";
 import InputStyle from "../../../genericComponents/Input/StyleInput";
@@ -21,7 +22,11 @@ export class PracticalInfo extends React.Component {
     Minutes: this.props.fieldValues.Minutes,
     Price: this.props.fieldValues.Price,
     Location: this.props.fieldValues.Location,
-    Other: this.props.fieldValues.Other
+    Duration: this.props.fieldValues.duration,
+    OtherName: this.props.fieldValues.OtherName,
+    OtherCity: this.props.fieldValues.OtherCity,
+    OtherCp: this.props.fieldValues.OtherCp,
+    OtherLocation: ""
   };
 
   Previous = () => {
@@ -31,7 +36,7 @@ export class PracticalInfo extends React.Component {
 
   save = () => {
     {
-      (this.props.fieldValues.PersonNumber = this.state.PersonNumber), (this.props.fieldValues.date = this.state.date), (this.props.fieldValues.Hours = this.state.Hours), (this.props.fieldValues.Minutes = this.state.Minutes), (this.props.fieldValues.Price = this.state.Price), (this.props.fieldValues.Location = this.state.Location), (this.props.fieldValues.Other = this.state.Other);
+      (this.props.fieldValues.PersonNumber = this.state.PersonNumber), (this.props.fieldValues.date = this.state.date), (this.props.fieldValues.Hours = this.state.Hours), (this.props.fieldValues.Minutes = this.state.Minutes), (this.props.fieldValues.Price = this.state.Price), (this.props.fieldValues.Location = this.state.Location), (this.props.fieldValues.Other = this.state.Other), (this.props.fieldValues.duration = this.state.duration);
     }
     this.props.nextStep();
   };
@@ -64,23 +69,64 @@ export class PracticalInfo extends React.Component {
     this.setState({ Location: p.target.value });
   };
 
-  updateOther = p => {
-    this.setState({ Other: p.target.value });
+  updateOtherName = p => {
+    this.setState({ OtherName: p.target.value });
+  };
+  updateOtherCity = p => {
+    this.setState({ OtherCity: p.target.value });
+  };
+  updateOtherCp = p => {
+    this.setState({ OtherCp: p.target.value });
+  };
+  updateOtherLocation = p => {
+    this.setState({ OtherLocation: p.target.value });
+  };
+  updateDuration = p => {
+    this.setState({ duration: p.target.value });
   };
 
   render() {
     let others = null;
     if (this.state.Location == "Autre") {
       others = (
-        <InputStyle>
-          <input
-            type="text"
-            placeholder="Préciser l'endroit: nom et adresse"
-            defaultValue={this.state.Other}
-            onChange={p => this.updateOther(p)}
-            size="50"
-          />
-        </InputStyle>
+        <div>
+          <InputStyle>
+            <input
+              type="text"
+              placeholder="Préciser l'endroit: nom"
+              defaultValue={this.state.OtherName}
+              onChange={p => this.updateOtherName(p)}
+              size="50"
+            />
+          </InputStyle>
+          <InputHoursMinutes>
+            <input
+              type="text"
+              placeholder="Ville"
+              defaultValue={this.state.OtherCity}
+              onChange={p => this.updateOtherCity(p)}
+              size="24"
+            />
+          </InputHoursMinutes>
+          <InputHoursMinutes>
+            <input
+              type="number"
+              placeholder="Code Postal"
+              defaultValue={this.state.OtherCp}
+              onChange={p => this.updateOtherCp(p)}
+              size="24"
+            />
+          </InputHoursMinutes>
+          <InputStyle>
+            <input
+              type="text"
+              placeholder="Adresse"
+              defaultValue={this.state.OtherLocation}
+              onChange={p => this.updateOtherLocation(p)}
+              size="50"
+            />
+          </InputStyle>
+        </div>
       );
     }
     return (
@@ -157,6 +203,16 @@ export class PracticalInfo extends React.Component {
                     </nobr>
                   </InputHoursMinutes>
                 </StyleHM>
+                La durée:
+                <InputHoursMinutes>
+                  <input
+                    type="number"
+                    placeholder="Durée"
+                    ref="Duration"
+                    defaultValue={this.state.Duration}
+                    onChange={m => this.updateDuration(m)}
+                  />
+                </InputHoursMinutes>
                 Le prix:
                 <br />
                 <InputHoursMinutes>
@@ -165,9 +221,8 @@ export class PracticalInfo extends React.Component {
                     placeholder="Prix"
                     ref="Price"
                     data-min="0"
-                    data-max="10000"
-                    size="2"
-                    maxlength="2"
+                    data-max="1000"
+                    size="4"
                     defaultValue={this.state.Price}
                     onChange={p => this.updatePrice(p)}
                   />{" "}

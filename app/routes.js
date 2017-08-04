@@ -106,6 +106,18 @@ export default function createRoutes(store) {
           .then(loadModule(cb))
           .catch(errorLoading);
       }
+<<<<<<< HEAD
+=======
+    },
+    {
+      path: '/Reservation',
+      name: 'Reservation',
+      getComponent(location, cb) {
+        import('containers/pages/Reservation')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      }
+>>>>>>> projet_original_master/master
     },
     {
       path: '*',

@@ -24,12 +24,18 @@ const {
   Reservation,
   UserLogin,
   Workshop,
+<<<<<<< HEAD
   Commentary
+=======
+  Commentary,
+>>>>>>> projet_original_master/master
 } = require('./models');
 // --------------------- //
 
 // Used for subscription
 const pubsub = new PubSub();
+
+const salt = genSaltSync(10);
 
 const typeDefs = [
   `
@@ -214,7 +220,11 @@ const resolvers = {
         return parseInt(ast.value, 10); // ast value is always in string format
       }
       return null;
+<<<<<<< HEAD
     }
+=======
+    },
+>>>>>>> projet_original_master/master
   }),
   JSON: GraphQLToolsTypes.JSON({ name: 'MyJSON' }),
   Point: GraphQLToolsTypes.JSON({
@@ -329,14 +339,22 @@ const resolvers = {
       });
     },
     commentary(_, args) {
+<<<<<<< HEAD
       return Commentary.findAndCountAll({ where: args }).then(result => {
+=======
+      return Commentary.findAndCountAll({ where: args }).then((result) => {
+>>>>>>> projet_original_master/master
         if (!result) {
           return 'Comments not find !';
         }
         // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
         return result.rows;
       });
+<<<<<<< HEAD
     }
+=======
+    },
+>>>>>>> projet_original_master/master
   },
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
@@ -424,6 +442,7 @@ const resolvers = {
       } else return null;
     },
     addUserAccount(_, args) {
+      args.password_hash = hashSync(args.password_hash, salt);
       return UserAccount.create(args);
     },
     addUserLogin(_, args, ctx) {

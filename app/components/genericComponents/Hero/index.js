@@ -27,7 +27,6 @@ function Hero(props) {
         loginRequest={props.loginRequest}
         logined={props.logined}
         logoutRequest={props.logoutRequest}
-        loginFacebook={props.loginFacebook}
       />
       <AbsoluteHero>
         <ContainerHero>
