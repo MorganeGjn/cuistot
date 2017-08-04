@@ -1,6 +1,5 @@
 import React from 'react';
 import { gql, graphql } from 'react-apollo';
-
 import Container from './container';
 import Titre from './titre';
 import Form from './form';
@@ -8,8 +7,17 @@ import Input from './input';
 import Textarea from './textarea';
 import Select from '../CommentaryForm/selectStyled';
 import Submit from '../CommentaryForm/submitStyled';
+import CloseStyled from './closeStyled';
+import Alert from './alert';
+
+import WorkshopsList from 'components/specificComponents/WorkshopsList';
+import WorkshopCard from 'components/specificComponents/WorkShopCard';
+import WorkshopContainer from 'components/specificComponents/CookItemWithData/container';
 
 import Edit from 'react-icons/lib/fa/edit';
+import Success from 'react-icons/lib/fa/check';
+import Close from 'react-icons/lib/fa/close';
+import Cutlery from 'react-icons/lib/fa/cutlery';
 
 class CookProfilWithData extends React.Component {
   constructor(props) {
@@ -18,15 +26,17 @@ class CookProfilWithData extends React.Component {
 
     this.state = {
       cook_id: data.cook_id,
-      pro: data.is_pro,
+      pro: data.is_pro ? 'pro' : 'part',
       description: data.description,
       business_name: data.business_name,
       first_name_legal: data.first_name_legal,
       last_name_legal: data.last_name_legal,
       email_pro: data.email_pro,
-      siren: data.siren
+      siren: data.siren,
+      alert: false
     };
 
+    this.updatePro = this.updatePro.bind(this);
     this.updateDescription = this.updateDescription.bind(this);
     this.updateBusinessName = this.updateBusinessName.bind(this);
     this.updateFirstNameLegal = this.updateFirstNameLegal.bind(this);
@@ -34,6 +44,12 @@ class CookProfilWithData extends React.Component {
     this.updateEmailPro = this.updateEmailPro.bind(this);
     this.updateSiren = this.updateSiren.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.closeAlert = this.closeAlert.bind(this);
+    this.Pro = this.Pro.bind(this);
+  }
+
+  updatePro(event) {
+    this.setState({ pro: event.target.value });
   }
 
   updateDescription(event) {
@@ -62,12 +78,17 @@ class CookProfilWithData extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
+    let pro = null;
+    if (this.state.pro == 'pro') {
+      pro = true;
+    } else {
+      pro = false;
+    }
     this.props
       .mutate({
         variables: {
           cook: this.state.cook_id,
-          pro: this.state.pro,
+          pro: pro,
           desc: this.state.description,
           BN: this.state.business_name,
           EP: this.state.email_pro,
@@ -83,8 +104,64 @@ class CookProfilWithData extends React.Component {
       .catch(error => {
         console.log('there was an error sending the query', error);
       });
+    this.setState({ alert: true });
+  }
 
-    alert('Sauvegarde effectuée !');
+  closeAlert() {
+    this.setState({ alert: false });
+  }
+
+  Alert() {
+    return (
+      <Alert>
+        Sauvegarde effectuée ! <Success />
+        <CloseStyled onClick={this.closeAlert}>
+          <Close />
+        </CloseStyled>
+      </Alert>
+    );
+  }
+
+  Pro() {
+    if (this.state.pro == 'pro') {
+      return (
+        <div>
+          <br />
+          <label>
+            Business Name :
+            <Input
+              type="text"
+              value={this.state.business_name}
+              onChange={this.updateBusinessName}
+            />
+          </label>
+          <br />
+          <label>
+            Siren :
+            <Input
+              type="text"
+              value={this.state.siren}
+              onChange={this.updateSiren}
+            />
+          </label>
+          <br />
+          <label>
+            Fichier assurance Pro :
+            <Input type="text" value="AssurancePro.pdf" disabled />
+          </label>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  createWorkshop(workshop) {
+    return <WorkshopCard message workshop={workshop} />;
+  }
+
+  workshopsList(workshops) {
+    return workshops.map(this.createWorkshop);
   }
 
   render() {
@@ -96,19 +173,10 @@ class CookProfilWithData extends React.Component {
             Modifier votre profil cuistot ! <Edit />
           </Titre>
           <br />
-          <Select value={this.state.pro}>
-            <option value="true">Professionnel</option>
-            <option value="false">Particulier</option>
+          <Select value={this.state.pro} onChange={this.updatePro}>
+            <option value="pro">Professionnel</option>
+            <option value="part">Particulier</option>
           </Select>
-          <br />
-          <label>
-            Business Name :
-            <Input
-              type="text"
-              value={this.state.business_name}
-              onChange={this.updateBusinessName}
-            />
-          </label>
           <br />
           <label>
             Description :
@@ -140,26 +208,25 @@ class CookProfilWithData extends React.Component {
           <label>
             Email Pro :
             <Input
-              type="text"
+              type="email"
               value={this.state.email_pro}
               onChange={this.updateEmailPro}
             />
           </label>
+          {this.Pro()}
           <br />
-          <label>
-            Siren :
-            <Input
-              type="text"
-              value={this.state.siren}
-              onChange={this.updateSiren}
-            />
-          </label>
-          <br />
+          {this.state.alert ? this.Alert() : ''}
           <Submit type="submit">
             Sauvegarder <Edit />
           </Submit>
           <br />
         </Form>
+        <Titre>
+          Mes Ateliers <Cutlery />
+        </Titre>
+        <WorkshopContainer direction="row" wrap="wrap">
+          {this.workshopsList(this.props.profil[0].cook.workshop)}
+        </WorkshopContainer>
       </Container>
     );
   }

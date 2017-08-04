@@ -7,66 +7,75 @@ import Select from './select';
 import Submit from './submitStyled';
 import Container from './container';
 
-const AddComment = ({ mutate }) => {
-  const post = values => {
-    mutate({
-      variables: {
-        rating: values.rating,
-        commentary: values.comment,
-        cook_id: 'de0fc6dc-71d6-11e7-84a0-5b2edac5225f'
-      },
-      refetchQueries: [
-        {
-          query: gql`
-            query commentary($id: ID!) {
-              commentary(cook_id: $id) {
-                comment_id
-                rating
-                commentary
-                cook_id
-                workshop_id
+class AddComment extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.post = this.post.bind(this);
+  }
+
+  post(values) {
+    this.props
+      .mutate({
+        variables: {
+          rating: values.rating,
+          commentary: values.comment,
+          cook_id: this.props.id
+        },
+        refetchQueries: [
+          {
+            query: gql`
+              query commentary($id: ID!) {
+                commentary(cook_id: $id) {
+                  comment_id
+                  rating
+                  commentary
+                  cook_id
+                  workshop_id
+                }
               }
-            }
-          `,
-          variables: { id: 'de0fc6dc-71d6-11e7-84a0-5b2edac5225f' }
-        }
-      ]
-    })
+            `,
+            variables: { id: this.props.id }
+          }
+        ]
+      })
       .then(({ data }) => {
         console.log('got data', data);
       })
       .catch(error => {
         console.log('there was an error sending the query', error);
       });
-  };
+  }
 
-  return (
-    <Form onSubmit={post} style={{ width: '80%' }}>
-      <Container>
-        <Input value="" name="comment" title="Commentary" required />
-        <Select
-          name="rating"
-          title="Rating"
-          options={[
-            { value: 5, title: '5' },
-            { value: 4.5, title: '4.5' },
-            { value: 4, title: '4' },
-            { value: 3.5, title: '3.5' },
-            { value: 3, title: '3' },
-            { value: 2.5, title: '2.5' },
-            { value: 2, title: '2' },
-            { value: 1.5, title: '1.5' },
-            { value: 1, title: '1' },
-            { value: 0.5, title: '0.5' },
-            { value: 0, title: '0' }
-          ]}
-          required
-        />
-        <Submit type="submit">Submit</Submit>
-      </Container>
-    </Form>
-  );
-};
+  render() {
+    return (
+      <Form onSubmit={this.post} style={{ width: '80%' }}>
+        <Container>
+          <Input value="" name="comment" title="Commentary" required />
+          <Select
+            name="rating"
+            title="Rating"
+            options={[
+              { value: 5, title: '5' },
+              { value: 4.5, title: '4.5' },
+              { value: 4, title: '4' },
+              { value: 3.5, title: '3.5' },
+              { value: 3, title: '3' },
+              { value: 2.5, title: '2.5' },
+              { value: 2, title: '2' },
+              { value: 1.5, title: '1.5' },
+              { value: 1, title: '1' },
+              { value: 0.5, title: '0.5' },
+              { value: 0, title: '0' }
+            ]}
+            required
+          />
+          <Submit type="submit">Submit</Submit>
+        </Container>
+      </Form>
+    );
+  }
+}
 
 const addCommentMutation = gql`
   mutation submitCommentary(

@@ -61,6 +61,34 @@ const COOK_PROFIL = gql`
         email_pro
         first_name_legal
         last_name_legal
+        workshop {
+          workshop_id
+          name
+          price
+          duration
+          min_gourmet
+          max_gourmet
+          description
+          pictures
+          kitchen_id
+          cook_id
+          workshop_date
+          cook {
+            cook_id
+            is_pro
+            description
+            gourmet {
+              location
+              city
+            }
+          }
+          kitchen {
+            kitchen_id
+            name
+            location
+            city
+          }
+        }
       }
     }
   }

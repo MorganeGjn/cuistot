@@ -8,6 +8,10 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   book: {
     id: 'app.specifiComponents.WorkShopCard.book',
-    defaultMessage: 'Réserve ta place',
+    defaultMessage: 'Réserve ta place'
   },
+  edit: {
+    id: 'app.specificComponents.WorkShopCard.edit',
+    defaultMessage: 'Editer cet atelier'
+  }
 });

@@ -39,7 +39,6 @@ const COOK = gql`
       email_pro
       first_name_legal
       last_name_legal
-      birthday_legal
       gourmet {
         gourmet_id
         first_name

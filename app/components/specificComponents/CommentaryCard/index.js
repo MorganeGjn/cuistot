@@ -48,21 +48,7 @@ export default class CommentaryCard extends React.Component {
           Commentaires <Rating rating={my} /> ({nb})
         </SectionHeader>
         {this.createComments(commentary)}
-        {/* <CommentaryForm id={this.props.id} onSubmit={this.submit} /> */}
-        <AddComment />
-        {/* <Textarea type="text" name="test" placeholder="test" rows="5" />
-        <Select name="testselect">
-          <option selected disabled>
-            Note :{' '}
-          </option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </Select>
-        <Submit type="submit" name="submit">
-          Commenter
-        </Submit> */}
+        <AddComment id={this.props.id} />
       </Container>
     );
   }

@@ -33,6 +33,10 @@ function WorkShopCard(props) {
     place = workshop.cook.city;
   }
 
+  if (props.message) {
+    var message = messages.edit;
+  } else var message = messages.book;
+
   return (
     <ShadowWrapper>
       <WorkShopCardWrapper>
@@ -64,7 +68,7 @@ function WorkShopCard(props) {
           </div>
         </Informations>
         <Button href={href}>
-          <FormattedMessage {...messages.book} />
+          <FormattedMessage {...message} />
         </Button>
       </WorkShopCardWrapper>
     </ShadowWrapper>
