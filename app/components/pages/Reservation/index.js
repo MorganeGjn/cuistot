@@ -1,10 +1,10 @@
-import React from "react";
-import { gql, graphql } from "react-apollo";
-import PropTypes from "prop-types";
-import Header from "../../genericComponents/HeaderPages";
-import LoadingIndicator from "../../genericComponents/LoadingIndicator";
-import ReservationList from "./reservationList";
-import ul from "./UL";
+import React from 'react';
+import { gql, graphql } from 'react-apollo';
+import PropTypes from 'prop-types';
+import Header from '../../genericComponents/HeaderPages';
+import LoadingIndicator from '../../genericComponents/LoadingIndicator';
+import ReservationList from './reservationList';
+import ul from './Ul';
 
 function ReservationComp(props) {
   if (props.reservation !== false) {
@@ -43,7 +43,7 @@ const RESERVATION = gql`
 const withData = graphql(RESERVATION, {
   options: OwnProps => ({
     variables: {
-      gourmet_id: localStorage.getItem("user")
+      gourmet_id: localStorage.getItem('user')
     }
   }),
   props: ({ data: { loading, reservation } }) => ({

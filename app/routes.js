@@ -106,8 +106,6 @@ export default function createRoutes(store) {
           .then(loadModule(cb))
           .catch(errorLoading);
       }
-<<<<<<< HEAD
-=======
     },
     {
       path: '/Reservation',
@@ -117,7 +115,6 @@ export default function createRoutes(store) {
           .then(loadModule(cb))
           .catch(errorLoading);
       }
->>>>>>> projet_original_master/master
     },
     {
       path: '*',
