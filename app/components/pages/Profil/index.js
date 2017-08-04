@@ -1,7 +1,7 @@
 import React from "react";
 import StyleForm from "./StyleForm";
 import Title from "../Organize/Steps/StyleTitle";
-import InputStyle from "../../genericComponents/Input/StyleInput";
+import InputStyle from "../../genericComponents/Input/StyleProfil";
 import StyledButton from "../Organize/Steps/StyledButton";
 import StyleBackGround from "./StyleBackGround";
 import StyleButton from "../Organize/Steps/FirstButton";
@@ -15,6 +15,7 @@ import StylePhoto from "./StylePhoto";
 import Header from "../../genericComponents/HeaderPages";
 import HeaderLinkBlack from "../../genericComponents/Header/HeaderLinkBlack";
 import LeftLink from "./LeftLink";
+import StyleLine from "./StyleLine";
 
 var fieldValues = {
   fisrtName: "",
@@ -91,118 +92,122 @@ export class Profil extends React.Component {
       <FlexWrapper>
         <Header logout={() => this.props.logout} />
         <LeftLink>
-          <HeaderLinkBlack to="/Reservation">Mes reservations</HeaderLinkBlack>
+          <HeaderLinkBlack to="/Reservation">Mes réservations</HeaderLinkBlack>
         </LeftLink>
         <StyleBackGround>
-          <FlexWrapper>
-            <Column>
-              <Column4>
-                <StyleFieldName>
-                  Prénom <br />
-                  Nom <br />
-                  Photo <br /> <br /> <br /> <br /> <br />
-                  Sexe <br />
-                  Ville <br />
-                  <nobr> Code postal </nobr> <br />
-                  Adresse <br />
-                  <nobr> Ma description </nobr> <br />
-                </StyleFieldName>
-              </Column4>
-            </Column>
-            <Column>
-              <Column5>
-                <StyleForm>
-                  <Title>
-                    <h2>Modifier le profil</h2>
-                  </Title>
-                  <InputStyle>
-                    <input
-                      type="text"
-                      placeholder="Prénom"
-                      ref="first_name"
-                      defaultValue={this.state.first_name}
-                      onChange={t => this.updateFirstName(t)}
-                      size="70"
-                    />
-                  </InputStyle>
-                  <InputStyle>
-                    <input
-                      type="text"
-                      placeholder="Nom"
-                      ref="last_name"
-                      defaultValue={this.state.last_name}
-                      onChange={r => this.updateLastName(t)}
-                      size="70"
-                    />
-                  </InputStyle>
-                  <StylePhoto>
-                    <UploadPicture fieldValues={fieldValues} />
-                  </StylePhoto>
-                  <InputStyle>
-                    <input
-                      placeholder="Sexe"
-                      id="Gender"
-                      name="Gender"
-                      type="text"
-                      list="gender"
-                      defaultValue={this.state.gender}
-                      onChange={r => this.updateGender(t)}
-                    />
-                    <datalist id="gender">
-                      <option value="Femme" />
-                      <option value="Homme" />
-                      <option value="Autre" />
-                    </datalist>
-                  </InputStyle>
-                  <InputStyle>
-                    <input
-                      type="text"
-                      placeholder="Ville"
-                      ref="city"
-                      defaultValue={this.state.city}
-                      onChange={r => this.updateCity(t)}
-                      size="70"
-                    />
-                  </InputStyle>
-                  <InputStyle>
-                    <input
-                      type="number"
-                      placeholder="Code Postal"
-                      ref="cp"
-                      defaultValue={this.state.cp}
-                      onChange={r => this.updateCp(t)}
-                      size="70"
-                    />
-                  </InputStyle>
-                  <InputStyle>
-                    <input
-                      type="text"
-                      placeholder="Adresse"
-                      ref="location_point"
-                      defaultValue={this.state.location_point}
-                      onChange={r => this.updateLocationPoint(t)}
-                      size="70"
-                    />
-                  </InputStyle>
-                  <InputStyle>
-                    <textarea
-                      rows="10"
-                      cols="52"
-                      placeholder="Description"
-                      ref="Description"
-                      defaultValue={this.state.description}
-                      onChange={d => this.updateDescription(d)}
-                    />
-                  </InputStyle>
-                  <StyleButton>
-                    <button onClick={this.continue}>
-                      <StyledButton>Sauvegarder</StyledButton>
-                    </button>
-                  </StyleButton>
-                </StyleForm>
-              </Column5>
-            </Column>
-          </FlexWrapper>
+          <StyleForm>
+            <Title>
+              <h2>Modifier le profil</h2>
+            </Title>
+            <StyleLine>
+              Prénom
+              <InputStyle>
+                <input
+                  type="text"
+                  placeholder="Prénom"
+                  ref="first_name"
+                  defaultValue={this.state.first_name}
+                  onChange={t => this.updateFirstName(t)}
+                  size="70"
+                />
+              </InputStyle>
+            </StyleLine>
+            <StyleLine>
+              Nom
+              <InputStyle>
+                <input
+                  type="text"
+                  placeholder="Nom"
+                  ref="last_name"
+                  defaultValue={this.state.last_name}
+                  onChange={r => this.updateLastName(t)}
+                  size="70"
+                />
+              </InputStyle>
+            </StyleLine>
+            <StyleLine>
+              Photo
+              <StylePhoto>
+                <UploadPicture fieldValues={fieldValues} />
+              </StylePhoto>
+            </StyleLine>
+            <StyleLine>
+              Sexe
+              <InputStyle>
+                <input
+                  placeholder="Sexe"
+                  id="Gender"
+                  name="Gender"
+                  type="text"
+                  list="gender"
+                  defaultValue={this.state.gender}
+                  onChange={r => this.updateGender(t)}
+                />
+                <datalist id="gender">
+                  <option value="Femme" />
+                  <option value="Homme" />
+                  <option value="Autre" />
+                </datalist>
+              </InputStyle>
+            </StyleLine>
+            <StyleLine>
+              Ville
+              <InputStyle>
+                <input
+                  type="text"
+                  placeholder="Ville"
+                  ref="city"
+                  defaultValue={this.state.city}
+                  onChange={r => this.updateCity(t)}
+                  size="70"
+                />
+              </InputStyle>
+            </StyleLine>
+            <StyleLine>
+              <nobr>Code Postal</nobr>
+              <InputStyle>
+                <input
+                  type="number"
+                  placeholder="Code Postal"
+                  ref="cp"
+                  defaultValue={this.state.cp}
+                  onChange={r => this.updateCp(t)}
+                  size="70"
+                />
+              </InputStyle>
+            </StyleLine>
+            <StyleLine>
+              Adresse
+              <InputStyle>
+                <input
+                  type="text"
+                  placeholder="Adresse"
+                  ref="location_point"
+                  defaultValue={this.state.location_point}
+                  onChange={r => this.updateLocationPoint(t)}
+                  size="70"
+                />
+              </InputStyle>
+            </StyleLine>
+            <StyleLine>
+              Description
+              <InputStyle>
+                <textarea
+                  rows="10"
+                  cols="52"
+                  placeholder="Description"
+                  ref="Description"
+                  defaultValue={this.state.description}
+                  onChange={d => this.updateDescription(d)}
+                />
+              </InputStyle>
+            </StyleLine>
+            <StyleButton>
+              <button onClick={this.continue}>
+                <StyledButton>Sauvegarder</StyledButton>
+              </button>
+            </StyleButton>
+          </StyleForm>
         </StyleBackGround>
       </FlexWrapper>
     );

@@ -35,9 +35,14 @@ export class PracticalInfo extends React.Component {
   };
 
   save = () => {
-    {
-      (this.props.fieldValues.PersonNumber = this.state.PersonNumber), (this.props.fieldValues.date = this.state.date), (this.props.fieldValues.Hours = this.state.Hours), (this.props.fieldValues.Minutes = this.state.Minutes), (this.props.fieldValues.Price = this.state.Price), (this.props.fieldValues.Location = this.state.Location), (this.props.fieldValues.Other = this.state.Other), (this.props.fieldValues.duration = this.state.duration);
-    }
+    this.props.fieldValues.PersonNumber = this.state.PersonNumber;
+    this.props.fieldValues.date = this.state.date;
+    this.props.fieldValues.Hours = this.state.Hours;
+    this.props.fieldValues.Minutes = this.state.Minutes;
+    this.props.fieldValues.Price = this.state.Price;
+    this.props.fieldValues.Location = this.state.Location;
+    this.props.fieldValues.Other = this.state.Other;
+    this.props.fieldValues.duration = this.state.Duration;
     this.props.nextStep();
   };
 
@@ -82,7 +87,7 @@ export class PracticalInfo extends React.Component {
     this.setState({ OtherLocation: p.target.value });
   };
   updateDuration = p => {
-    this.setState({ duration: p.target.value });
+    this.setState({ Duration: p.target.value });
   };
 
   render() {

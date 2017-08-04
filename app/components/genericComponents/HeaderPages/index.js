@@ -3,29 +3,29 @@
 * Header
 *
 */
-import React, { PropTypes } from 'react';
-import { FormattedMessage } from 'react-intl';
-import Modal from '../ModalBox';
+import React, { PropTypes } from "react";
+import { FormattedMessage } from "react-intl";
+import Modal from "../ModalBox";
 
-import Icon from 'components/genericComponents/Icon';
-import HeaderLink from '../Header/HeaderLink';
-import HeaderLinkBlack from '../Header/HeaderLinkBlack';
-import messages from '../Header/messages';
-import HeaderWrapper from './HeaderWrapper';
-import Container from '../Header/Container';
-import { ICONS } from '../Header/icons';
-import StyledButton from 'components/genericComponents/Button/StyledButton';
-import { Image } from 'cloudinary-react';
-import StyleProfil from './StyleProfil';
-import FlexWrapper from '../Container/FlexWrapper';
-import StyleInProfil from '../Header/StyleInProfil';
+import Icon from "components/genericComponents/Icon";
+import HeaderLink from "../Header/HeaderLink";
+import HeaderLinkBlack from "../Header/HeaderLinkBlack";
+import messages from "../Header/messages";
+import HeaderWrapper from "./HeaderWrapper";
+import Container from "../Header/Container";
+import { ICONS } from "../Header/icons";
+import StyledButton from "components/genericComponents/Button/StyledButton";
+import { Image } from "cloudinary-react";
+import StyleProfil from "./StyleProfil";
+import FlexWrapper from "../Container/FlexWrapper";
+import StyleInProfil from "../Header/StyleInProfil";
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Header extends React.Component {
   state = {
     login: false,
     signup: false,
-    profil: false,
+    profil: false
   };
 
   CloseLogin = () => this.setState({ login: false });
@@ -33,12 +33,12 @@ class Header extends React.Component {
   ButtonLogin = () =>
     this.setState({
       login: true,
-      signup: false,
+      signup: false
     });
   ButtonSignup = () =>
     this.setState({
       signup: true,
-      login: false,
+      login: false
     });
   CloseProfil = () => this.setState({ profil: false });
   ButtonProfil = () => {
@@ -59,7 +59,7 @@ class Header extends React.Component {
                 <Icon
                   icon={ICONS.BLACK_SEE_THROUGH.SVG}
                   viewBox={ICONS.BLACK_SEE_THROUGH.VIEWBOX}
-                  color={'#fff'}
+                  color={"#fff"}
                 />
               </HeaderLinkBlack>
             </div>
@@ -86,6 +86,9 @@ class Header extends React.Component {
               Modifier le profil <br />
             </HeaderLinkBlack>
             <StyleInProfil />
+            <HeaderLinkBlack to="/Reservation">
+              Mes réservations
+            </HeaderLinkBlack>
             <StyleInProfil />
             <button onClick={() => this.props.logout()}>
               Deconnexion <br />

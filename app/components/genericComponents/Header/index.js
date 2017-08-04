@@ -27,6 +27,7 @@ import StyleMargin from "./StyleMargin";
 import { Image } from "cloudinary-react";
 import StyleProfil from "./StyleProfil";
 import StyleInProfil from "./StyleInProfil";
+import GourmetFacebook from "./GourmetFacebook";
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Header extends React.Component {
@@ -50,6 +51,7 @@ class Header extends React.Component {
     const socket = socketIOClient("http://127.0.0.1:3000");
     socket.on("user_id", data => {
       localStorage.setItem("user", data);
+      <GourmetFacebook data={data} />;
       location.reload("/");
     });
   };
@@ -306,11 +308,15 @@ class Header extends React.Component {
             {this.state.profil &&
               <StyleProfil>
                 <button onClick={() => this.props.logoutRequest()}>
-                  Deconnexion <br />
+                  Deconnexion
                 </button>
                 <StyleInProfil />
                 <HeaderLinkBlack to="/profil">
-                  Modifier le profil <br />
+                  Modifier le profil
+                </HeaderLinkBlack>
+                <StyleInProfil />
+                <HeaderLinkBlack to="/Reservation">
+                  Mes réservations
                 </HeaderLinkBlack>
                 <StyleInProfil />
               </StyleProfil>}
@@ -323,7 +329,7 @@ class Header extends React.Component {
 
 const AddUserAccount = gql`
   mutation addUserAccountGourmet(
-    $user_id: ID
+    $user_id: ID!
     $email: String!
     $password_hash: String
     $phone_number: String

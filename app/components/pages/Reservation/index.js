@@ -4,23 +4,25 @@ import PropTypes from "prop-types";
 import Header from "../../genericComponents/HeaderPages";
 import LoadingIndicator from "../../genericComponents/LoadingIndicator";
 import ReservationList from "./reservationList";
-import ul from "./UL";
+import StylePage from "./StylePage";
 
 function ReservationComp(props) {
   if (props.reservation !== false) {
     return (
       <div>
         <Header logout={props.logout} />
-        <ReservationList reservation={props.reservation} />
+        <StylePage>
+          <ReservationList reservation={props.reservation} />
+        </StylePage>
       </div>
     );
   }
   return (
     <div>
       <Header logout={props.logout} />
-      <ul>
+      <StylePage>
         <LoadingIndicator />
-      </ul>
+      </StylePage>
     </div>
   );
 }

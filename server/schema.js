@@ -128,7 +128,7 @@ type Query {
 }
 type Mutation {
   addUserAccount(
-    email: String!, email_confirmed: Boolean, password_hash: String, security_stamp: String,
+    user_id: ID!, email: String!, email_confirmed: Boolean, password_hash: String, security_stamp: String,
     concurrency_stamp: ID, phone_number: String, phone_number_confirmed: Boolean,
     two_factor_enabled: Boolean, lockout_end: Date, lockout_enabled: Boolean,
     access_failed_count: Int,
@@ -378,15 +378,17 @@ const resolvers = {
       const admin = ctx.auth === "admin";
       const id = args.gourmet_id === ctx.user;
 
-      if (id || admin) {
+      /*if (id || admin) {
         // eslint-disable-next-line
         args.location = {
           type: "Point",
           coordinates: [args.location.x, args.location.y]
         };
-        return Gourmet.create(args);
+      */ return Gourmet.create(
+        args
+      ); /*
         // eslint-disable-next-line
-      } else return null;
+      } else return null;*/
     },
     addUserAccount(_, args) {
       args.password_hash = hashSync(args.password_hash, salt);

@@ -5,6 +5,7 @@ import GlobalInfo from "./GlobalInfo";
 import Photo from "./Photo";
 import PracticalInfo from "./PracticalInfo";
 import { gql, graphql } from "react-apollo";
+import uuidV1 from "uuid/v1";
 
 export class Steps extends React.Component {
   state = {
@@ -20,9 +21,11 @@ export class Steps extends React.Component {
 
   submitKitchen = () => {
     if (this.props.fieldValues.Location == "Autre") {
+      const id = uuidV1();
       this.props
         .mutate({
           variables: {
+            kitchen_id: id,
             name: this.props.fieldValues.OtherName,
             city: this.props.fieldValues.OtherCity,
             cp: this.props.fieldValues.OtherCp
@@ -30,6 +33,7 @@ export class Steps extends React.Component {
         })
         .then(({ data }) => {
           console.log("got data", data);
+          localStorage.setItem("kitchenId", id);
         })
         .catch(error => {
           console.log("there was an error sending the query", error);
@@ -93,8 +97,13 @@ export class Steps extends React.Component {
 }
 
 const addKitchen = gql`
-  mutation addKitchen($name: String!, $city: String!, $cp: String) {
-    addWorkshop(name: $name, city: $city, cp: $cp) {
+  mutation addKitchen(
+    $kitchen_id: ID
+    $name: String!
+    $city: String!
+    $cp: String
+  ) {
+    addWorkshop(kitchen_id: $kitchen_id, name: $name, city: $city, cp: $cp) {
       kitchen_id
       name
       city

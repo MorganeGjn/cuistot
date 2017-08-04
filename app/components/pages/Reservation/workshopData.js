@@ -3,6 +3,7 @@ import { gql, graphql } from "react-apollo";
 import PropTypes from "prop-types";
 import LoadingIndicator from "../../genericComponents/LoadingIndicator";
 import ReservationCard from "../../specificComponents/ReservationCard";
+import StyleCard from "./StyleCard";
 
 function WorkshopData(props) {
   localStorage.setItem("workshop", props.reservation.workshop_id);

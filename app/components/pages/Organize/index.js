@@ -35,14 +35,10 @@ export class Organize extends React.Component {
           max_gourmet: fieldValues.PersonNumber,
           min_gourmet: 0,
           description: fieldValues.Description,
-          pictures: [
-            fieldValues.publicIdOne,
-            fieldValues.publicIdTwo,
-            fieldValues.publicIdThree,
-            fieldValues.publicIdThree
-          ],
-          workshop_date: fieldValues.date,
-          cook_id: localStorage.getItem("token")
+          pictures: fieldValues.publicIdOne,
+          kitchen_id: localStorage.getItem("kitchenId"),
+          cook_id: localStorage.getItem("user"),
+          workshop_date: fieldValues.date
         }
       })
       .then(({ data }) => {
@@ -72,8 +68,9 @@ const addWorkshop = gql`
     $min_gourmet: Int!
     $description: String!
     $pictures: JSON
+    $kitchen_id: ID
+    $cook_id: ID!
     $workshop_date: Date!
-    $cook_id: ID
   ) {
     addWorkshop(
       name: $name
@@ -83,8 +80,9 @@ const addWorkshop = gql`
       min_gourmet: $min_gourmet
       description: $description
       pictures: $pictures
-      workshop_date: $workshop_date
+      kitchen_id: $kitchen_id
       cook_id: $cook_id
+      workshop_date: $workshop_date
     ) {
       workshop_id
       name

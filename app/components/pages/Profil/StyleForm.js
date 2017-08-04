@@ -8,7 +8,8 @@ const StyleForm = styled.div`
   font-weight: bold;
   font-size: 16px;
   padding-bottom: 50px;
-  margin-right: 100px;
+  margin-left: 40px;
+  margin-right: 40px;
 `;
 
 export default StyleForm;
