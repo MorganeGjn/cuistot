@@ -3,13 +3,12 @@ import {
   LOGIN_REQUESTING,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  LOGOUT,
-  LOGIN_FACEBOOK
+  LOGOUT
 } from "./constants";
 
 const initialState = {
   requesting: false,
-  logined: localStorage.getItem("token") ? true : false,
+  logined: localStorage.getItem("user") ? true : false,
   messages: [],
   errors: []
 };
@@ -22,13 +21,6 @@ function loginReducer(state = initialState, action) {
         logined: false,
         messages: [{ body: "Logging in...", time: new Date() }],
         errors: []
-      };
-    case LOGIN_FACEBOOK:
-      return {
-        requesting: true,
-        logined: false,
-        messages: [],
-        error: []
       };
     case LOGIN_SUCCESS:
       return {

@@ -8,10 +8,11 @@
  */
 
 // Import of dependency
-const GraphQLToolsTypes = require('graphql-tools-types');
-const { makeExecutableSchema } = require('graphql-tools');
-const { PubSub } = require('graphql-subscriptions');
-const { withFilter } = require('graphql-subscriptions');
+const GraphQLToolsTypes = require("graphql-tools-types");
+const { makeExecutableSchema } = require("graphql-tools");
+const { PubSub } = require("graphql-subscriptions");
+const { withFilter } = require("graphql-subscriptions");
+const { hashSync, genSaltSync } = require("bcryptjs");
 // Use only for debugging
 // const stringify = require('json-stringify-safe');
 const {
@@ -21,12 +22,14 @@ const {
   Cook,
   Reservation,
   UserLogin,
-  Workshop,
-} = require('./models');
+  Workshop
+} = require("./models");
 // --------------------- //
 
 // Used for subscription
 const pubsub = new PubSub();
+
+let salt = genSaltSync(10);
 
 const typeDefs = [
   `
@@ -181,16 +184,16 @@ schema {
   mutation: Mutation
   subscription: Subscription
 }
-`,
+`
 ];
 
 const resolvers = {
   // Resolvers function for custom types
-  Date: GraphQLToolsTypes.Date({ name: 'MyDate' }),
-  JSON: GraphQLToolsTypes.JSON({ name: 'MyJSON' }),
+  Date: GraphQLToolsTypes.Date({ name: "MyDate" }),
+  JSON: GraphQLToolsTypes.JSON({ name: "MyJSON" }),
   Point: GraphQLToolsTypes.JSON({
-    name: 'Point',
-    struct: '{ x: number, y: number }',
+    name: "Point",
+    struct: "{ x: number, y: number }"
   }),
   // --------------------------------------------------------------------------------- //
 
@@ -199,7 +202,7 @@ const resolvers = {
   // ---------------------------------------------------------- //
   Query: {
     userAccount(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.user_id === ctx.user;
       // console.log(`CONTEXT AUTH + ${stringify(ctx.auth, null, 2)}`);
       // console.log(`CONTEXT USER + ${stringify(ctx.user, null, 2)}`);
@@ -208,9 +211,9 @@ const resolvers = {
       // console.log(`ID + ${stringify(id, null, 2)}`);
 
       if (id || admin) {
-        return UserAccount.findAndCountAll({ where: args }).then((result) => {
+        return UserAccount.findAndCountAll({ where: args }).then(result => {
           if (!result) {
-            return 'Users not find !';
+            return "Users not find !";
           }
           // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
           return result.rows;
@@ -219,22 +222,22 @@ const resolvers = {
       } else return null;
     },
     kitchen(_, args) {
-      return Kitchen.findAndCountAll({ where: args }).then((result) => {
+      return Kitchen.findAndCountAll({ where: args }).then(result => {
         if (!result) {
-          return 'Kitchen not find !';
+          return "Kitchen not find !";
         }
         // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
         return result.rows;
       });
     },
     gourmet(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.gourmet_id === ctx.user;
 
       if (id || admin) {
-        return Gourmet.findAndCountAll({ where: args }).then((result) => {
+        return Gourmet.findAndCountAll({ where: args }).then(result => {
           if (!result) {
-            return 'Gourmet not find !';
+            return "Gourmet not find !";
           }
           // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
           // console.log("Coordonnée en x : " + JSON.stringify(result.rows[0].location.coordinates[0]));
@@ -244,13 +247,13 @@ const resolvers = {
       } else return null;
     },
     cooks(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.gourmet_id === ctx.user;
 
       if (id || admin) {
-        return Cook.findAndCountAll({ where: args }).then((result) => {
+        return Cook.findAndCountAll({ where: args }).then(result => {
           if (!result) {
-            return 'Cook not find !';
+            return "Cook not find !";
           }
           // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
           return result.rows;
@@ -259,7 +262,7 @@ const resolvers = {
       } else return null;
     },
     cook(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.gourmet_id === ctx.user;
 
       if (id || admin) {
@@ -267,22 +270,22 @@ const resolvers = {
       }
     },
     reservation(_, args) {
-      return Reservation.findAndCountAll({ where: args }).then((result) => {
+      return Reservation.findAndCountAll({ where: args }).then(result => {
         if (!result) {
-          return 'Reservation not find !';
+          return "Reservation not find !";
         }
         // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
         return result.rows;
       });
     },
     userLogin(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.user_id === ctx.user;
 
       if (id || admin) {
-        return UserLogin.findAndCountAll({ where: args }).then((result) => {
+        return UserLogin.findAndCountAll({ where: args }).then(result => {
           if (!result) {
-            return 'UserLogin not find !';
+            return "UserLogin not find !";
           }
           // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
           return result.rows;
@@ -291,14 +294,14 @@ const resolvers = {
       } else return null;
     },
     workshop(_, args) {
-      return Workshop.findAndCountAll({ where: args }).then((result) => {
+      return Workshop.findAndCountAll({ where: args }).then(result => {
         if (!result) {
-          return 'Workshop not find !';
+          return "Workshop not find !";
         }
         // console.log(`DataValues of result : ${JSON.stringify(result.rows)}`);
         return result.rows;
       });
-    },
+    }
   },
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
@@ -313,12 +316,12 @@ const resolvers = {
     },
     login(account) {
       return account.getUserLogin();
-    },
+    }
   },
   UserLogin: {
     account(login) {
       return login.getUserAccount();
-    },
+    }
   },
   Gourmet: {
     useraccount(gourmet) {
@@ -329,7 +332,7 @@ const resolvers = {
     },
     reservation(gourmet) {
       return gourmet.getReservation();
-    },
+    }
   },
   Cook: {
     gourmet(cook) {
@@ -337,12 +340,12 @@ const resolvers = {
     },
     workshop(cook) {
       return cook.getWorkshop();
-    },
+    }
   },
   Kitchen: {
     workshop(kitchen) {
       return kitchen.getWorkshop();
-    },
+    }
   },
   Workshop: {
     kitchen(workshop) {
@@ -353,7 +356,7 @@ const resolvers = {
     },
     reservation(workshop) {
       return workshop.getReservation();
-    },
+    }
   },
   Reservation: {
     gourmet(reservation) {
@@ -361,7 +364,7 @@ const resolvers = {
     },
     workshop(reservation) {
       return reservation.getWorkshop();
-    },
+    }
   },
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
@@ -372,24 +375,25 @@ const resolvers = {
   // ---------------------------------------------------------- //
   Mutation: {
     addGourmet(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.gourmet_id === ctx.user;
 
       if (id || admin) {
         // eslint-disable-next-line
         args.location = {
-          type: 'Point',
-          coordinates: [args.location.x, args.location.y],
+          type: "Point",
+          coordinates: [args.location.x, args.location.y]
         };
         return Gourmet.create(args);
         // eslint-disable-next-line
       } else return null;
     },
     addUserAccount(_, args) {
+      args.password_hash = hashSync(args.password_hash, salt);
       return UserAccount.create(args);
     },
     addUserLogin(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.user_id === ctx.user;
 
       if (id || admin) {
@@ -398,7 +402,7 @@ const resolvers = {
       } else return null;
     },
     addCook(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.cook_id === ctx.user;
 
       if (id || admin) {
@@ -409,25 +413,25 @@ const resolvers = {
     addKitchen(_, args) {
       // eslint-disable-next-line
       args.location = {
-        type: 'Point',
-        coordinates: [args.location.x, args.location.y],
+        type: "Point",
+        coordinates: [args.location.x, args.location.y]
       };
       return Kitchen.create(args);
     },
     addWorkshop(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.cook_id === ctx.user;
 
       if (id || admin) {
         const newWorkshop = Workshop.create(args);
         // After creating the new workshop we push it in subscription
-        newWorkshop.then((valeur) => {
-          pubsub.publish('workshopAdded', {
+        newWorkshop.then(valeur => {
+          pubsub.publish("workshopAdded", {
             workshopAdded: valeur,
-            kitchen_id: valeur.kitchen_id,
+            kitchen_id: valeur.kitchen_id
           });
-          pubsub.publish('workshopsAdded', {
-            workshopsAdded: valeur,
+          pubsub.publish("workshopsAdded", {
+            workshopsAdded: valeur
           });
         });
         return newWorkshop;
@@ -435,7 +439,7 @@ const resolvers = {
       } else return null;
     },
     addReservation(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.gourmet_id === ctx.user;
 
       if (id || admin) {
@@ -445,48 +449,48 @@ const resolvers = {
     },
 
     updateUserAccount(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.user_id === ctx.user;
 
       if (id || admin) {
         UserAccount.update(args, {
-          where: { user_id: args.user_id },
+          where: { user_id: args.user_id }
         });
         return UserAccount.findById(args.user_id);
         // eslint-disable-next-line
       } else return null;
     },
     updateUserLogin(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.user_id === ctx.user;
 
       if (id || admin) {
         UserLogin.update(args, {
-          where: { user_id: args.user_id },
+          where: { user_id: args.user_id }
         });
         return UserLogin.findById(args.user_id);
         // eslint-disable-next-line
       } else return null;
     },
     updateGourmet(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.gourmet_id === ctx.user;
 
       if (id || admin) {
         Gourmet.update(args, {
-          where: { gourmet_id: args.gourmet_id },
+          where: { gourmet_id: args.gourmet_id }
         });
         return Gourmet.findById(args.gourmet_id);
         // eslint-disable-next-line
       } else return null;
     },
     updateCook(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.cook_id === ctx.user;
 
       if (id || admin) {
         Cook.update(args, {
-          where: { cook_id: args.cook_id },
+          where: { cook_id: args.cook_id }
         });
         return Cook.findById(args.cook_id);
         // eslint-disable-next-line
@@ -494,32 +498,32 @@ const resolvers = {
     },
     updateKitchen(_, args) {
       Kitchen.update(args, {
-        where: { kitchen_id: args.kitchen_id },
+        where: { kitchen_id: args.kitchen_id }
       });
       return Kitchen.findById(args.kitchen_id);
     },
     updateWorkshop(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.cook_id === ctx.user;
 
       if (id || admin) {
         Workshop.update(args, {
-          where: { workshop_id: args.workshop_id },
+          where: { workshop_id: args.workshop_id }
         });
         return Workshop.findById(args.workshop_id);
         // eslint-disable-next-line
       } else return null;
     },
     updateReservation(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.gourmet_id === ctx.user;
 
       if (id || admin) {
         Reservation.update(args, {
           where: {
             gourmet_id: args.gourmet_id,
-            workshop_id: args.workshop_id,
-          },
+            workshop_id: args.workshop_id
+          }
         });
         return Reservation.findById(args.gourmet_id);
         // eslint-disable-next-line
@@ -527,7 +531,7 @@ const resolvers = {
     },
 
     deleteWorkshop(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.cook_id === ctx.user;
 
       if (id || admin) {
@@ -537,7 +541,7 @@ const resolvers = {
       } else return null;
     },
     deleteReservation(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.gourmet_id === ctx.user;
 
       if (id || admin) {
@@ -546,7 +550,7 @@ const resolvers = {
       } else return null;
     },
     deleteCook(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.cook_id === ctx.user;
 
       if (id || admin) {
@@ -559,7 +563,7 @@ const resolvers = {
     // (deletion in : UserAccount, UserLogin, Gourmet, Cook, Reservation)
     // If the account is a cook associated to a workshop, The user will NOT be deleted
     deleteUser(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.user_id === ctx.user;
 
       if (id || admin) {
@@ -570,7 +574,7 @@ const resolvers = {
             UserLogin.destroy({ where: args });
             return UserAccount.destroy({ where: args });
           })
-          .catch((error) => {
+          .catch(error => {
             // eslint-disable-next-line
             console.log(`The user is associate to a workshop : ${error}`);
             return error;
@@ -579,7 +583,7 @@ const resolvers = {
       } else return null;
     },
     deleteKitchenAndWorkshopAssociated(_, args, ctx) {
-      const admin = ctx.auth === 'admin';
+      const admin = ctx.auth === "admin";
       const id = args.cook_id === ctx.user;
 
       if (id || admin) {
@@ -587,7 +591,7 @@ const resolvers = {
         return Kitchen.destroy({ where: args });
         // eslint-disable-next-line
       } else return null;
-    },
+    }
   },
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
@@ -599,14 +603,14 @@ const resolvers = {
   Subscription: {
     workshopAdded: {
       subscribe: withFilter(
-        () => pubsub.asyncIterator('workshopAdded'),
+        () => pubsub.asyncIterator("workshopAdded"),
         (payload, variables) => payload.kitchen_id === variables.kitchen_id
-      ),
+      )
     },
     workshopsAdded: {
-      subscribe: () => pubsub.asyncIterator('workshopsAdded'),
-    },
-  },
+      subscribe: () => pubsub.asyncIterator("workshopsAdded")
+    }
+  }
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
   //! --------------------------------------------------------- //
@@ -615,7 +619,7 @@ const resolvers = {
 // Make executable schema with typeDefs and resolvers
 const jsSchema = makeExecutableSchema({
   typeDefs,
-  resolvers,
+  resolvers
 });
 
 // Schema executable export

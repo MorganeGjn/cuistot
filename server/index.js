@@ -15,38 +15,39 @@
 // --------------------------------------------------------------------------- //
 
 // For apollo server based on Graphql
-const express = require('express');
-const logger = require('./logger');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const { createServer } = require('http');
-const { graphqlExpress, graphiqlExpress } = require('graphql-server-express');
+const express = require("express");
+const logger = require("./logger");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const { createServer } = require("http");
+const { graphqlExpress, graphiqlExpress } = require("graphql-server-express");
 // ------------------------------------ //
 
 // For Subscriptions
-const { execute, subscribe } = require('graphql');
-const { SubscriptionServer } = require('subscriptions-transport-ws');
+const { execute, subscribe } = require("graphql");
+const { SubscriptionServer } = require("subscriptions-transport-ws");
 // --------------- //
 
 // Graphql Schema
-const schema = require('./schema');
+const schema = require("./schema");
 
-const argv = require('minimist')(process.argv.slice(2));
-const setup = require('./middlewares/frontendMiddleware');
-const isDev = process.env.NODE_ENV !== 'production';
+const argv = require("minimist")(process.argv.slice(2));
+const setup = require("./middlewares/frontendMiddleware");
+const isDev = process.env.NODE_ENV !== "production";
 const ngrok =
   (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel
-    ? require('ngrok')
+    ? require("ngrok")
     : false;
-const resolve = require('path').resolve;
+const resolve = require("path").resolve;
 //! --------------------------------------------------------------------------- //
 //! --------------------------------------------------------------------------- //
 //! --------------------------------------------------------------------------- //
 
 // Server Apollo with Express
 const app = express();
-const passport = require('passport');
-require('./passport');
+const passport = require("passport");
+require("./passport");
+const socketIo = require("socket.io");
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // postgraphql
@@ -67,102 +68,91 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
-app.use(passport.session());
 
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-app.use('/login', (req, res, done) => {
+app.use("/login", (req, res, done) => {
   // Ici on vérifierait que le login et mot de passe sont corrects
   // eslint-disable-next-line
-  req.user = 'user_id'; // req.body.user_id
+  req.user = "user_id"; // req.body.user_id
   done();
 });
 
-app.use('/admin', (req, res, done) => {
+app.use("/admin", (req, res, done) => {
   // Ici on vérifierait que le login et mot de passe de l'admin sont corrects.
   // eslint-disable-next-line
-  req.auth = 'admin';
+  req.auth = "admin";
   done();
 });
 
 if (isDev) {
-  app.use('/graphql', (req, res, done) => {
+  app.use("/graphql", (req, res, done) => {
     /* eslint-disable */
-    req.auth = 'admin';
-    req.user = '0aefb1b8-5594-11e7-bb73-1b3d8de4a264';
+    req.auth = "admin";
+    req.user = "0aefb1b8-5594-11e7-bb73-1b3d8de4a264";
     /* eslint-enable */
     done();
   });
 }
 
 app.use(
-  '/graphql',
-  graphqlExpress((request) => ({
+  "/graphql",
+  graphqlExpress(request => ({
     schema,
-    context: request,
+    context: request
   }))
 );
 
 app.use(
-  '/graphiql',
+  "/graphiql",
   graphiqlExpress({
-    endpointURL: '/graphql',
-    subscriptionsEndpoint: 'ws://localhost:3000/subscriptions',
+    endpointURL: "/graphql",
+    subscriptionsEndpoint: "ws://localhost:3000/subscriptions"
   })
 );
-
-passport.deserializeUser((user, done) => {
-  done(null, user);
-});
-
-app.get(
-  '/login/facebook',
-  passport.authenticate('facebook', { session: false, scope: 'email' })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.get('/facebook/callback', passport.authenticate('facebook'), (req, res) => {
-  res.redirect('http://localhost:3000');
-});
-
-app.use('/graphql', graphqlExpress({ schema }));
-
-app.use(
-  '/graphiql',
-  graphiqlExpress({
-    endpointURL: '/graphql',
-    subscriptionsEndpoint: 'ws://localhost:3000/subscriptions',
-  })
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((user, done) => {
-  done(null, user);
-});
-
-// In production we need to pass these values in instead of relying on webpack
-setup(app, {
-  outputPath: resolve(process.cwd(), 'build'),
-  publicPath: '/',
-});
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const server = createServer(app);
 const customHost = argv.host || process.env.HOST;
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
-const prettyHost = customHost || 'localhost';
+const prettyHost = customHost || "localhost";
 
 const port = argv.port || process.env.PORT || 3000;
 
+const io = socketIo(server);
+
+let interval;
+let user_id;
+
+app.get(
+  "/login/facebook",
+  passport.authenticate("facebook", { session: false, scope: "email" })
+);
+
+app.get(
+  "/facebook/callback",
+  passport.authenticate("facebook", { session: false }),
+  function(req, res) {
+    user_id = req.user.user_id;
+    io.once("connection", socket => getApiAndEmit(socket));
+    res.redirect("/");
+  }
+);
+
+const getApiAndEmit = socket => {
+  try {
+    socket.emit("user_id", user_id);
+  } catch (error) {
+    console.error(`Error: ${error.code}`);
+  }
+};
+
+// In production we need to pass these values in instead of relying on webpack
+setup(app, {
+  outputPath: resolve(process.cwd(), "build"),
+  publicPath: "/"
+});
+
 // Start your app.
-server.listen(port, host, (err) => {
+server.listen(port, host, err => {
   if (err) {
     return logger.error(err.message);
   }
@@ -173,11 +163,11 @@ server.listen(port, host, (err) => {
     {
       execute,
       subscribe,
-      schema,
+      schema
     },
     {
       server,
-      path: '/subscriptions',
+      path: "/subscriptions"
     }
   );
   // ----------------------------- //
@@ -197,8 +187,8 @@ server.listen(port, host, (err) => {
 });
 
 app.post(
-  '/login',
-  passport.authenticate('local', { session: false }),
+  "/login",
+  passport.authenticate("local", { session: false }),
   (req, res) => {
     res.send(req.user);
   }

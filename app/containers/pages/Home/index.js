@@ -13,7 +13,6 @@ import React from "react";
 import HomeComp from "components/pages/Home";
 import { loginRequest } from "../../../Authentification/actions";
 import { logoutRequest } from "../../../Authentification/actions";
-import { loginFacebook } from "../../../Authentification/actions";
 import { connect } from "react-redux";
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -25,7 +24,6 @@ export class Home extends React.Component {
           loginRequest={this.props.loginRequest}
           logined={this.props.logined}
           logoutRequest={this.props.logoutRequest}
-          loginFacebook={this.props.loginFacebook}
         />
       </div>
     );
@@ -40,8 +38,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   loginRequest: (email, password) => dispatch(loginRequest(email, password)),
-  logoutRequest: () => dispatch(logoutRequest()),
-  loginFacebook: () => dispatch(loginFacebook())
+  logoutRequest: () => dispatch(logoutRequest())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

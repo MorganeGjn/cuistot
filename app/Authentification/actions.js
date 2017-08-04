@@ -1,16 +1,10 @@
-import { LOGIN_REQUESTING, LOGOUT, LOGIN_FACEBOOK } from "./constants";
+import { LOGIN_REQUESTING, LOGOUT } from "./constants";
 
 export function loginRequest(email, password) {
   return {
     type: LOGIN_REQUESTING,
     email,
     password
-  };
-}
-
-export function loginFacebook() {
-  return {
-    type: LOGIN_FACEBOOK
   };
 }
 
