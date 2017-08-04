@@ -51,7 +51,6 @@ class Header extends React.Component {
     const socket = socketIOClient("http://127.0.0.1:3000");
     socket.on("user_id", data => {
       localStorage.setItem("user", data);
-      <GourmetFacebook data={data} />;
       location.reload("/");
     });
   };

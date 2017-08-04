@@ -1,17 +1,14 @@
 const passport = require("passport");
 LocalStrategy = require("passport-local").Strategy;
 FacebookStrategy = require("passport-facebook").Strategy;
+const uuidV1 = require("uuid/v1");
 var User = require("./models").UserAccount;
 var config = require("./config.js");
 const { compareSync, genSaltSync } = require("bcryptjs");
 const genSalt = require("./salt");
-var Login = require("./models").UserLogin;
-let salt = genSaltSync(10);
+var Gourmet = require("./models").Gourmet;
 
-function addJWT(user) {
-  const token = jwt.sign({ token: user.user_id }, "token");
-  return Object.assign({}, user.toJSON(), { token });
-}
+let salt = genSaltSync(10);
 
 passport.use(
   new LocalStrategy(
@@ -52,7 +49,12 @@ passport.use(
       User.findOne({ where: { email: profile._json.email } })
         .then(Response => {
           if (!Response) {
-            User.create({ email: profile._json.email }).then(() => {
+            const id = uuidV1();
+            User.create({
+              user_id: id,
+              email: profile._json.email
+            }).then(() => {
+              Gourmet.create({ gourmet_id: id });
               User.findOne({
                 where: { email: profile._json.email }
               }).then(User => {
